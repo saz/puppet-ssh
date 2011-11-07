@@ -5,7 +5,7 @@ class ssh::client {
 
     include ssh::knownhosts
 
-    ssh_configline { 'UserKnownHostsFile':
+    ssh::ssh_configline { 'UserKnownHostsFile':
         value => '/dev/null',
     }
 }
