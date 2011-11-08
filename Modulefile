@@ -1,0 +1,8 @@
+name    'saz-ssh'
+version '1.0.0'
+source 'UNKNOWN'
+author 'saz'
+license 'Apache License, Version 2.0'
+summary 'UNKNOWN'
+description 'Manage SSH client and server via puppet'
+project_page 'https://github.com/saz/puppet-ssh'
