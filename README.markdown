@@ -1,15 +1,15 @@
-= SSH Client and Server Puppet Module
+# SSH Client and Server Puppet Module
 
 Manage SSH client and server via Puppet
 
-== Client only
+## Client only
 Collected host keys from servers will be written to known_hosts
 
 ```
     include ssh::client
 ```
 
-== Server only
+## Server only
 Host keys will be collected for client distribution
 ```
     include ssh::server
