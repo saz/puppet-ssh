@@ -11,12 +11,14 @@ Collected host keys from servers will be written to known_hosts
 
 ## Server only
 Host keys will be collected for client distribution
+
 ```
     include ssh::server
 ```
 
-== Both client and server
+## Both client and server
 Host keys will be collected and distributed
+
 ```
     include ssh
 ```
