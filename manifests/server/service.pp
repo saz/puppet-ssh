@@ -1,4 +1,4 @@
-class ssh::service {
+class ssh::server::service {
     service { $ssh::params::sshd_config:
         ensure     => running,
         hasstatus  => true,
