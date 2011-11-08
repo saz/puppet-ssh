@@ -1,5 +1,5 @@
 class ssh::server::service {
-    service { $ssh::params::sshd_config:
+    service { $ssh::params::service_name:
         ensure     => running,
         hasstatus  => true,
         hasrestart => true,
