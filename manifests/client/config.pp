@@ -6,4 +6,9 @@ class ssh::client::config {
         source  => "puppet:///modules/${module_name}/ssh_config",
         require => Class['ssh::client::install'],
     }
+
+    # Workaround for http://projects.reductivelabs.com/issues/2014
+    file { $ssh::params::ssh_known_hosts:
+        mode => 644,
+    }
 }
