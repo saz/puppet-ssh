@@ -1,7 +1,24 @@
-define ssh::server::configline ($value) {
-    augeas { "sshd_config_$name":
-            context => "/files${ssh::params::sshd_config}",
-            changes => "set $name $value",
-            onlyif  => "get $name != $value",
+define ssh::server::configline ($ensure = present, $value = false) {
+    include ssh::server
+
+    Augeas { 
+        context => "/files${ssh::params::sshd_config}",
+        notify  => Class['ssh::server::service'],
+        require => Class['ssh::server::config'],
+    }
+
+    case $ensure {
+        present: {
+            augeas { "sshd_config_${name}":
+                    changes => "set ${name} ${value}",
+                    onlyif  => "get ${name} != ${value}",
+            }
+        }
+        absent: {
+            augeas { "sshd_config_${name}":
+                changes => "rm ${name}",
+                onlyif  => "get ${name}",
+            }
+        }
     }
 }
