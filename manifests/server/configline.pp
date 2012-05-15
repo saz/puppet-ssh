@@ -14,6 +14,14 @@ define ssh::server::configline ($ensure = present, $value = false) {
                     onlyif  => "get ${name} != ${value}",
             }
         }
+        add: {
+        	augeas {
+        		"sshd_config_${name}":
+        			changes => ["ins ${name} after ${name}[last()]",
+        			"set ${name}[last()] ${value}"],
+        			onlyif => "get ${name}[. = '${value}'] != ${value}",
+        	}
+        }
         absent: {
             augeas { "sshd_config_${name}":
                 changes => "rm ${name}",
