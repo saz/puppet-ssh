@@ -4,6 +4,6 @@ class ssh::server::service {
         hasstatus  => true,
         hasrestart => true,
         enable     => true,
-        require    => Class["ssh::server::config"],
+        require    => Class['ssh::server::config'],
     }
 }

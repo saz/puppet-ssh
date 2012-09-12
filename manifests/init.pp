@@ -1,3 +1,4 @@
 class ssh {
-    include ssh::server, ssh::client
+    include ssh::server
+    include ssh::client
 }
