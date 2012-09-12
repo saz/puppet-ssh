@@ -1,3 +1,8 @@
 class ssh::server {
-    include ssh::params, ssh::server::install, ssh::server::config, ssh::server::service, ssh::hostkeys, ssh::knownhosts
+  include ssh::params
+  include ssh::server::install
+  include ssh::server::config
+  include ssh::server::service
+  include ssh::hostkeys
+  include ssh::knownhosts
 }

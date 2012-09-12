@@ -1,5 +1,5 @@
 class ssh::params {
-    case $operatingsystem {
+    case $::operatingsystem {
         /(Ubuntu|Debian)/: {
             $server_package_name = 'openssh-server'
             $client_package_name = 'openssh-client'
@@ -17,7 +17,7 @@ class ssh::params {
             $service_name = 'sshd'
         }
         default: {
-            fail("Unsupported platform: $operatingsystem")
+            fail("Unsupported platform: ${::operatingsystem}")
         }
     }
 }
