@@ -22,3 +22,7 @@ Host keys will be collected and distributed
 ```
     include ssh
 ```
+
+# Requirements
+Requires Exported resources and augeas in order to work
+

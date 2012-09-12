@@ -1,3 +1,6 @@
 class ssh::client {
-    include ssh::params, ssh::client::install, ssh::client::config, ssh::knownhosts
+  include ssh::params
+  include ssh::client::install
+  include ssh::client::config
+  include ssh::knownhosts
 }
