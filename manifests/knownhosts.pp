@@ -1,5 +1,5 @@
 class ssh::knownhosts {
-    Sshkey <<| |>> {
-        ensure => present,
-    }
+  Sshkey <<| |>> {
+    ensure => present,
+  }
 }
