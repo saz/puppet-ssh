@@ -1,5 +1,5 @@
 name    'saz-ssh'
-version '1.1.0'
+version '1.1.1'
 source 'git://github.com/saz/puppet-ssh.git'
 author 'saz'
 license 'Apache License, Version 2.0'
