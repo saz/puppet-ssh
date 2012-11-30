@@ -1,5 +1,6 @@
 class ssh::hostkeys {
-  $host_aliases = [ $::fqdn, $::hostname, $::ipaddress ]
+  $ipaddresses = ipaddresses()
+  $host_aliases = flatten([ $::fqdn, $::hostname, $::ipaddresses ])
 
   @@sshkey { "${::fqdn}_dsa":
     host_aliases => $host_aliases,
