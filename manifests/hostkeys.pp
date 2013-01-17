@@ -17,5 +17,6 @@ class ssh::hostkeys {
       host_aliases => $host_aliases,
       type         => 'ecdsa-sha2-nistp256',
       key          => $::sshecdsakey,
+    }
   }
 }
