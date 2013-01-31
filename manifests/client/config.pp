@@ -4,7 +4,10 @@ class ssh::client::config {
     owner   => 'root',
     group   => 'root',
     source  => "puppet:///modules/${module_name}/ssh_config",
-    require => Class['ssh::client::install'],
+    require => $operatingsystem ? {
+      Archlinux => undef,
+      default => Class['ssh::client::install'],
+      }
   }
 
   # Workaround for http://projects.reductivelabs.com/issues/2014

@@ -1,6 +1,16 @@
 class ssh::client {
-  include ssh::params
-  include ssh::client::install
-  include ssh::client::config
-  include ssh::knownhosts
+case $::operatingsystem {
+        Archlinux:{
+          include ssh::params
+          include ssh::client::config
+          include ssh::knownhosts
+        }
+        default: {
+          include ssh::params
+          include ssh::client::install
+          include ssh::client::config
+          include ssh::knownhosts
+        }
+      }
+
 }
