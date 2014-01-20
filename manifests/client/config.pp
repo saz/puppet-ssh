@@ -1,9 +1,9 @@
-class ssh::client::config {
+class ssh::client::config inherits ssh { 
   file { $ssh::params::ssh_config:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    source  => "puppet:///modules/${module_name}/ssh_config",
+    content => template("${module_name}/ssh_config.erb"),
     require => Class['ssh::client::install'],
   }
 
