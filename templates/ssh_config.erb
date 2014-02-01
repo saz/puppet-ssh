@@ -51,4 +51,6 @@ Host *
     HashKnownHosts yes
     GSSAPIAuthentication yes
     GSSAPIDelegateCredentials no
+    <% if disable_user_known_hosts %>
     UserKnownHostsFile /dev/null
+    <% end %>
