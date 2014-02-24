@@ -1,7 +1,7 @@
 # File is managed by Puppet
 
 <%- scope.lookupvar('ssh::server::merged_options').each do |k, v| -%>
-<%- if v.is_a(Hash) -%>
+<%- if v.is_a?(Hash) -%>
 <%= k %>
 <%- v.each do |key, value| -%>
     <%= key %> <%= value %>
