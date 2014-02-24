@@ -18,6 +18,8 @@ Host keys will be collected and distributed
     include ssh
 ```
 
+or
+
 ```
     class { 'ssh':
       server_options => {
@@ -44,6 +46,8 @@ Collected host keys from servers will be written to known_hosts
     include ssh::client
 ```
 
+or
+
 ```
     class { 'ssh::client':
       options => {
@@ -65,6 +69,8 @@ Host keys will be collected for client distribution
 ```
     include ssh::server
 ```
+
+or
 
 ```
     class { 'ssh::server':
