@@ -1,10 +1,12 @@
 class ssh (
-  $disable_user_known_hosts = true,
-  $sshd_default_options = $ssh::params::sshd_default_options,
-  $sshd_options         = {},
-  $ssh_default_options  = $ssh::params::ssh_default_options,
-  $ssh_options          = {}
+  $server_options = {},
+  $client_options = {}
 ) inherits ssh::params {
-  include ssh::server
-  include ssh::client
+  class { 'ssh::server':
+    options => $server_options,
+  }
+
+  class { 'ssh::client':
+    options => $client_options,
+  }
 }

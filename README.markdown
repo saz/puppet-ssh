@@ -23,6 +23,28 @@ Host keys will be collected and distributed
     include ssh
 ```
 
+### Changing options
+
+```
+    class { 'ssh':
+      server_options => {
+        'Match User www-data' => {
+          'ChrootDirectory' => '%h',
+          'ForceCommand' => 'internal-sftp',
+          'PasswordAuthentication' => 'yes',
+          'AllowTcpForwarding' => 'no',
+          'X11Forwarding' => 'no',
+        },
+      },
+      client_options => {
+        'Host *.amazonaws.com' => {
+          'User' => 'ec2-user',
+        },
+      },
+    }
+```
+
 # Requirements
-Requires Exported resources and augeas in order to work
+* Exported resources for host keys management
+* puppetlabs/stdlib
 
