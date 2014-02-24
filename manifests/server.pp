@@ -1,7 +1,7 @@
 class ssh::server(
-  $default_options = $ssh::params::sshd_default_options,
   $options         = {}
 ) inherits ssh::params {
+  $merged_options = merge($ssh::params::sshd_default_options, $options)
 
   include ssh::server::install
   include ssh::server::config

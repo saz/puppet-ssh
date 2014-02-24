@@ -43,5 +43,10 @@ class ssh::params {
   }
 
   $ssh_default_options = {
+    'Host *'                 => {
+      'SendEnv'              => 'LANG LC_*',
+      'HashKnownHosts'       => 'yes',
+      'GSSAPIAuthentication' => 'yes',
+    },
   }
 }
