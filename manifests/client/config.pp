@@ -1,8 +1,8 @@
-class ssh::client::config inherits ssh { 
+class ssh::client::config { 
   file { $ssh::params::ssh_config:
     ensure  => present,
-    owner   => 'root',
-    group   => 'root',
+    owner   => 0,
+    group   => 0,
     content => template("${module_name}/ssh_config.erb"),
     require => Class['ssh::client::install'],
   }

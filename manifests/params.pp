@@ -32,4 +32,21 @@ class ssh::params {
       }
     }
   }
+
+  $sshd_default_options = {
+    'ChallengeResponseAuthentication' => 'no',
+    'X11Forwarding'                   => 'yes',
+    'PrintMotd'                       => 'no',
+    'AcceptEnv'                       => 'LANG LC_*',
+    'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
+    'UsePAM'                          => 'yes',
+  }
+
+  $ssh_default_options = {
+    'Host *'                 => {
+      'SendEnv'              => 'LANG LC_*',
+      'HashKnownHosts'       => 'yes',
+      'GSSAPIAuthentication' => 'yes',
+    },
+  }
 }
