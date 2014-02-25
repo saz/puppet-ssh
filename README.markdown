@@ -11,11 +11,19 @@ Manage SSH client and server via Puppet
 
 ## Usage
 
-Since version 3.0.0 only non-default values are written to both,
+Since version 2.0.0 only non-default values are written to both,
 client and server, configuration files.
 
 Multiple occurances of one config key (e.g. sshd should be listening on
-port 22 and 2222) should be passed as a list.
+port 22 and 2222) should be passed as an array.
+
+```
+    options => {
+      Port => [22, 2222],
+    }
+```
+
+This is working for both, client and server
 
 ### Both client and server
 Host keys will be collected and distributed
