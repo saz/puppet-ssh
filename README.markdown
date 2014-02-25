@@ -11,6 +11,12 @@ Manage SSH client and server via Puppet
 
 ## Usage
 
+Since version 3.0.0 only non-default values are written to both,
+client and server, configuration files.
+
+Multiple occurances of one config key (e.g. sshd should be listening on
+port 22 and 2222) should be passed as a list.
+
 ### Both client and server
 Host keys will be collected and distributed
 
@@ -30,6 +36,7 @@ or
           'AllowTcpForwarding' => 'no',
           'X11Forwarding' => 'no',
         },
+        Port => [22, 2222, 2288],
       },
       client_options => {
         'Host *.amazonaws.com' => {
@@ -83,7 +90,60 @@ or
           'X11Forwarding' => 'no',
         },
         'PasswordAuthentication' => 'no',
-        'PermitRootLogin' => 'no',
+        'PermitRootLogin'        => 'no',
+        'Port'                   => [22, 2222],
       },
     }
+```
+
+## Default options
+
+### Client
+
+```
+    'Host *'                 => {
+      'SendEnv'              => 'LANG LC_*',
+      'HashKnownHosts'       => 'yes',
+      'GSSAPIAuthentication' => 'yes',
+    }
+```
+
+### Server
+
+```
+    'ChallengeResponseAuthentication' => 'no',
+    'X11Forwarding'                   => 'yes',
+    'PrintMotd'                       => 'no',
+    'AcceptEnv'                       => 'LANG LC_*',
+    'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
+    'UsePAM'                          => 'yes',
+```
+
+## Overwriting default options
+Default options will be merged with options passed in.
+If an option is set both as default and via options parameter, the latter will
+will win.
+
+The following example will disable X11Forwarding, which is enabled by default:
+
+```
+    class { 'ssh::server':
+      options           => {
+        'X11Forwarding' => 'no',
+      },
+    }
+```
+
+Which will lead to the following sshd_config file:
+
+```
+# File is managed by Puppet
+
+ChallengeResponseAuthentication no
+X11Forwarding no
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes
+PasswordAuthentication no
 ```
