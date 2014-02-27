@@ -1,4 +1,4 @@
-# Define: ssh::host_key
+# == Define: ssh::server::host_key
 #
 # This module install a ssh host key in the server (basically, it is
 # a file resource but it also notifies to the ssh service)
@@ -7,8 +7,28 @@
 # you have to manually define the HostKey option in the server options
 # if you haven't done yet.
 #
-# Parameters:
-define ssh::host_key (
+# == Parameters
+#
+# [*ensure*]
+#   Set to 'absent' to remove host_key files
+#
+# [*public_key_source*]
+#   Sets the content of the source parameter for the public key file
+#   Note public_key_source and public_key_content are mutually exclusive.
+#
+# [*public_key_content*]
+#   Sets the content for the public key file.
+#   Note public_key_source and public_key_content are mutually exclusive.
+#
+# [*private_key_source*]
+#   Sets the content of the source parameter for the private key file
+#   Note private_key_source and private_key_content are mutually exclusive.
+#
+# [*private_key_content*]
+#   Sets the content for the private key file.
+#   Note private_key_source and private_key_content are mutually exclusive.
+#
+define ssh::server::host_key (
   $ensure = 'present',
   $public_key_source = '',
   $public_key_content = '',
