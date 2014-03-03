@@ -155,3 +155,22 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 PasswordAuthentication no
 ```
+
+## Defining host keys for server
+You can define host keys your server will use
+
+ssh::server::host_key {'ssh_host_rsa_key':
+  private_key_content => '<the private key>',
+  public_key_content  => '<the public key>',
+}
+
+Alternately, you could create the host key providing the files, instead
+of the content:
+
+ssh::server::host_key {'ssh_host_rsa_key':
+  private_key_source => 'puppet:///mymodule/ssh_host_rsa_key',
+  public_key_source  => 'puppet:///mymodule/ssh_host_rsa_key.pub',
+}
+
+Both of these definitions will create /etc/ssh/ssh_host_rsa_key and
+/etc/ssh/ssh_host_rsa_key.pub and restart sshd daemon.
