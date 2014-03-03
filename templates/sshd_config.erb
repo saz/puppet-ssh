@@ -1,9 +1,9 @@
 # File is managed by Puppet
 
-<%- scope.lookupvar('ssh::server::merged_options').each do |k, v| -%>
+<%- scope.lookupvar('ssh::server::merged_options').sort.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
-<%- v.each do |key, value| -%>
+<%- v.sort.each do |key, value| -%>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
     <%= key %> <%= a %>
