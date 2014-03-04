@@ -1,7 +1,7 @@
-class ssh::client::install 
+class ssh::client::install {
   if !defined(Package[$ssh::params::client_package_name]) {
     package { $ssh::params::client_package_name:
-      ensure => $ensure,
+      ensure => $ssh::client::ensure,
     }
   }
 }
