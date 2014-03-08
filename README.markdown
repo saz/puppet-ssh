@@ -79,7 +79,8 @@ or
 ```
 
 ### Server only
-Host keys will be collected for client distribution
+Host keys will be collected for client distribution unless
+ storeconfigs_enabled => false
 
 ```
     include ssh::server
@@ -89,6 +90,7 @@ or
 
 ```
     class { 'ssh::server':
+      storeconfigs_enabled => false,
       options => {
         'Match User www-data' => {
           'ChrootDirectory' => '%h',
