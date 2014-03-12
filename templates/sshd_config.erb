@@ -1,6 +1,6 @@
 # File is managed by Puppet
 
-<%- scope.lookupvar('ssh::server::merged_options').sort_by{ |sk, sv| sk.to_s.downcase.include? "match" ? sk.to_s : '' }.each do |k, v| -%>
+<%- scope.lookupvar('ssh::server::merged_options').sort_by{ |sk, sv| (sk.to_s.downcase.include? "match" )? sk.to_s : '' }.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
 <%- v.sort.each do |key, value| -%>
