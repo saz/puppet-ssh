@@ -1,4 +1,4 @@
-# SSH Client and Server Puppet Module
+# puppet-ssh [![Build Status](https://secure.travis-ci.org/saz/puppet-ssh.png)](http://travis-ci.org/saz/puppet-ssh)
 
 Manage SSH client and server via Puppet
 
