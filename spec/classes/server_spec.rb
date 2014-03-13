@@ -44,14 +44,14 @@ describe 'ssh::server' do
 
             it { should contain_file('/etc/ssh/sshd_config').with(
               'owner' => 0,
-              'group' => 0,
+              'group' => 0
             )}
 
             it { should contain_service('ssh').with(
               'ensure' => 'running',
               'enable' => true,
               'hasrestart' => true,
-              'hasstatus' => true,
+              'hasstatus' => true
             )}
 
             it 'should compile the template based on the class parameters' do
