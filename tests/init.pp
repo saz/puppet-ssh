@@ -1,1 +1,1 @@
-class {"::ssh::server": }
+class { '::ssh::server': }

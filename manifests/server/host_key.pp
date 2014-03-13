@@ -36,10 +36,10 @@ define ssh::server::host_key (
   $private_key_content = '',
 ) {
   if $public_key_source == '' and $public_key_content == '' {
-    fail("You must provide either public_key_source or public_key_content parameter")
+    fail('You must provide either public_key_source or public_key_content parameter')
   }
   if $private_key_source == '' and $private_key_content == '' {
-    fail("You must provide either private_key_source or private_key_content parameter")
+    fail('You must provide either private_key_source or private_key_content parameter')
   }
 
   $manage_pub_key_content = $public_key_source ? {
