@@ -1,4 +1,5 @@
 class ssh::client(
+  $ensure  = present,
   $options = {}
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::ssh_default_options, $options)

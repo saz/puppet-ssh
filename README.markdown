@@ -1,4 +1,4 @@
-# SSH Client and Server Puppet Module
+# puppet-ssh [![Build Status](https://secure.travis-ci.org/saz/puppet-ssh.png)](http://travis-ci.org/saz/puppet-ssh)
 
 Manage SSH client and server via Puppet
 
@@ -79,7 +79,8 @@ or
 ```
 
 ### Server only
-Host keys will be collected for client distribution
+Host keys will be collected for client distribution unless
+ storeconfigs_enabled => false
 
 ```
     include ssh::server
@@ -89,6 +90,7 @@ or
 
 ```
     class { 'ssh::server':
+      storeconfigs_enabled => false,
       options => {
         'Match User www-data' => {
           'ChrootDirectory' => '%h',
@@ -155,3 +157,26 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 PasswordAuthentication no
 ```
+
+## Defining host keys for server
+You can define host keys your server will use
+
+```
+ssh::server::host_key {'ssh_host_rsa_key':
+  private_key_content => '<the private key>',
+  public_key_content  => '<the public key>',
+}
+```
+
+Alternately, you could create the host key providing the files, instead
+of the content:
+
+```
+ssh::server::host_key {'ssh_host_rsa_key':
+  private_key_source => 'puppet:///mymodule/ssh_host_rsa_key',
+  public_key_source  => 'puppet:///mymodule/ssh_host_rsa_key.pub',
+}
+```
+
+Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
+```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
