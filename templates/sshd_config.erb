@@ -6,10 +6,13 @@ Port <%= port %>
 ListenAddress <%= listen %>
 <%- end -%>
 
-<%- scope.lookupvar('ssh::server::merged_options').sort_by{ |sk| (sk.to_s.downcase.include? "match") ? sk.to_s : '' }.each do |k, v| -%>
+<%- options = scope.lookupvar('ssh::server::merged_options') -%>
+<%- options.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
+<%- v = options[k] -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
-<%- v.sort.each do |key, value| -%>
+<%- v.keys.sort.each do |key| -%>
+    <%- value = v[key] -%>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
     <%= key %> <%= a %>
