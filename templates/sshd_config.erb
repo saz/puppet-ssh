@@ -1,4 +1,10 @@
 # File is managed by Puppet
+<%- if port = scope.lookupvar('ssh::server::merged_options').delete('Port') -%>
+Port <%= port %>
+<%- end -%>
+<%- if listen = scope.lookupvar('ssh::server::merged_options').delete('ListenAddress') -%>
+ListenAddress <%= listen %>
+<%- end -%>
 
 <%- scope.lookupvar('ssh::server::merged_options').sort_by{ |sk| (sk.to_s.downcase.include? "match") ? sk.to_s : '' }.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>
