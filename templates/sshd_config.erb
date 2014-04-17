@@ -1,10 +1,22 @@
 # File is managed by Puppet
 <%- options = scope.lookupvar('ssh::server::merged_options') -%>
 <%- if port = options.delete('Port') -%>
+<%- if port.is_a?(Array) -%>
+<%- port.each do |p| -%>
+Port <%= p %>
+<%- end -%>
+<%- else -%>
 Port <%= port %>
 <%- end -%>
+<%- end -%>
 <%- if listen = options.delete('ListenAddress') -%>
+<%- if listen.is_a?(Array) -%>
+<%- listen.each do |l| -%>
+ListenAddress <%= l %>
+<%- end -%>
+<%- else -%>
 ListenAddress <%= listen %>
+<%- end -%>
 <%- end -%>
 
 <%- options.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
