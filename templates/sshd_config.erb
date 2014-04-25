@@ -1,5 +1,8 @@
 # File is managed by Puppet
 <%- options = scope.lookupvar('ssh::server::merged_options') -%>
+<%- if addressfamily = options.delete('AddressFamily') -%>
+AddressFamily <%= addressfamily %>
+<%- end -%>
 <%- if port = options.delete('Port') -%>
 <%- if port.is_a?(Array) -%>
 <%- port.each do |p| -%>
