@@ -66,6 +66,48 @@ describe 'ssh::server' do
               }
             end
           end
+          describe "on Arch" do
+            let :facts do
+            {
+                :osfamily => 'Archlinux',
+                :lsbdistdescription => 'Arch Linux',
+                :lsbdistid => 'Arch',
+                :operatingsystem => 'Archlinux',
+                :interfaces => 'enp4s0',
+                :ipaddress_eth0 => '192.168.1.1'
+            }
+            end
+
+            it { should contain_class('ssh::params') }
+            it { should contain_package('openssh')
+                 .only_with(:ensure => param_hash[:ensure], :name => 'openssh')
+            }
+
+            it { should contain_file('/etc/ssh/sshd_config').with(
+              'owner' => 0,
+              'group' => 0
+            )}
+
+            it { should contain_service('sshd.service').with(
+              'ensure' => 'running',
+              'enable' => true,
+              'hasrestart' => true,
+              'hasstatus' => true
+            )}
+
+            describe 'compile the template based on the class parameters' do
+
+              it { should contain_file('/etc/ssh/sshd_config')
+                   .with_content(/ChallengeResponseAuthentication no/)
+                   .with_content(/X11Forwarding yes/)
+                   .with_content(/PrintMotd no/)
+                   .with_content(/AcceptEnv LANG LC_\*/)
+                   .with_content(/Subsystem sftp \/usr\/lib\/ssh\/sftp-server/)
+                   .with_content(/UsePAM yes/)
+              }
+            end
+          end
+
         end
       end
     end
