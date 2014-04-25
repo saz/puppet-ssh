@@ -26,7 +26,8 @@ port 22 and 2222) should be passed as an array.
 This is working for both, client and server
 
 ### Both client and server
-Host keys will be collected and distributed
+Host keys will be collected and distributed unless
+ storeconfigs_enabled => false
 
 ```
     include ssh
@@ -36,6 +37,7 @@ or
 
 ```
     class { 'ssh':
+      storeconfigs_enabled => false,
       server_options => {
         'Match User www-data' => {
           'ChrootDirectory' => '%h',
@@ -55,7 +57,8 @@ or
 ```
 
 ### Client only
-Collected host keys from servers will be written to known_hosts
+Collected host keys from servers will be written to known_hosts unless
+ storeconfigs_enabled => false
 
 ```
     include ssh::client
@@ -65,6 +68,7 @@ or
 
 ```
     class { 'ssh::client':
+      storeconfigs_enabled => false,
       options => {
         'Host short' => {
           'User' => 'my-user',
