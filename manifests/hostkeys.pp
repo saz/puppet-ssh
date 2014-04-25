@@ -2,21 +2,18 @@ class ssh::hostkeys {
   $ipaddresses = ipaddresses()
   $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
 
-  @@sshkey { "${::fqdn}_dsa":
-    host_aliases => $host_aliases,
-    type         => dsa,
-    key          => $::sshdsakey,
-  }
-  @@sshkey { "${::fqdn}_rsa":
-    host_aliases => $host_aliases,
-    type         => rsa,
-    key          => $::sshrsakey,
-  }
-  if $::sshecdsakey {
-    @@sshkey { "${::fqdn}_ecdsa":
-      host_aliases => $host_aliases,
-      type         => 'ecdsa-sha2-nistp256',
-      key          => $::sshecdsakey,
-    }
+  anchor { 'ssh::hostkeys::begin': } 
+  anchor { 'ssh::hostkeys::end': } 
+
+  if $::settings::storeconfigs {
+    include ssh::hostkeys::storeconfigs
+    Anchor['ssh::hostkeys::begin'] ->
+    Class['ssh::hostkeys::storeconfigs'] ->
+    Anchor['ssh::hostkeys::end']
+  } else {
+    include ssh::hostkeys::no_storeconfigs
+    Anchor['ssh::hostkeys::begin'] ->
+    Class['ssh::hostkeys::no_storeconfigs'] ->
+    Anchor['ssh::hostkeys::end']
   }
 }
