@@ -85,9 +85,10 @@ describe 'ssh::server' do
             end
 
             it { should contain_class('ssh::params') }
-            it { should contain_package('openssh')
-                 .with(:ensure => param_hash[:ensure], :name => 'openssh')
-            }
+            it { should contain_package('openssh').with(
+                :ensure => param_hash[:ensure],
+                :name => 'openssh'
+            )}
 
             it { should contain_file('/etc/ssh/sshd_config').with(
               'owner' => 0,
