@@ -9,6 +9,7 @@ class ssh::client::config {
 
   # Workaround for http://projects.reductivelabs.com/issues/2014
   file { $ssh::params::ssh_known_hosts:
+    ensure => present,
     mode => '0644',
   }
 }
