@@ -56,6 +56,27 @@ or
     }
 ```
 
+### Hiera example
+```
+ssh::storeconfigs_enabled: true,
+
+ssh::server_options:
+    Protocol: '2'
+    ListenAddress:
+        - '127.0.0.0'
+        - '%{::hostname}'
+    PasswordAuthentication: 'yes'
+    SyslogFacility: 'AUTHPRIV'
+    UsePAM: 'yes'
+    X11Forwarding: 'yes'
+
+ssh::client_options:
+    'Host *':
+        SendEnv: 'LANG LC_*'
+        ForwardX11Trusted: 'yes'
+        ServerAliveInterval: '10'
+```
+ 
 ### Client only
 Collected host keys from servers will be written to known_hosts unless
  storeconfigs_enabled => false
@@ -109,7 +130,7 @@ or
       },
     }
 ```
-
+ 
 ## Default options
 
 ### Client
@@ -121,7 +142,7 @@ or
       'GSSAPIAuthentication' => 'yes',
     }
 ```
-
+ 
 ### Server
 
 ```
@@ -132,7 +153,7 @@ or
     'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
     'UsePAM'                          => 'yes',
 ```
-
+ 
 ## Overwriting default options
 Default options will be merged with options passed in.
 If an option is set both as default and via options parameter, the latter will
@@ -150,7 +171,7 @@ The following example will disable X11Forwarding, which is enabled by default:
 
 Which will lead to the following sshd_config file:
 
-```
+ ```
 # File is managed by Puppet
 
 ChallengeResponseAuthentication no
@@ -184,3 +205,4 @@ ssh::server::host_key {'ssh_host_rsa_key':
 
 Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
+
