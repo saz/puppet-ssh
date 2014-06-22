@@ -19,7 +19,7 @@ port 22 and 2222) should be passed as an array.
 
 ```
     options => {
-      Port => [22, 2222],
+      'Port' => [22, 2222],
     }
 ```
 
@@ -46,7 +46,7 @@ or
           'AllowTcpForwarding' => 'no',
           'X11Forwarding' => 'no',
         },
-        Port => [22, 2222, 2288],
+        'Port' => [22, 2222, 2288],
       },
       client_options => {
         'Host *.amazonaws.com' => {

@@ -5,7 +5,10 @@ EOS
     ) do |args|
         interfaces = lookupvar('interfaces')
 
-        return false if (interfaces == :undefined)
+        # In Puppet v2.7, lookupvar returns :undefined if the variable does
+        # not exist.  In Puppet 3.x, it returns nil.
+        # See http://docs.puppetlabs.com/guides/custom_functions.html
+        return false if (interfaces.nil? || interfaces == :undefined)
 
         result = []
         if interfaces.count(',') > 0
