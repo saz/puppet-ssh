@@ -17,7 +17,7 @@
 <%- v.each do |a| -%>
 <%= k %> <%= a %>
 <%- end -%>
-<%- else -%>
+<%- elsif v != :undef -%>
 <%= k %> <%= v %>
 <%- end -%>
 <%- end -%>
