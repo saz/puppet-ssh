@@ -1,9 +1,22 @@
 class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $warn                 = true,
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::ssh_default_options, $options)
+
+  case $warn {
+    'true', true, yes, on: {
+      $warnmsg = $default_warn_message
+    }
+    'false', false, no, off: {
+      $warnmsg = ''
+    }
+    default: {
+      $warnmsg = $warn
+    }
+  }
 
   include ssh::client::install
   include ssh::client::config
