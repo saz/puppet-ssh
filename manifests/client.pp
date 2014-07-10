@@ -3,18 +3,18 @@ class ssh::client(
   $storeconfigs_enabled = true,
   $options              = {},
   $warn                 = true,
+  $warn_message         = $default_warn_message,
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::ssh_default_options, $options)
 
+  validate_bool($warn)
+  validate_string($warn_message)
   case $warn {
-    'true', true, yes, on: {
-      $warnmsg = $default_warn_message
-    }
-    'false', false, no, off: {
+    false: {
       $warnmsg = ''
     }
     default: {
-      $warnmsg = $warn
+      $warnmsg = $warn_message
     }
   }
 
