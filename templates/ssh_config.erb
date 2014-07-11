@@ -1,5 +1,5 @@
-<%- if warnmsg != '' -%>
-<%= warnmsg %>
+<%- if @warn_message != '' -%>
+<%= @warn_message %>
 <%- end -%>
 <%- scope.lookupvar('ssh::client::merged_options').sort.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>

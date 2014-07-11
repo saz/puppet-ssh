@@ -10,10 +10,9 @@ class ssh (
   validate_string($warn_message)
   case $warn {
     false: {
-      $warnmsg = ''
+      $warn_message = ''
     }
     default: {
-      $warnmsg = $warn_message
     }
   }
 

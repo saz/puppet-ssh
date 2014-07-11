@@ -1,5 +1,5 @@
-<%- if warnmsg != '' -%>
-<%= warnmsg %>
+<%- if @warn_message != '' -%>
+<%= @warn_message %>
 <%- end -%>
 <%- options = scope.lookupvar('ssh::server::merged_options') -%>
 <%- if addressfamily = options.delete('AddressFamily') -%>
