@@ -3,7 +3,7 @@ class ssh::server(
   $storeconfigs_enabled = true,
   $options              = {},
   $warn                 = true,
-  $warn_message         = $default_warn_message,
+  $warn_message         = $default_warn_message
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::sshd_default_options, $options)
 

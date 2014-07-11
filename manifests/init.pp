@@ -3,7 +3,7 @@ class ssh (
   $client_options       = {},
   $storeconfigs_enabled = true,
   $warn                 = true,
-  $warn_message         = $default_warn_message,
+  $warn_message         = $default_warn_message
 ) inherits ssh::params {
 
   validate_bool($warn)
