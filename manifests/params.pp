@@ -18,7 +18,14 @@ class ssh::params {
       $ssh_config = '/etc/ssh/ssh_config'
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
       $service_name = 'sshd'
-      $sftp_server_path = '/usr/lib/openssh/sftp-server'
+      case $lsbmajdistrelease {
+        6: {
+          $sftp_server_path = '/usr/libexec/openssh/sftp-server'
+        }
+        default: {
+          $sftp_server_path = '/usr/lib/openssh/sftp-server'
+        }
+      }
     }
     freebsd: {
       $server_package_name = undef
