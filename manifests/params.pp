@@ -60,6 +60,8 @@ class ssh::params {
   }
 
   $sshd_default_options = {
+    'AuthorizedKeysCommand'           => '',
+    'AuthorizedKeysCommandUser'       => '',
     'ChallengeResponseAuthentication' => 'no',
     'X11Forwarding'                   => 'yes',
     'PrintMotd'                       => 'no',
