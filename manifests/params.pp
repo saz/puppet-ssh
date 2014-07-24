@@ -60,10 +60,10 @@ class ssh::params {
   }
 
   $sshd_default_options = {
-    if ($AuthorizedKeysCommand) {
+    if ($AuthorizedKeysCommand != '') {
     'AuthorizedKeysCommand'           => '',
     }
-    if ($AuthorizedKeysCommandUser) {
+    if ($AuthorizedKeysCommandUser != '') {
     'AuthorizedKeysCommandUser'       => '',
     }
     'ChallengeResponseAuthentication' => 'no',
