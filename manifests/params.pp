@@ -60,18 +60,21 @@ class ssh::params {
   }
 
   $sshd_default_options = {
-    if ($AuthorizedKeysCommand != '') {
-    'AuthorizedKeysCommand'           => '',
-    }
-    if ($AuthorizedKeysCommandUser != '') {
-    'AuthorizedKeysCommandUser'       => '',
-    }
     'ChallengeResponseAuthentication' => 'no',
     'X11Forwarding'                   => 'yes',
     'PrintMotd'                       => 'no',
     'AcceptEnv'                       => 'LANG LC_*',
     'Subsystem'                       => "sftp ${sftp_server_path}",
     'UsePAM'                          => 'yes',
+  }
+
+  if ($AuthorizedKeysCommand != '') {
+    $sshd_default_options +=
+      [ 'AuthorizedKeysCommand'       => '', ]
+  }
+  if ($AuthorizedKeysCommandUser != '') {
+    $sshd_default_options +=
+      [ 'AuthorizedKeysCommandUser'   => '', ]
   }
 
   $ssh_default_options = {
