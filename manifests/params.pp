@@ -40,6 +40,24 @@ class ssh::params {
       $service_name = 'sshd.service'
       $sftp_server_path = '/usr/lib/ssh/sftp-server'
     }
+    Suse: {
+      $server_package_name = 'openssh'
+      $client_package_name = 'openssh'
+      $sshd_dir = '/etc/ssh'
+      $sshd_config = '/etc/ssh/sshd_config'
+      $ssh_config = '/etc/ssh/ssh_config'
+      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      case $::operatingsystem {
+        Sles: {
+          $service_name = 'sshd'
+          $sftp_server_path = '/usr/lib64/ssh/sftp-server'
+        }
+        Suse: {
+          $service_name = 'sshd.service'
+          $sftp_server_path = "/usr/lib/ssh/sftp-server"
+        }
+      }
+    }
     default: {
       case $::operatingsystem {
         gentoo: {
