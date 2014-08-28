@@ -20,7 +20,7 @@ EOS
                     if ipaddr
                         result << ipaddr
                     end
-                    if ipaddr6
+                    if ipaddr6 and (ipaddr6!= :undefined)
                         result << ipaddr6
                     end
                 end
@@ -32,7 +32,7 @@ EOS
                 if ipaddr
                     result << ipaddr
                 end
-                if ipaddr6
+                if ipaddr6 and (ipaddr6!= :undefined)
                     result << ipaddr6
                 end
             end
