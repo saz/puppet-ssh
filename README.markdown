@@ -23,7 +23,7 @@ port 22 and 2222) should be passed as an array.
     }
 ```
 
-This is working for both, client and server
+This is working for both, client and server.
 
 ### Both client and server
 Host keys will be collected and distributed unless
