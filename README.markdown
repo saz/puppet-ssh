@@ -14,7 +14,7 @@ Manage SSH client and server via Puppet
 Since version 2.0.0 only non-default values are written to both,
 client and server, configuration files.
 
-Multiple occurances of one config key (e.g. sshd should be listening on
+Multiple occurrences of one config key (e.g. sshd should be listening on
 port 22 and 2222) should be passed as an array.
 
 ```
