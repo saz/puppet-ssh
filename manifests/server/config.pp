@@ -8,4 +8,11 @@ class ssh::server::config {
     require => Class['ssh::server::install'],
     notify  => Class['ssh::server::service'],
   }
+  file { $ssh::params::sshd_keysdir:
+    ensure  => directory,
+    owner   => 0,
+    group   => 0,
+    mode    => '0755',
+    require => Class['ssh::server::install'],
+  }
 }
