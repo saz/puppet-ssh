@@ -207,7 +207,9 @@ Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
 
 
-## Adding cutom match blocks 
+## Adding cutom match blocks
+
+```
   ssh::server::match_block { 'sftp_only':
     type    => 'User',
     options => {
@@ -218,4 +220,4 @@ Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
       'X11Forwarding'          => 'no',
     }
   }
-
+```
