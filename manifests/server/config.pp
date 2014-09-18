@@ -1,11 +1,16 @@
 class ssh::server::config {
-  file { $ssh::params::sshd_config:
-    ensure  => present,
-    owner   => 0,
-    group   => 0,
-    mode    => '0600',
+  File[$ssh::params::sshd_config] ~> Service['sshd']
+
+  concat { $ssh::params::sshd_config:
+    ensure => present,
+    owner  => 0,
+    group  => 0,
+    mode   => '0600',
+  }
+
+  concat::fragment { 'global config':
+    target  => $ssh::params::sshd_config,
     content => template("${module_name}/sshd_config.erb"),
-    require => Class['ssh::server::install'],
-    notify  => Class['ssh::server::service'],
+    order   => '00'
   }
 }

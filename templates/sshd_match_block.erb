@@ -1,0 +1,8 @@
+
+Match <%= @type %> <%= @name %>
+<%- @options.keys.each do |k| -%>
+<%- v = @options[k] -%>
+<%- if v != :undef -%>
+    <%= k %> <%= v %>
+<%- end -%>
+<%- end -%>
