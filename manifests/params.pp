@@ -54,7 +54,10 @@ class ssh::params {
         }
         Suse: {
           $service_name = 'sshd.service'
-          $sftp_server_path = "/usr/lib/ssh/sftp-server"
+          $sftp_server_path = '/usr/lib/ssh/sftp-server'
+        }
+        default: {
+          fail("Unsupported platform: ${::osfamily}/${::operatingsystem}")
         }
       }
     }
