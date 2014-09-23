@@ -2,22 +2,22 @@ require 'spec_helper'
 describe 'ssh::server' do
     let :default_params do
         {
-            :ensure => 'present',
+            :ensure               => 'present',
             :storeconfigs_enabled => true,
-            :options => {}
+            :options              => {}
         }
     end
 
     [ {},
       {
-        :ensure => 'latest',
+        :ensure               => 'latest',
         :storeconfigs_enabled => true,
-        :options => {}
+        :options              => {}
       },
       {
-        :ensure => 'present',
+        :ensure               => 'present',
         :storeconfigs_enabled => false,
-        :options => {}
+        :options              => {}
       }
     ].each do |param_set|
       describe "when #{param_set == {} ? "using default" : "specifying"} class parameters" do
@@ -32,8 +32,8 @@ describe 'ssh::server' do
         ['Debian'].each do |osfamily|
           let :facts do
             {
-              :osfamily => osfamily,
-              :interfaces => 'eth0',
+              :osfamily       => osfamily,
+              :interfaces     => 'eth0',
               :ipaddress_eth0 => '192.168.1.1',
               :concat_basedir => '/tmp'
             }
