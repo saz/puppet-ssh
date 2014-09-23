@@ -48,7 +48,7 @@ describe 'ssh::server' do
               'group' => 0
             )}
 
-            it { should contain_service('ssh').with(
+            it { should contain_service('sshd').with(
               'ensure' => 'running',
               'enable' => true,
               'hasrestart' => true,
