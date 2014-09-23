@@ -50,6 +50,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 2.2.1"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0"
     }
   ]
 }

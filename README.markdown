@@ -206,3 +206,18 @@ ssh::server::host_key {'ssh_host_rsa_key':
 Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
 
+
+## Adding cutom match blocks
+
+```
+  ssh::server::match_block { 'sftp_only':
+    type    => 'User',
+    options => {
+      'ChrootDirectory'        => "/sftp/%u",
+      'ForceCommand'           => 'internal-sftp',
+      'PasswordAuthentication' => 'no',
+      'AllowTcpForwarding'     => 'no',
+      'X11Forwarding'          => 'no',
+    }
+  }
+```
