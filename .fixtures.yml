@@ -1,5 +1,6 @@
 fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib"
+    concat: "https://github.com/puppetlabs/puppetlabs-concat"
   symlinks:
     ssh: "#{source_dir}"
