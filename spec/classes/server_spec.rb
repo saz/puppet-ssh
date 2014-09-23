@@ -80,7 +80,8 @@ describe 'ssh::server' do
                 :lsbdistid => 'Arch',
                 :operatingsystem => 'Archlinux',
                 :interfaces => 'enp4s0',
-                :ipaddress_eth0 => '192.168.1.1'
+                :ipaddress_eth0 => '192.168.1.1',
+                :concat_basedir => '/tmp',
             }
             end
 
