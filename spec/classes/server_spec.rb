@@ -4,8 +4,7 @@ describe 'ssh::server' do
         {
             :ensure               => 'present',
             :storeconfigs_enabled => true,
-            :options              => {},
-            :concat_basedir       => '/tmp'
+            :options              => {}
         }
     end
 
