@@ -1,5 +1,4 @@
 class ssh::client::config {
-  $warn_message = $ssh::client::warn_message
   file { $ssh::params::ssh_config:
     ensure  => present,
     owner   => 0,
