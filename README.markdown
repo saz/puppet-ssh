@@ -14,7 +14,7 @@ Manage SSH client and server via Puppet
 Since version 2.0.0 only non-default values are written to both,
 client and server, configuration files.
 
-Multiple occurances of one config key (e.g. sshd should be listening on
+Multiple occurrences of one config key (e.g. sshd should be listening on
 port 22 and 2222) should be passed as an array.
 
 ```
@@ -23,11 +23,11 @@ port 22 and 2222) should be passed as an array.
     }
 ```
 
-This is working for both, client and server
+This is working for both, client and server.
 
 ### Both client and server
 Host keys will be collected and distributed unless
- storeconfigs_enabled => false
+ `storeconfigs_enabled` is `false`.
 
 ```
     include ssh
@@ -76,10 +76,10 @@ ssh::client_options:
         ForwardX11Trusted: 'yes'
         ServerAliveInterval: '10'
 ```
- 
+
 ### Client only
-Collected host keys from servers will be written to known_hosts unless
- storeconfigs_enabled => false
+Collected host keys from servers will be written to `known_hosts` unless
+ `storeconfigs_enabled` is `false`
 
 ```
     include ssh::client
@@ -105,7 +105,7 @@ or
 
 ### Server only
 Host keys will be collected for client distribution unless
- storeconfigs_enabled => false
+ `storeconfigs_enabled` is `false`
 
 ```
     include ssh::server
@@ -169,7 +169,7 @@ The following example will disable X11Forwarding, which is enabled by default:
     }
 ```
 
-Which will lead to the following sshd_config file:
+Which will lead to the following `sshd_config` file:
 
  ```
 # File is managed by Puppet
@@ -206,3 +206,18 @@ ssh::server::host_key {'ssh_host_rsa_key':
 Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
 
+
+## Adding cutom match blocks
+
+```
+  ssh::server::match_block { 'sftp_only':
+    type    => 'User',
+    options => {
+      'ChrootDirectory'        => "/sftp/%u",
+      'ForceCommand'           => 'internal-sftp',
+      'PasswordAuthentication' => 'no',
+      'AllowTcpForwarding'     => 'no',
+      'X11Forwarding'          => 'no',
+    }
+  }
+```

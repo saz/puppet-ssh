@@ -17,10 +17,10 @@ EOS
                 if ! iface.include?('lo')
                     ipaddr = lookupvar("ipaddress_#{iface}")
                     ipaddr6 = lookupvar("ipaddress6_#{iface}")
-                    if ipaddr
+                    if ipaddr and (ipaddr!= :undefined)
                         result << ipaddr
                     end
-                    if ipaddr6
+                    if ipaddr6 and (ipaddr6!= :undefined)
                         result << ipaddr6
                     end
                 end
@@ -29,10 +29,10 @@ EOS
             if ! interfaces.include?('lo')
                 ipaddr = lookupvar("ipaddress_#{interfaces}")
                 ipaddr6 = lookupvar("ipaddress6_#{interfaces}")
-                if ipaddr
+                if ipaddr and (ipaddr!= :undefined)
                     result << ipaddr
                 end
-                if ipaddr6
+                if ipaddr6 and (ipaddr6!= :undefined)
                     result << ipaddr6
                 end
             end
