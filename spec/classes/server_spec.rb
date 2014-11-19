@@ -55,23 +55,21 @@ describe 'ssh::server' do
               'hasstatus'  => true
             )}
 
-            it 'should compile the template based on the class parameters' do
-              content = param_value(
-                subject,
-                'file',
-                '/etc/ssh/sshd_config',
-                'content'
-              )
-              expected_lines = [
-                'ChallengeResponseAuthentication no',
-                'X11Forwarding yes',
-                'PrintMotd no',
-                'AcceptEnv LANG LC_*',
-                'Subsystem sftp /usr/lib/openssh/sftp-server',
-                'UsePAM yes'
-              ]
-              (content.split("\n") & expected_lines).should =~ expected_lines
-            end
+            it { should contain_class('concat::setup') }
+            it { should contain_concat('/etc/ssh/sshd_config') }
+            it { should contain_concat__fragment('global config').with(
+              :target  => '/etc/ssh/sshd_config',
+              :content => '# File is managed by Puppet
+
+AcceptEnv LANG LC_*
+ChallengeResponseAuthentication no
+PrintMotd no
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes
+X11Forwarding yes
+'
+            )}
+
           end
           describe "on Arch" do
             let :facts do
@@ -82,7 +80,7 @@ describe 'ssh::server' do
                 :operatingsystem    => 'Archlinux',
                 :interfaces         => 'enp4s0',
                 :ipaddress_eth0     => '192.168.1.1',
-                :concat_basedir     => '/tmp',
+                :concat_basedir     => '/tmp'
             }
             end
 
@@ -104,23 +102,21 @@ describe 'ssh::server' do
               'hasstatus'  => true
             )}
 
-            it 'should compile the template based on the class parameters' do
-              content = param_value(
-                subject,
-                'file',
-                '/etc/ssh/sshd_config',
-                'content'
-              )
-              expected_lines = [
-                'ChallengeResponseAuthentication no',
-                'X11Forwarding yes',
-                'PrintMotd no',
-                'AcceptEnv LANG LC_*',
-                'Subsystem sftp /usr/lib/ssh/sftp-server',
-                'UsePAM yes'
-              ]
-              (content.split("\n") & expected_lines).should =~ expected_lines
-            end
+            it { should contain_class('concat::setup') }
+            it { should contain_concat('/etc/ssh/sshd_config') }
+            it { should contain_concat__fragment('global config').with(
+              :target  => '/etc/ssh/sshd_config',
+              :content => '# File is managed by Puppet
+
+AcceptEnv LANG LC_*
+ChallengeResponseAuthentication no
+PrintMotd no
+Subsystem sftp /usr/lib/ssh/sftp-server
+UsePAM yes
+X11Forwarding yes
+'
+            )}
+
           end
         end
       end

@@ -1,4 +1,6 @@
 class ssh::server::config {
+  File[$ssh::params::sshd_config] ~> Service[$ssh::params::service_name]
+
   concat { $ssh::params::sshd_config:
     ensure => present,
     owner  => 0,
