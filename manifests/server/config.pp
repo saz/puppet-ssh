@@ -13,4 +13,11 @@ class ssh::server::config {
     content => template("${module_name}/sshd_config.erb"),
     order   => '00'
   }
+  file { $ssh::params::sshd_keysdir:
+    ensure  => directory,
+    owner   => 0,
+    group   => 0,
+    mode    => '0755',
+    require => Class['ssh::server::install'],
+  }
 }

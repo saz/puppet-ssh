@@ -4,6 +4,7 @@ class ssh::params {
       $server_package_name = 'openssh-server'
       $client_package_name = 'openssh-client'
       $sshd_dir = '/etc/ssh'
+      $sshd_keysdir = '/etc/ssh/ssh_keys'
       $sshd_config = '/etc/ssh/sshd_config'
       $ssh_config = '/etc/ssh/ssh_config'
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
@@ -24,6 +25,7 @@ class ssh::params {
       $server_package_name = undef
       $client_package_name = undef
       $sshd_dir = '/etc/ssh'
+      $sshd_keysdir = '/etc/ssh/ssh_keys'
       $sshd_config = '/etc/ssh/sshd_config'
       $ssh_config = '/etc/ssh/ssh_config'
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
@@ -87,6 +89,15 @@ class ssh::params {
     'AcceptEnv'                       => 'LANG LC_*',
     'Subsystem'                       => "sftp ${sftp_server_path}",
     'UsePAM'                          => 'yes',
+  }
+
+  if ($AuthorizedKeysCommand != '') {
+    $sshd_default_options +=
+      [ 'AuthorizedKeysCommand'       => '', ]
+  }
+  if ($AuthorizedKeysCommandUser != '') {
+    $sshd_default_options +=
+      [ 'AuthorizedKeysCommandUser'   => '', ]
   }
 
   $ssh_default_options = {
