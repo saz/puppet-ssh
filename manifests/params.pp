@@ -80,6 +80,8 @@ class ssh::params {
     }
   }
 
+  $default_warn_message = '# File is managed by Puppet'
+
   $sshd_default_options = {
     'ChallengeResponseAuthentication' => 'no',
     'X11Forwarding'                   => 'yes',

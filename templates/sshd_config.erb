@@ -1,4 +1,6 @@
-# File is managed by Puppet
+<%- if scope.lookupvar('ssh::server:warn_message') != '' -%>
+<%= scope.lookupvar('ssh::client:warn_message') %>
+<%- end -%>
 <%- options = scope.lookupvar('ssh::server::merged_options') -%>
 <%- if addressfamily = options.delete('AddressFamily') -%>
 AddressFamily <%= addressfamily %>

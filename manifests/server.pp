@@ -1,9 +1,21 @@
 class ssh::server(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $warn                 = true,
+  $warn_message         = $default_warn_message
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::sshd_default_options, $options)
+
+  validate_bool($warn)
+  validate_string($warn_message)
+  case $warn {
+    false: {
+      $warn_message = ''
+    }
+    default: {
+    }
+  }
 
   include ssh::server::install
   include ssh::server::config

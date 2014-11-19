@@ -1,5 +1,6 @@
-# File managed by Puppet
-
+<%- if scope.lookupvar('ssh::client:warn_message') != '' -%>
+<%= scope.lookupvar('ssh::client:warn_message') %>
+<%- end -%>
 <%- scope.lookupvar('ssh::client::merged_options').sort.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
