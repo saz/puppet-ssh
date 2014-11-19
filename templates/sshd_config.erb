@@ -30,18 +30,22 @@ ListenAddress <%= listen %>
     <%- value = v[key] -%>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
+    <%- if a != '' -%>
     <%= key %> <%= a %>
     <%- end -%>
-    <%- else -%>
+    <%- end -%>
+    <%- elsif value != '' -%>
     <%= key %> <%= value %>
     <%- end -%>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
 <%- v.each do |a| -%>
+<%- if a != '' -%>
 <%= k %> <%= a %>
 <%- end -%>
-<%- elsif v != :undef -%>
+<%- end -%>
+<%- elsif v != :undef and v != '' -%>
 <%= k %> <%= v %>
 <%- end -%>
 <%- end -%>
