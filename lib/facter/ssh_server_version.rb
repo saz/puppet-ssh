@@ -1,4 +1,4 @@
-Facter.add("ssh_server_version") do
+Facter.add("ssh_server_version_full") do
   setcode do
     # sshd doesn't actually have a -V option (hopefully one will be added),
     # by happy coincidence the usage information that is printed includes the
@@ -10,11 +10,22 @@ Facter.add("ssh_server_version") do
       .first
       .rstrip
 
-    {
-      'major' => version.gsub(/^OpenSSH_([0-9]+\.[0-9]+).*$/, '\1'),
-      'release' => version.gsub(/^OpenSSH_([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$/, '\1'),
-      'portable' => version.gsub(/^OpenSSH_[0-9]+\.[0-9]+(?:\.[0-9]+)?p([0-9]+).*$/, '\1'),
-      'full' => version.gsub(/^OpenSSH_([^ ]+).*$/, '\1'),
-    }
+    version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+  end
+end
+
+Facter.add("ssh_server_version_major") do
+  setcode do
+    version = Facter.value('ssh_server_version_full')
+
+    version.gsub(/^([0-9]+\.[0-9]+).*$/, '\1')
+  end
+end
+
+Facter.add("ssh_server_version_release") do
+  setcode do
+    version = Facter.value('ssh_server_version_full')
+
+    version.gsub(/^([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$/, '\1')
   end
 end
