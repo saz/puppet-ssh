@@ -1,11 +1,11 @@
 Facter.add("ssh_client_version_full") do
   setcode do
-    version = Facter::Util::Resolution.exec('sshd -V 2>&1')
-      .lines
-      .to_a
-      .select { |line| line.match(/^OpenSSH_/) }
-      .first
-      .rstrip
+    version = Facter::Util::Resolution.exec('sshd -V 2>&1').
+      lines.
+      to_a.
+      select { |line| line.match(/^OpenSSH_/) }.
+      first.
+      rstrip
 
     version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
   end

@@ -3,12 +3,12 @@ Facter.add("ssh_server_version_full") do
     # sshd doesn't actually have a -V option (hopefully one will be added),
     # by happy coincidence the usage information that is printed includes the
     # version number.
-    version = Facter::Util::Resolution.exec('sshd -V 2>&1')
-      .lines
-      .to_a
-      .select { |line| line.match(/^OpenSSH_/) }
-      .first
-      .rstrip
+    version = Facter::Util::Resolution.exec('sshd -V 2>&1').
+      lines.
+      to_a.
+      select { |line| line.match(/^OpenSSH_/) }.
+      first.
+      rstrip
 
     version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
   end
