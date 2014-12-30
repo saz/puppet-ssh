@@ -3,8 +3,8 @@ class ssh::server::config {
 
   concat { $ssh::params::sshd_config:
     ensure => present,
-    owner  => 0,
-    group  => 0,
+    owner  => '0',
+    group  => '0',
     mode   => '0600',
   }
 
