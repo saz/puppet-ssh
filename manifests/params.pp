@@ -52,7 +52,7 @@ class ssh::params {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib64/ssh/sftp-server'
         }
-        Suse: {
+        OpenSuSE: {
           $service_name = 'sshd.service'
           $sftp_server_path = '/usr/lib/ssh/sftp-server'
         }
