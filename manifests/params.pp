@@ -53,7 +53,7 @@ class ssh::params {
           $sftp_server_path = '/usr/lib64/ssh/sftp-server'
         }
         OpenSuSE: {
-          $service_name = 'sshd.service'
+          $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/ssh/sftp-server'
         }
         default: {
