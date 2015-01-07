@@ -1,9 +1,11 @@
 # puppet-ssh [![Build Status](https://secure.travis-ci.org/saz/puppet-ssh.png)](http://travis-ci.org/saz/puppet-ssh)
 
-Manage SSH client and server via Puppet
+Manage SSH client and server via Puppet.
 
 ### Gittip
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/saz/)
+
+Source: https://github.com/saz/puppet-ssh
 
 ## Requirements
 * Exported resources for host keys management
