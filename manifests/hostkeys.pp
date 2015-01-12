@@ -23,4 +23,12 @@ class ssh::hostkeys {
       key          => $::sshecdsakey,
     }
   }
+  if $::sshed25519key {
+    @@sshkey { "${::fqdn}_ed25519":
+      host_aliases => $host_aliases,
+      type         => 'curve25519-sha256',
+      key          => $::sshed25519key,
+    }
+  }
+
 }
