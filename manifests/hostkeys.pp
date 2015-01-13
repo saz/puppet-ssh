@@ -26,7 +26,7 @@ class ssh::hostkeys {
   if $::sshed25519key {
     @@sshkey { "${::fqdn}_ed25519":
       host_aliases => $host_aliases,
-      type         => 'curve25519-sha256',
+      type         => 'ssh-ed25519',
       key          => $::sshed25519key,
     }
   }
