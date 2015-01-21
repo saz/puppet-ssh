@@ -42,7 +42,7 @@ class ssh::hostkeys {
     @@sshkey { "${::fqdn}_ed25519":
       ensure       => present,
       host_aliases => $host_aliases,
-      type         => 'ssh-ed25519',
+      type         => 'ed25519',
       key          => $::sshed25519key,
     }
   } else {
