@@ -1,6 +1,8 @@
-class ssh::hostkeys {
+class ssh::hostkeys ($storeconfigs_group = undef) {
   $ipaddresses = ipaddresses()
   $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
+
+  tag 'hostkey_all', "hostkey_${storeconfigs_group}"
 
   if $::sshdsakey {
     @@sshkey { "${::fqdn}_dsa":
