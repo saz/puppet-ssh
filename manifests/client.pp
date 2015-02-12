@@ -1,12 +1,15 @@
 class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
+  $manage_ssh_known_hosts,
   $options              = {}
 ) inherits ssh::params {
   $merged_options = merge($ssh::params::ssh_default_options, $options)
 
   include ssh::client::install
-  include ssh::client::config
+  class { 'ssh::client::config':
+    manage_ssh_known_hosts => $manage_ssh_known_hosts,
+  }
 
   anchor { 'ssh::client::start': }
   anchor { 'ssh::client::end': }

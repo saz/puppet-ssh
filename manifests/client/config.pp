@@ -1,4 +1,6 @@
-class ssh::client::config {
+class ssh::client::config (
+  $manage_ssh_known_hosts
+) {
   file { $ssh::params::ssh_config:
     ensure  => present,
     owner   => 0,
@@ -7,9 +9,11 @@ class ssh::client::config {
     require => Class['ssh::client::install'],
   }
 
-  # Workaround for http://projects.reductivelabs.com/issues/2014
-  file { $ssh::params::ssh_known_hosts:
-    ensure => present,
-    mode   => '0644',
+  if ($manage_ssh_known_hosts == true) {
+    # Workaround for http://projects.reductivelabs.com/issues/2014
+    file { $ssh::params::ssh_known_hosts:
+      ensure => present,
+      mode   => '0644',
+    }
   }
 }
