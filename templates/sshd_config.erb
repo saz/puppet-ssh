@@ -46,7 +46,11 @@ ListenAddress <%= listen %>
 <%- end -%>
 <%- end -%>
 <%- elsif v != :undef and v != '' -%>
+<%- if k != "UsePAM" -%>
 <%= k %> <%= v %>
+<%- elsif @operatingsystem != "OpenBSD" -%>
+<%= k %> <%= v %>
+<%- end -%>
 <%- end -%>
 <%- end -%>
 <%- end -%>
