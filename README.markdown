@@ -183,6 +183,31 @@ UsePAM yes
 PasswordAuthentication no
 ```
 
+Values can also be arrays, which will result in the option being specified multiple times
+
+```
+    class { 'ssh::server':
+      options           => {
+        'HostKey' => ['/etc/ssh/ssh_host_ed25519_key', '/etc/ssh/ssh_host_rsa_key'],
+      },
+    }
+```
+
+Which will lead to the following `sshd_config` file:
+
+ ```
+# File is managed by Puppet
+
+ChallengeResponseAuthentication no
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes
+PasswordAuthentication no
+```
+
 ## Defining host keys for server
 You can define host keys your server will use
 
