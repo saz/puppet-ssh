@@ -221,3 +221,25 @@ Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
     }
   }
 ```
+
+## Facts
+
+This module provides facts detailing the available SSH client and server
+versions.
+
+* `ssh_*_version_full` Provides the full version number including the portable
+  version number.
+* `ssh_*_version_major` Provides the first two numbers in the version number.
+* `ssh_*_version_release` Provides the first three number components of the
+  version, no portable version is present.
+
+Example facter output for OpenSSH `6.6.1p1`:
+
+```
+ssh_client_version_full => 6.6.1p1
+ssh_client_version_major => 6.6
+ssh_client_version_release => 6.6.1
+ssh_server_version_full => 6.6.1p1
+ssh_server_version_major => 6.6
+ssh_server_version_release => 6.6.1
+```
