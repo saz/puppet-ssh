@@ -73,6 +73,16 @@ class ssh::params {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/misc/sftp-server'
         }
+        Amazon: {
+          $server_package_name = 'openssh-server'
+          $client_package_name = 'openssh-clients'
+          $sshd_dir = '/etc/ssh'
+          $sshd_config = '/etc/ssh/sshd_config'
+          $ssh_config = '/etc/ssh/ssh_config'
+          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $service_name = 'sshd'
+          $sftp_server_path = '/usr/libexec/openssh/sftp-server'
+        }
         default: {
           fail("Unsupported platform: ${::osfamily}/${::operatingsystem}")
         }
