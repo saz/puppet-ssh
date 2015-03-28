@@ -22,6 +22,9 @@
       "operatingsystem": "FreeBSD"
     },
     {
+      "operatingsystem": "OpenBSD"
+    },
+    {
       "operatingsystem": "Gentoo"
     },
     {
