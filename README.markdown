@@ -60,7 +60,7 @@ or
 
 ### Hiera example
 ```
-ssh::storeconfigs_enabled: true,
+ssh::storeconfigs_enabled: true
 
 ssh::server_options:
     Protocol: '2'
