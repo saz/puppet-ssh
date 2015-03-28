@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe 'ssh::client', :type => 'class' do
-    context "On Debian with no other parameters" do
+    context "On Debian with manage_ssh_known_hosts set to true" do
+        let :params do
+          {
+            :manage_ssh_known_hosts => true
+          }
+        end
         let :facts do
         {
             :osfamily => 'Debian',
