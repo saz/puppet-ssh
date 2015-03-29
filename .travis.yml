@@ -35,4 +35,3 @@ matrix:
       env: PUPPET_GEM_VERSION="~> 2.6.0"
 notifications:
   email: false
-gemfile: .gemfile
