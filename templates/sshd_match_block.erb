@@ -1,6 +1,6 @@
 
 Match <%= @type %> <%= @name %>
-<%- @options.keys.each do |k| -%>
+<%- @options.keys.sort.each do |k| -%>
 <%- v = @options[k] -%>
 <%- if v != :undef -%>
     <%= k %> <%= v %>
