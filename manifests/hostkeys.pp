@@ -50,11 +50,4 @@ class ssh::hostkeys {
       ensure       => absent,
     }
   }
-  if $::sshed25519key {
-    @@sshkey { "${::fqdn}_ed25519":
-      host_aliases => $host_aliases,
-      type         => 'ssh-ed25519',
-      key          => $::sshed25519key,
-    }
-  }
 }
