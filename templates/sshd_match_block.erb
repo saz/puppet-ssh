@@ -1,8 +1,19 @@
-
+<%-
+  def bool2str(v)
+    case v
+    when true
+      'yes'
+    when false
+      'no'
+    else
+      v
+    end
+  end
+-%>
 Match <%= @type %> <%= @name %>
 <%- @options.keys.sort.each do |k| -%>
 <%- v = @options[k] -%>
 <%- if v != :undef -%>
-    <%= k %> <%= v %>
+    <%= k %> <%= bool2str(v) %>
 <%- end -%>
 <%- end -%>

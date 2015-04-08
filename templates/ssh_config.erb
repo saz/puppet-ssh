@@ -1,5 +1,16 @@
 # File managed by Puppet
-
+<%-
+  def bool2str(v)
+    case v
+    when true
+      'yes'
+    when false
+      'no'
+    else
+      v
+    end
+  end
+-%>
 <%- scope.lookupvar('ssh::client::merged_options').sort.each do |k, v| -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
@@ -7,22 +18,22 @@
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
     <%- if a != '' -%>
-    <%= key %> <%= a %>
+    <%= key %> <%= bool2str(a) %>
     <%- end -%>
     <%- end -%>
     <%- elsif value != '' -%>
-    <%= key %> <%= value %>
+    <%= key %> <%= bool2str(value) %>
     <%- end -%>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
 <%- v.each do |a| -%>
 <%- if a != '' -%>
-<%= k %> <%= a %>
+<%= k %> <%= bool2str(a) %>
 <%- end -%>
 <%- end -%>
 <%- elsif v != :undef and v != '' -%>
-<%= k %> <%= v %>
+<%= k %> <%= bool2str(v) %>
 <%- end -%>
 <%- end -%>
 <%- end -%>

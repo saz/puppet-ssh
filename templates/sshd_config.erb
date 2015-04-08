@@ -1,4 +1,16 @@
 # File is managed by Puppet
+<%-
+  def bool2str(v)
+    case v
+    when true
+      'yes'
+    when false
+      'no'
+    else
+      v
+    end
+  end
+-%>
 <%- options = scope.lookupvar('ssh::server::merged_options') -%>
 <%- if addressfamily = options.delete('AddressFamily') -%>
 AddressFamily <%= addressfamily %>
@@ -31,22 +43,22 @@ ListenAddress <%= listen %>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
     <%- if a != '' -%>
-    <%= key %> <%= a %>
+    <%= key %> <%= bool2str(a) %>
     <%- end -%>
     <%- end -%>
     <%- elsif value != '' -%>
-    <%= key %> <%= value %>
+    <%= key %> <%= bool2str(value) %>
     <%- end -%>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
 <%- v.each do |a| -%>
 <%- if a != '' -%>
-<%= k %> <%= a %>
+<%= k %> <%= bool2str(a) %>
 <%- end -%>
 <%- end -%>
 <%- elsif v != :undef and v != '' -%>
-<%= k %> <%= v %>
+<%= k %> <%= bool2str(v) %>
 <%- end -%>
 <%- end -%>
 <%- end -%>

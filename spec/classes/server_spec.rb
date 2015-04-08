@@ -4,20 +4,52 @@ describe 'ssh::server' do
         {
             :ensure               => 'present',
             :storeconfigs_enabled => true,
-            :options              => {}
         }
+    end
+
+    describe "providing options" do
+      let :params do
+        {
+          :options => {
+            'TestString' => '/usr/bin',
+            'TestBoolean' => true
+          }
+        }
+      end
+
+      let :facts do
+        {
+          :osfamily => 'RedHat',
+          :concat_basedir => '/tmp'
+        }
+      end
+
+      it do 
+        should contain_concat__fragment('global config').with(
+              :target  => '/etc/ssh/sshd_config',
+              :content => '# File is managed by Puppet
+
+AcceptEnv LANG LC_*
+ChallengeResponseAuthentication no
+PrintMotd no
+Subsystem sftp /usr/libexec/openssh/sftp-server
+TestBoolean yes
+TestString /usr/bin
+UsePAM yes
+X11Forwarding yes
+'
+        )
+      end
     end
 
     [ {},
       {
         :ensure               => 'latest',
         :storeconfigs_enabled => true,
-        :options              => {}
       },
       {
         :ensure               => 'present',
         :storeconfigs_enabled => false,
-        :options              => {}
       }
     ].each do |param_set|
       describe "when #{param_set == {} ? "using default" : "specifying"} class parameters" do
