@@ -40,7 +40,7 @@ class ssh::params {
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
     }
-    'Archlinux': {
+    archlinux: {
       $server_package_name = 'openssh'
       $client_package_name = 'openssh'
       $sshd_dir = '/etc/ssh'
@@ -50,7 +50,7 @@ class ssh::params {
       $service_name = 'sshd.service'
       $sftp_server_path = '/usr/lib/ssh/sftp-server'
     }
-    'Suse': {
+    suse: {
       $server_package_name = 'openssh'
       $client_package_name = 'openssh'
       $sshd_dir = '/etc/ssh'
@@ -58,11 +58,11 @@ class ssh::params {
       $ssh_config = '/etc/ssh/ssh_config'
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
       case $::operatingsystem {
-        Sles: {
+        sles: {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib64/ssh/sftp-server'
         }
-        OpenSuSE: {
+        opensuse: {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/ssh/sftp-server'
         }
@@ -83,7 +83,7 @@ class ssh::params {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/misc/sftp-server'
         }
-        'Amazon': {
+        amazon: {
           $server_package_name = 'openssh-server'
           $client_package_name = 'openssh-clients'
           $sshd_dir = '/etc/ssh'
