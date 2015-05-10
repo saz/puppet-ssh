@@ -17,19 +17,19 @@ AddressFamily <%= addressfamily %>
 <%- end -%>
 <%- if port = options.delete('Port') -%>
 <%- if port.is_a?(Array) -%>
-<%- port.each do |p| -%>
+<%- port.reject{ |x| x.strip.empty? }.each do |p| -%>
 Port <%= p %>
 <%- end -%>
-<%- else -%>
+<%- elsif not port.strip.empty? -%>
 Port <%= port %>
 <%- end -%>
 <%- end -%>
 <%- if listen = options.delete('ListenAddress') -%>
 <%- if listen.is_a?(Array) -%>
-<%- listen.each do |l| -%>
+<%- listen.reject{ |x| x.strip.empty? }.each do |l| -%>
 ListenAddress <%= l %>
 <%- end -%>
-<%- else -%>
+<%- elsif not listen.strip.empty? -%>
 ListenAddress <%= listen %>
 <%- end -%>
 <%- end -%>
