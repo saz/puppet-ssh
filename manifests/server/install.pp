@@ -3,8 +3,7 @@ class ssh::server::install {
   if $ssh::params::server_package_name {
     if !defined(Package[$ssh::params::server_package_name]) {
       package { $ssh::params::server_package_name:
-        ensure        => $ssh::server::ensure,
-        allow_virtual => false,
+        ensure   => $ssh::server::ensure,
       }
     }
   }
