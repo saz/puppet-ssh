@@ -3,6 +3,7 @@ class ssh::client::config {
     ensure  => present,
     owner   => '0',
     group   => '0',
+    mode    => '0644',
     content => template("${module_name}/ssh_config.erb"),
     require => Class['ssh::client::install'],
   }
