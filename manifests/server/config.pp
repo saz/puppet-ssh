@@ -1,11 +1,11 @@
 class ssh::server::config {
-  File[$ssh::params::sshd_config] ~> Service[$ssh::params::service_name]
 
   concat { $ssh::params::sshd_config:
-    ensure => present,
-    owner  => '0',
-    group  => '0',
-    mode   => '0600',
+    ensure    => present,
+    owner     => '0',
+    group     => '0',
+    mode      => '0600',
+    subscribe => Service[$ssh::params::service_name]
   }
 
   concat::fragment { 'global config':
