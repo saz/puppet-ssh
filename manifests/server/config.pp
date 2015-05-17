@@ -1,10 +1,10 @@
 class ssh::server::config {
 
   concat { $ssh::params::sshd_config:
-    ensure    => present,
-    owner     => '0',
-    group     => '0',
-    mode      => '0600',
+    ensure => present,
+    owner  => '0',
+    group  => '0',
+    mode   => '0600',
     notify => Service[$ssh::params::service_name]
   }
 
