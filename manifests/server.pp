@@ -9,6 +9,7 @@ class ssh::server(
 
   $fin_options = $hiera_options ? {
     undef   => $options,
+    ''      => $options,
     default => $hiera_options,
   }
 
