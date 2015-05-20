@@ -15,7 +15,7 @@ class ssh (
   }
 
   $fin_client_options = $hiera_client_options ? {
-    undef   => $server_options,
+    undef   => $client_options,
     default => $hiera_client_options,
   }
 
