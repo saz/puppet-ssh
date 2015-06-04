@@ -20,14 +20,14 @@ class ssh (
   }
 
   class { 'ssh::server':
+    ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_server_options,
-    ensure               => $version,
   }
 
   class { 'ssh::client':
+    ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_client_options,
-    ensure               => $version,
   }
 }
