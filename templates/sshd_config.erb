@@ -17,10 +17,10 @@ AddressFamily <%= addressfamily %>
 <%- end -%>
 <%- if port = options.delete('Port') -%>
 <%- if port.is_a?(Array) -%>
-<%- port.reject{ |x| x.strip.empty? }.each do |p| -%>
+<%- port.reject{ |x| x.to_s.strip.empty? }.each do |p| -%>
 Port <%= p %>
 <%- end -%>
-<%- elsif not port.strip.empty? -%>
+<%- elsif not port.to_s.strip.empty? -%>
 Port <%= port %>
 <%- end -%>
 <%- end -%>
