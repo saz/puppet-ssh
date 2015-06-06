@@ -1,4 +1,7 @@
-class ssh::client::config {
+class ssh::client::config
+{
+  $options = $::ssh::client::merged_options
+
   file { $ssh::params::ssh_config:
     ensure  => present,
     owner   => '0',

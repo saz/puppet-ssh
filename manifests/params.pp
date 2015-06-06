@@ -131,4 +131,7 @@ class ssh::params {
       'HashKnownHosts'       => 'yes',
     },
   }
+
+  $user_ssh_directory_default_mode = '0700'
+  $user_ssh_config_default_mode    = '0600'
 }
