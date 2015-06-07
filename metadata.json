@@ -42,11 +42,11 @@
     }
   ],
   "name": "saz-ssh",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "source": "git://github.com/saz/puppet-ssh.git",
   "author": "saz",
   "license": "Apache License, Version 2.0",
-  "summary": "UNKNOWN",
+  "summary": "Manage SSH client and server via Puppet.",
   "description": "Manage SSH client and server via puppet",
   "project_page": "https://github.com/saz/puppet-ssh",
   "dependencies": [
