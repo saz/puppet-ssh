@@ -1,7 +1,9 @@
 class ssh::server(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $use_augeas           = false,
+  $options_absent       = [],
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
@@ -13,7 +15,11 @@ class ssh::server(
     default => $hiera_options,
   }
 
-  $merged_options = merge($ssh::params::sshd_default_options, $fin_options)
+  if $use_augeas {
+    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $::ssh::params::sshd_config })
+  } else {
+    $merged_options = merge($ssh::params::sshd_default_options, $fin_options)
+  }
 
   include ssh::server::install
   include ssh::server::config
