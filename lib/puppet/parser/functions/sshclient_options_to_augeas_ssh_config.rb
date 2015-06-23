@@ -92,20 +92,15 @@ module Puppet::Parser::Functions
   options.each do |key1,value1|
     if value1.is_a?(Hash)
       value1.each do |key2,value2|
-        options_final_augeas["#{key2} #{key1.gsub("Host ","")}"] = { 'ensure' => 'present' }
-                      .merge({'host' => key1.gsub("Host ","")})
-                      .merge({'key' => key2, 'value' => value2})
-                      .merge(other_parameters)
+        v = { 'ensure' => 'present' }.merge({'host' => key1.gsub("Host ","")}).merge({'key' => key2, 'value' => value2})
+        options_final_augeas["#{key2} #{key1.gsub("Host ","")}"] = v.merge(other_parameters)
       end
     else
-      options_final_augeas[key1] = { 'ensure' => 'present' }
-                      .merge({'key' => key1, 'value' => value1})
-                      .merge(other_parameters)
+      options_final_augeas[key1] = { 'ensure' => 'present' }.merge({'key' => key1, 'value' => value1}).merge(other_parameters)
     end 
   end
   options_absent.each do |value| 
-    options_final_augeas[value] = { 'ensure' => 'absent' }.merge({'key' => value})
-                      .merge(other_parameters)
+    options_final_augeas[value] = { 'ensure' => 'absent' }.merge({'key' => value}).merge(other_parameters)
   end
   return options_final_augeas
 
