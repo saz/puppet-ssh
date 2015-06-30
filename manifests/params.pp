@@ -60,7 +60,14 @@ class ssh::params {
       case $::operatingsystem {
         sles: {
           $service_name = 'sshd'
-          $sftp_server_path = '/usr/lib64/ssh/sftp-server'
+	  case $::architecture {
+	    'x86_64': {
+              $sftp_server_path = '/usr/lib64/ssh/sftp-server'
+	    }
+	    default: {
+              $sftp_server_path = '/usr/lib/ssh/sftp-server'
+	    }
+	  }
         }
         opensuse: {
           $service_name = 'sshd'

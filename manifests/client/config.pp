@@ -14,6 +14,8 @@ class ssh::client::config
   # Workaround for http://projects.reductivelabs.com/issues/2014
   file { $ssh::params::ssh_known_hosts:
     ensure => present,
+    owner  => '0',
+    group  => '0',
     mode   => '0644',
   }
 }
