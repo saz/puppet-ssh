@@ -1,3 +1,7 @@
-class ssh::knownhosts {
-  Sshkey <<| |>>
+class ssh::knownhosts(
+  $collect_enabled = true
+) {
+  if ($collect_enabled) {
+    Sshkey <<| |>>
+  }
 }
