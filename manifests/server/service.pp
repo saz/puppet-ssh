@@ -1,6 +1,6 @@
 class ssh::server::service (
   $ensure = 'running',
-  $enable = 'true'
+  $enable = true
 ){
   include ssh::params
   include ssh::server
