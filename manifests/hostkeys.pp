@@ -1,5 +1,6 @@
+# Class ssh::hostkeys
 class ssh::hostkeys {
-  $ipaddresses = ipaddresses()
+  $ipaddresses  = ipaddresses()
   $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
 
   if $::sshdsakey {
@@ -11,7 +12,7 @@ class ssh::hostkeys {
     }
   } else {
     @@sshkey { "${::fqdn}_dsa":
-      ensure       => absent,
+      ensure => absent,
     }
   }
   if $::sshrsakey {
@@ -23,7 +24,7 @@ class ssh::hostkeys {
     }
   } else {
     @@sshkey { "${::fqdn}_rsa":
-      ensure       => absent,
+      ensure => absent,
     }
   }
   if $::sshecdsakey {
@@ -35,7 +36,8 @@ class ssh::hostkeys {
     }
   } else {
     @@sshkey { "${::fqdn}_ecdsa":
-      ensure       => absent,
+      ensure => absent,
+      type   => 'ecdsa-sha2-nistp256',
     }
   }
   if $::sshed25519key {
@@ -47,7 +49,8 @@ class ssh::hostkeys {
     }
   } else {
     @@sshkey { "${::fqdn}_ed25519":
-      ensure       => absent,
+      ensure => absent,
+      type   => 'ed25519',
     }
   }
 }
