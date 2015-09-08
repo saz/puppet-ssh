@@ -1,13 +1,16 @@
 Facter.add("ssh_client_version_full") do
   setcode do
-    version = Facter::Util::Resolution.exec('sshd -V 2>&1').
-      lines.
-      to_a.
-      select { |line| line.match(/^OpenSSH_/) }.
-      first.
-      rstrip
+    version = Facter::Util::Resolution.exec('sshd -V 2>&1')
+    if version != nil
+      version.
+        lines.
+        to_a.
+        select { |line| line.match(/^OpenSSH_/) }.
+        first.
+        rstrip
 
-    version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+      version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+    end
   end
 end
 
@@ -15,7 +18,9 @@ Facter.add("ssh_client_version_major") do
   setcode do
     version = Facter.value('ssh_client_version_full')
 
-    version.gsub(/^([0-9]+\.[0-9]+).*$/, '\1')
+    if version != nil
+      version.gsub(/^([0-9]+\.[0-9]+).*$/, '\1')
+    end
   end
 end
 
@@ -23,6 +28,8 @@ Facter.add("ssh_client_version_release") do
   setcode do
     version = Facter.value('ssh_client_version_full')
 
-    version.gsub(/^([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$/, '\1')
+    if version != nil
+      version.gsub(/^([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$/, '\1')
+    end
   end
 end
