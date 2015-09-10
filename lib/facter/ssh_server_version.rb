@@ -1,5 +1,5 @@
 Facter.add("ssh_server_version_full") do
-  setcode do
+  if File.exists?('/usr/sbin/sshd')
     # sshd doesn't actually have a -V option (hopefully one will be added),
     # by happy coincidence the usage information that is printed includes the
     # version number.
@@ -9,12 +9,17 @@ Facter.add("ssh_server_version_full") do
       select { |line| line.match(/^OpenSSH_/) }.
       first.
       rstrip
+  end
 
-    version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+  setcode do
+    if not version.nil?
+      version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+    end
   end
 end
 
 Facter.add("ssh_server_version_major") do
+  confine :ssh_server_version_full => true
   setcode do
     version = Facter.value('ssh_server_version_full')
 
@@ -23,6 +28,7 @@ Facter.add("ssh_server_version_major") do
 end
 
 Facter.add("ssh_server_version_release") do
+  confine :ssh_server_version_full => true
   setcode do
     version = Facter.value('ssh_server_version_full')
 
