@@ -18,16 +18,19 @@ class ssh (
 
   $fin_server_options = $hiera_server_options ? {
     undef   => $server_options,
+    ''      => $client_options,
     default => $hiera_server_options,
   }
 
   $fin_client_options = $hiera_client_options ? {
     undef   => $client_options,
+    ''      => $client_options,
     default => $hiera_client_options,
   }
 
   $fin_users_client_options = $hiera_users_client_options ? {
     undef   => $users_client_options,
+    ''      => $users_client_options,
     default => $hiera_users_client_options,
   }
 
