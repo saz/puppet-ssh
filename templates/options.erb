@@ -1,0 +1,40 @@
+<%-
+  def bool2str(v)
+    case v
+    when true
+      'yes'
+    when false
+      'no'
+    else
+      v
+    end
+  end
+-%>
+<%- options.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
+<%- v = options[k] -%>
+<%- if v.is_a?(Hash) -%>
+<%= k %>
+<%- v.keys.sort.each do |key| -%>
+    <%- value = v[key] -%>
+    <%- if value.is_a?(Array) -%>
+    <%- value.each do |a| -%>
+    <%- if a != '' -%>
+    <%= key %> <%= bool2str(a) %>
+    <%- end -%>
+    <%- end -%>
+    <%- elsif value != '' -%>
+    <%= key %> <%= bool2str(value) %>
+    <%- end -%>
+<%- end -%>
+<%- else -%>
+<%- if v.is_a?(Array) -%>
+<%- v.each do |a| -%>
+<%- if a != '' -%>
+<%= k %> <%= bool2str(a) %>
+<%- end -%>
+<%- end -%>
+<%- elsif v != :undef and v != '' -%>
+<%= k %> <%= bool2str(v) %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
