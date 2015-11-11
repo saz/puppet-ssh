@@ -1,6 +1,7 @@
 class ssh::server(
   $ensure               = present,
   $storeconfigs_enabled = true,
+  $collect_enabled      = true,
   $options              = {}
 ) inherits ssh::params {
 
@@ -26,7 +27,9 @@ class ssh::server(
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
     include ssh::hostkeys
-    include ssh::knownhosts
+    class { 'ssh::knownhosts':
+      collect_enabled => $collect_enabled
+    }
 
     Anchor['ssh::server::start'] ->
     Class['ssh::server::install'] ->
