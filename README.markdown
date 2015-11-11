@@ -81,6 +81,13 @@ ssh::server_options:
     UsePAM: 'yes'
     X11Forwarding: 'yes'
 
+ssh::server_match_block:
+  filetransfer:
+    type: group
+    options:
+      ChrootDirectory: /home/sftp
+      ForceCommand: internal-sftp
+
 ssh::client_options:
     'Host *':
         SendEnv: 'LANG LC_*'

@@ -1,5 +1,7 @@
+# Main file for puppet-ssh
 class ssh (
   $server_options       = {},
+  $server_match_block   = {},
   $client_options       = {},
   $users_client_options = {},
   $version              = 'present',
@@ -8,6 +10,7 @@ class ssh (
 ) inherits ssh::params {
 
   validate_hash($server_options)
+  validate_hash($server_match_block)
   validate_hash($client_options)
   validate_hash($users_client_options)
   validate_bool($storeconfigs_enabled)
@@ -15,6 +18,7 @@ class ssh (
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
+  $hiera_server_match_block = hiera_hash("${module_name}::server_match_block", undef)
   $hiera_client_options = hiera_hash("${module_name}::client_options", undef)
   $hiera_users_client_options = hiera_hash("${module_name}::users_client_options", undef)
 
@@ -22,6 +26,11 @@ class ssh (
     undef   => $server_options,
     ''      => $client_options,
     default => $hiera_server_options,
+  }
+
+  $fin_server_match_block = $hiera_server_match_block ? {
+    undef   => $server_match_block,
+    default => $hiera_server_match_block,
   }
 
   $fin_client_options = $hiera_client_options ? {
@@ -51,4 +60,5 @@ class ssh (
   }
 
   create_resources('::ssh::client::config::user', $fin_users_client_options)
+  create_resources('::ssh::server::match_block', $fin_server_match_block)
 }
