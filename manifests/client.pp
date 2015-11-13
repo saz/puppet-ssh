@@ -25,15 +25,21 @@ class ssh::client(
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    class { 'ssh::knownhosts':
-      collect_enabled => $collect_enabled
+    if !defined('ssh::knownhosts') {
+      class { 'ssh::knownhosts':
+        collect_enabled => $collect_enabled
+      }
+      Anchor['ssh::client::start'] ->
+      Class['ssh::client::install'] ->
+      Class['ssh::client::config'] ->
+      Class['ssh::knownhosts'] ->
+      Anchor['ssh::client::end']
+    } else {
+      Anchor['ssh::client::start'] ->
+      Class['ssh::client::install'] ->
+      Class['ssh::client::config'] ->
+      Anchor['ssh::client::end']
     }
-
-    Anchor['ssh::client::start'] ->
-    Class['ssh::client::install'] ->
-    Class['ssh::client::config'] ->
-    Class['ssh::knownhosts'] ->
-    Anchor['ssh::client::end']
   } else {
     Anchor['ssh::client::start'] ->
     Class['ssh::client::install'] ->
