@@ -27,17 +27,24 @@ class ssh::server(
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
     include ssh::hostkeys
-    class { 'ssh::knownhosts':
-      collect_enabled => $collect_enabled
+    if !defined('ssh::knownhosts') {
+      class { 'ssh::knownhosts':
+        collect_enabled => $collect_enabled
+      }
+      Anchor['ssh::server::start'] ->
+      Class['ssh::server::install'] ->
+      Class['ssh::server::config'] ~>
+      Class['ssh::server::service'] ->
+      Class['ssh::hostkeys'] ->
+      Class['ssh::knownhosts'] ->
+      Anchor['ssh::server::end']
+    } else {
+      Anchor['ssh::server::start'] ->
+      Class['ssh::server::install'] ->
+      Class['ssh::server::config'] ~>
+      Class['ssh::server::service'] ->
+      Anchor['ssh::server::end']
     }
-
-    Anchor['ssh::server::start'] ->
-    Class['ssh::server::install'] ->
-    Class['ssh::server::config'] ~>
-    Class['ssh::server::service'] ->
-    Class['ssh::hostkeys'] ->
-    Class['ssh::knownhosts'] ->
-    Anchor['ssh::server::end']
   } else {
     Anchor['ssh::server::start'] ->
     Class['ssh::server::install'] ->
