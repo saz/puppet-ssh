@@ -1,7 +1,6 @@
 class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $collect_enabled      = true,
   $options              = {}
 ) inherits ssh::params {
 
@@ -25,9 +24,7 @@ class ssh::client(
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    class { 'ssh::knownhosts':
-      collect_enabled => $collect_enabled
-    }
+    include ssh::knownhosts
 
     Anchor['ssh::client::start'] ->
     Class['ssh::client::install'] ->
