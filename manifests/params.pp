@@ -72,26 +72,40 @@ class ssh::params {
       }
     }
     solaris: {
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
-      $service_name = 'svc:/network/ssh:default'
-      $sftp_server_path = 'internal-sftp'
-      case versioncmp($::kernelrelease, '5.10') {
-        1: {
-          # Solaris 11 and later
-          $server_package_name = '/service/network/ssh'
-          $client_package_name = '/network/ssh'
-        }
-        0: {
-          # Solaris 10
-          $server_package_name = 'SUNWsshdu'
-          $client_package_name = 'SUNWsshu'
+      case $::operatingsystem {
+        smartos: {
+          $server_package_name = undef
+          $client_package_name = undef
+          $sshd_dir = '/etc/ssh'
+          $sshd_config = '/etc/ssh/sshd_config'
+          $ssh_config = '/etc/ssh/ssh_config'
+          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $service_name = 'svc:/network/ssh:default'
+          $sftp_server_path = 'internal-sftp'
         }
         default: {
-          # Solaris 9 and earlier not supported
-          fail("Unsupported platform: ${::osfamily}/${::kernelrelease}")
+          $sshd_dir = '/etc/ssh'
+          $sshd_config = '/etc/ssh/sshd_config'
+          $ssh_config = '/etc/ssh/ssh_config'
+          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $service_name = 'svc:/network/ssh:default'
+          $sftp_server_path = 'internal-sftp'
+          case versioncmp($::kernelrelease, '5.10') {
+            1: {
+              # Solaris 11 and later
+              $server_package_name = '/service/network/ssh'
+              $client_package_name = '/network/ssh'
+            }
+            0: {
+              # Solaris 10
+              $server_package_name = 'SUNWsshdu'
+              $client_package_name = 'SUNWsshu'
+            }
+            default: {
+              # Solaris 9 and earlier not supported
+              fail("Unsupported platform: ${::osfamily}/${::kernelrelease}")
+            }
+          }
         }
       }
     }
