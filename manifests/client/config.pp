@@ -11,9 +11,12 @@ class ssh::client::config
     require => Class['ssh::client::install'],
   }
 
-  # Workaround for http://projects.reductivelabs.com/issues/2014
-  file { $ssh::params::ssh_known_hosts:
-    ensure => present,
-    mode   => '0644',
+  # Workaround for https://tickets.puppetlabs.com/browse/PUP-1177.
+  # Fixed in Puppet 3.7.0
+  if $::ssh::client::workaround_PUP1177 {
+    ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
+      'ensure'  => 'file',
+      'mode'    => '0644',
+    })
   }
 }
