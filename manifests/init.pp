@@ -6,6 +6,7 @@ class ssh (
   $users_client_options = {},
   $version              = 'present',
   $storeconfigs_enabled = true,
+  $validate_sshd_file   = $::ssh::validate_sshd_file,
 ) inherits ssh::params {
 
   validate_hash($server_options)

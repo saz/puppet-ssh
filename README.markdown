@@ -145,7 +145,7 @@ SSH configuration file will be `/home/bob/.ssh/config`.
 
 **User's home is passed to define type**
 
-SSH configuration file will be `/var/lib/bob/.ssh/config` and puppet will 
+SSH configuration file will be `/var/lib/bob/.ssh/config` and puppet will
 manage directory `/var/lib/bob/.ssh`.
 
 ```puppet
@@ -212,7 +212,18 @@ or
       },
     }
 ```
- 
+
+### Validate config before replacing it
+
+`validate_sshd_file` allows you to run `/usr/sbin/sshd -tf` against the sshd config file before it gets replaced, and will raise an error if the config is incorrect.
+
+```
+class { 'ssh::server':
+  validate_sshd_file => true,
+}
+```
+
+
 ## Default options
 
 ### Client
@@ -224,7 +235,7 @@ or
       'GSSAPIAuthentication' => 'yes',
     }
 ```
- 
+
 ### Server
 
 ```
@@ -235,7 +246,7 @@ or
     'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
     'UsePAM'                          => 'yes',
 ```
- 
+
 ## Overwriting default options
 Default options will be merged with options passed in.
 If an option is set both as default and via options parameter, the latter will
@@ -317,7 +328,7 @@ Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ## Adding custom match blocks
 
 ```
-class YOURCUSTOMCLASS { 
+class YOURCUSTOMCLASS {
 
   include ssh
 
