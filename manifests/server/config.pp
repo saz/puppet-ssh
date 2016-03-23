@@ -1,16 +1,18 @@
 class ssh::server::config {
 
-  concat { $ssh::params::sshd_config:
+  concat_file { $ssh::params::sshd_config:
     ensure => present,
     owner  => '0',
     group  => '0',
     mode   => '0600',
+    tag    => 'sshd_config',
     notify => Service[$ssh::params::service_name]
   }
 
-  concat::fragment { 'global config':
+  concat_fragment { 'global config':
     target  => $ssh::params::sshd_config,
     content => template("${module_name}/sshd_config.erb"),
+    tag     => 'sshd_config',
     order   => '00'
   }
 }
