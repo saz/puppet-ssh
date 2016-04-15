@@ -5,12 +5,12 @@ class ssh::client(
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = hiera_hash("${module_name}::client::options", undef)
+  $hiera_options = hiera_hash("${module_name}::client::options", {})
 
-  $fin_options = $hiera_options ? {
-    undef   => $options,
-    ''      => $options,
-    default => $hiera_options,
+  if empty($hiera_options) {
+    $fin_options = $options
+  } else {
+    $fin_options = $hiera_options
   }
 
   $merged_options = merge($ssh::params::ssh_default_options, $fin_options)
