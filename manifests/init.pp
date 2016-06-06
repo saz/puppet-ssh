@@ -6,6 +6,7 @@ class ssh (
   $users_client_options = {},
   $version              = 'present',
   $storeconfigs_enabled = true,
+  $manage_service       = true,
 ) inherits ssh::params {
 
   validate_hash($server_options)
@@ -13,6 +14,7 @@ class ssh (
   validate_hash($client_options)
   validate_hash($users_client_options)
   validate_bool($storeconfigs_enabled)
+  validate_bool($manage_service)
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
@@ -47,6 +49,7 @@ class ssh (
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_server_options,
+    manage_service       => $manage_service,
   }
 
   class { 'ssh::client':

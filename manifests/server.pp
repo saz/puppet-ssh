@@ -1,7 +1,8 @@
 class ssh::server(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $manage_service       = true,
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera

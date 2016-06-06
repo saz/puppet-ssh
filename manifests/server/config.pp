@@ -5,7 +5,7 @@ class ssh::server::config {
     owner  => '0',
     group  => '0',
     mode   => '0600',
-    notify => Service[$ssh::params::service_name]
+    notify => Class['ssh::server::service'],
   }
 
   concat::fragment { 'global config':
