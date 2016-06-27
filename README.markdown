@@ -10,6 +10,7 @@ Source: https://github.com/saz/puppet-ssh
 ## Requirements
 * Exported resources for host keys management
 * puppetlabs/stdlib
+* puppetlabs/concat
 
 ## Usage
 
