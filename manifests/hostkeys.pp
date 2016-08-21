@@ -1,8 +1,14 @@
 # Class ssh::hostkeys
-class ssh::hostkeys {
-  $ipaddresses  = ipaddresses()
-  $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
-
+class ssh::hostkeys(
+  $export_ipaddresses = true
+) {
+  if $export_ipaddresses == true {
+    $ipaddresses  = ipaddresses()
+    $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
+  } else {
+    $host_aliases = flatten([ $::fqdn, $::hostname ])
+  }
+  
   if $::sshdsakey {
     @@sshkey { "${::fqdn}_dsa":
       ensure       => present,
