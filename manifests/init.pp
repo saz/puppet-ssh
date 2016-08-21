@@ -28,6 +28,7 @@ class ssh (
 
   $fin_server_match_block = $hiera_server_match_block ? {
     undef   => $server_match_block,
+    ''      => $server_match_block,
     default => $hiera_server_match_block,
   }
 
