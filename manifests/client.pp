@@ -1,7 +1,8 @@
 class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $workaround_PUP1177   = true,
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
