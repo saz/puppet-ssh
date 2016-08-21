@@ -1,11 +1,21 @@
 class ssh::server::config {
 
+  case $ssh::validate_sshd_file {
+    false: {
+      $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
+    }
+    default: {
+      $sshd_validate_cmd = undef
+    }
+  }
+
   concat { $ssh::params::sshd_config:
-    ensure => present,
-    owner  => '0',
-    group  => '0',
-    mode   => '0600',
-    notify => Service[$ssh::params::service_name]
+    ensure       => present,
+    owner        => '0',
+    group        => '0',
+    mode         => '0600',
+    validate_cmd => $sshd_validate_cmd,
+    notify       => Service[$ssh::params::service_name]
   }
 
   concat::fragment { 'global config':
