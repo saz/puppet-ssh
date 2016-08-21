@@ -10,8 +10,8 @@
     end
   end
 -%>
-<%- options.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
-<%- v = options[k] -%>
+<%- @options.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
+<%- v = @options[k] -%>
 <%- if v.is_a?(Hash) -%>
 <%= k %>
 <%- v.keys.sort.each do |key| -%>
