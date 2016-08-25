@@ -1,6 +1,6 @@
 class ssh::params {
   case $::osfamily {
-    debian: {
+    'Debian': {
       $server_package_name = 'openssh-server'
       $client_package_name = 'openssh-client'
       $sshd_dir = '/etc/ssh'
@@ -18,7 +18,7 @@ class ssh::params {
         }
       }
     }
-    redhat: {
+    'RedHat': {
       $server_package_name = 'openssh-server'
       $client_package_name = 'openssh-clients'
       $sshd_dir = '/etc/ssh'
@@ -28,7 +28,7 @@ class ssh::params {
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/openssh/sftp-server'
     }
-    freebsd: {
+    'FreeBSD': {
       $server_package_name = undef
       $client_package_name = undef
       $sshd_dir = '/etc/ssh'
@@ -38,7 +38,7 @@ class ssh::params {
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
     }
-    openbsd: {
+    'OpenBSD': {
       $server_package_name = undef
       $client_package_name = undef
       $sshd_dir = '/etc/ssh'
@@ -48,7 +48,7 @@ class ssh::params {
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
     }
-    darwin: {
+    'Darwin': {
       $server_package_name = undef
       $client_package_name = undef
       $sshd_dir = '/etc/ssh'
@@ -58,7 +58,7 @@ class ssh::params {
       $service_name = 'com.openssh.sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
     }
-    archlinux: {
+    'ArchLinux': {
       $server_package_name = 'openssh'
       $client_package_name = 'openssh'
       $sshd_dir = '/etc/ssh'
@@ -68,7 +68,7 @@ class ssh::params {
       $service_name = 'sshd.service'
       $sftp_server_path = '/usr/lib/ssh/sftp-server'
     }
-    suse: {
+    'Suse': {
       $server_package_name = 'openssh'
       $client_package_name = 'openssh'
       $sshd_dir = '/etc/ssh'
@@ -76,7 +76,7 @@ class ssh::params {
       $ssh_config = '/etc/ssh/ssh_config'
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
       case $::operatingsystem {
-        sles: {
+        'SLES': {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib64/ssh/sftp-server'
           case $::operatingsystemmajrelease {
@@ -88,7 +88,7 @@ class ssh::params {
             }
           }
         }
-        opensuse: {
+        'OpenSuse': {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/ssh/sftp-server'
         }
@@ -97,9 +97,9 @@ class ssh::params {
         }
       }
     }
-    solaris: {
+    'Solaris': {
       case $::operatingsystem {
-        smartos: {
+        'SmartOS': {
           $server_package_name = undef
           $client_package_name = undef
           $sshd_dir = '/etc/ssh'
@@ -137,7 +137,7 @@ class ssh::params {
     }
     default: {
       case $::operatingsystem {
-        gentoo: {
+        'Gentoo': {
           $server_package_name = 'openssh'
           $client_package_name = 'openssh'
           $sshd_dir = '/etc/ssh'
@@ -147,7 +147,7 @@ class ssh::params {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/misc/sftp-server'
         }
-        amazon: {
+        'Amazon': {
           $server_package_name = 'openssh-server'
           $client_package_name = 'openssh-clients'
           $sshd_dir = '/etc/ssh'
@@ -168,7 +168,7 @@ class ssh::params {
   # - OpenBSD doesn't know about UsePAM
   # - Sun_SSH doesn't know about UsePAM & AcceptEnv; SendEnv & HashKnownHosts
   case $::osfamily {
-    openbsd: {
+    'OpenBSD': {
       $sshd_default_options = {
         'ChallengeResponseAuthentication' => 'no',
         'X11Forwarding'                   => 'yes',
@@ -183,7 +183,7 @@ class ssh::params {
         },
       }
     }
-    solaris: {
+    'Solaris': {
       $sshd_default_options = {
         'ChallengeResponseAuthentication' => 'no',
         'X11Forwarding'                   => 'yes',

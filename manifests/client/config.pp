@@ -13,7 +13,7 @@ class ssh::client::config
 
   # Workaround for https://tickets.puppetlabs.com/browse/PUP-1177.
   # Fixed in Puppet 3.7.0
-  if $::ssh::client::workaround_PUP1177 {
+  if $::ssh::client::workaround_pup1177 {
     ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
       'ensure'  => 'file',
       'mode'    => '0644',

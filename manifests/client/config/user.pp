@@ -42,15 +42,15 @@ define ssh::client::config::user(
         ensure => directory,
         owner  => $name,
         mode   => $::ssh::params::user_ssh_directory_default_mode,
-        before => File[$_target]
+        before => File[$_target],
       }
     }
   }
-  
+
   file { $_target:
     ensure  => $_files_ensure,
     owner   => $name,
     mode    => $::ssh::params::user_ssh_config_default_mode,
-    content => template("${module_name}/ssh_config.erb")
+    content => template("${module_name}/ssh_config.erb"),
   }
 }

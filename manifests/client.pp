@@ -2,7 +2,7 @@ class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
   $options              = {},
-  $workaround_PUP1177   = true,
+  $workaround_pup1178   = true
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
@@ -16,8 +16,8 @@ class ssh::client(
 
   $merged_options = merge($ssh::params::ssh_default_options, $fin_options)
 
-  include ssh::client::install
-  include ssh::client::config
+  include ::ssh::client::install
+  include ::ssh::client::config
 
   anchor { 'ssh::client::start': }
   anchor { 'ssh::client::end': }
@@ -25,7 +25,7 @@ class ssh::client(
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    include ssh::knownhosts
+    include ::ssh::knownhosts
 
     Anchor['ssh::client::start'] ->
     Class['ssh::client::install'] ->

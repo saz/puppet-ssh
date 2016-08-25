@@ -1,1 +1,1 @@
-include ssh::server
+include ::ssh::server

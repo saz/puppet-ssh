@@ -21,7 +21,7 @@ define ssh::server::config::setting (
   concat::fragment { "ssh_setting_${name}_${key}":
     target  => $ssh::params::sshd_config,
     content => "\n# added by Ssh::Server::Config::Setting[${name}]\n${key} ${real_value}\n",
-    order   => $order
+    order   => $order,
   }
 
 }

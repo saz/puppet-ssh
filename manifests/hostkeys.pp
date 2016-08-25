@@ -8,7 +8,7 @@ class ssh::hostkeys(
   } else {
     $host_aliases = flatten([ $::fqdn, $::hostname ])
   }
-  
+
   if $::sshdsakey {
     @@sshkey { "${::fqdn}_dsa":
       ensure       => present,

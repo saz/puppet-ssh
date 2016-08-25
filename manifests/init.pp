@@ -45,13 +45,13 @@ class ssh (
     default => $hiera_users_client_options,
   }
 
-  class { 'ssh::server':
+  class { '::ssh::server':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_server_options,
   }
 
-  class { 'ssh::client':
+  class { '::ssh::client':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_client_options,
