@@ -20,6 +20,9 @@ describe 'ssh::server' do
     let :facts do
       {
         osfamily: 'RedHat',
+        interfaces: 'eth0',
+        ipaddress_eth0: '192.168.1.1',
+        ipaddress6_eth0: '::1',
         concat_basedir: '/tmp',
         puppetversion: '3.7.0',
         sshdsakey: 'AAAAB3NzaC1kc3MAAACBAODCvvUUnv2imW4cfuLBWVJTLMzds89MtCUXGl3+7Gza5QYJmp7GSkKBnV8+7XI+JAmjv0RKQM1RAn7mV5UplRTtg3CYbeNkX4IakZmNJLTdL4vUyIehhaxBobpOtBaJfFewCJE1plIaWvoWfEDrShcjIUbUbJMfR8YWweIIqp9bAAAAFQCr8+KRfOUZbS9Dz1t15A/Owl61VQAAAIBr/7hNPCvjzAl5+rde6jUR5k20pxAE+z2wsaZxlhrs6ZhhplyCKIXKq4rCx4QuFVPh/c+WJRPO56iH/rSh5Y5cpT1LUk66wNJcOBPprjvDEHfQUHUmfYXzNJ2BHkRL78lfzQr52YyowV6dHfktv0VsIctm13KcMr2KQygZtV6EqgAAAIEAjNC4PRdzYpWfxu268CJDpexlhBwIkIx+ovEibtYeke55qAQcF9UWko4A1c8Wf4nLLxlQYCf501Bt5lb6GmZd0xfpg27fPIfzZPL8o+E756D3ZcNXUaLj4HPRKnwNcdAtChL2jESH3fm8PyNwBI7tV6IOjmOGpyQKtmJq3IyNgms=',
