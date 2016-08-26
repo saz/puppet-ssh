@@ -9,14 +9,6 @@ class ssh::params {
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
       $service_name = 'ssh'
       $sftp_server_path = '/usr/lib/openssh/sftp-server'
-      case $::operatingsystemmajrelease {
-        '15.10': {
-          $service_provider = 'systemd'
-        }
-        default: {
-          $service_provider = undef
-        }
-      }
     }
     'RedHat': {
       $server_package_name = 'openssh-server'
@@ -79,14 +71,6 @@ class ssh::params {
         'SLES': {
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib64/ssh/sftp-server'
-          case $::operatingsystemmajrelease {
-            '11': {
-              $service_provider = undef
-            }
-            default: {
-              $service_provider = 'systemd'
-            }
-          }
         }
         'OpenSuse': {
           $service_name = 'sshd'
@@ -217,6 +201,4 @@ class ssh::params {
   $user_ssh_directory_default_mode = '0700'
   $user_ssh_config_default_mode    = '0600'
   $collect_enabled                 = true   # Collect sshkey resources
-
-  $validate_sshd_file              = false
 }

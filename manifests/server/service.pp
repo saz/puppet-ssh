@@ -9,7 +9,6 @@ class ssh::server::service (
     ensure     => $ssh::server::service::ensure,
     hasstatus  => true,
     hasrestart => true,
-    provider   => $::ssh::params::service_provider,
     enable     => $ssh::server::service::enable,
     require    => Class['ssh::server::config'],
   }

@@ -3,6 +3,7 @@ define ssh::server::config::setting (
   $value,
   $order = '10'
 ) {
+  include ::ssh::params
 
   if is_bool($value) {
     $real_value = $value ? {

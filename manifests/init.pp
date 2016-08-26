@@ -1,12 +1,12 @@
 # Main file for puppet-ssh
 class ssh (
-  $server_options       = {},
-  $server_match_block   = {},
-  $client_options       = {},
-  $users_client_options = {},
-  $version              = 'present',
-  $storeconfigs_enabled = true,
-  $validate_sshd_file   = $::ssh::validate_sshd_file,
+  $server_options         = {},
+  $server_match_block     = {},
+  $client_options         = {},
+  $users_client_options   = {},
+  $version                = 'present',
+  $storeconfigs_enabled   = true,
+  $server_validate_config = false
 ) inherits ssh::params {
 
   validate_hash($server_options)
@@ -14,6 +14,7 @@ class ssh (
   validate_hash($client_options)
   validate_hash($users_client_options)
   validate_bool($storeconfigs_enabled)
+  validate_bool($server_validate_config)
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
@@ -49,6 +50,7 @@ class ssh (
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_server_options,
+    validate_config      => $server_validate_config,
   }
 
   class { '::ssh::client':
