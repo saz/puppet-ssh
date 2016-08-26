@@ -15,8 +15,10 @@ class ssh::client::config
   # Fixed in Puppet 3.7.0
   if versioncmp($::puppetversion, '3.7.0') < 0 {
     ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
-      'ensure'  => 'file',
-      'mode'    => '0644',
+      'ensure' => 'file',
+      'owner'  => 0,
+      'group'  => 0,
+      'mode'   => '0644',
     })
   }
 }
