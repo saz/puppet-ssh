@@ -1,7 +1,7 @@
 class ssh::server::config {
 
-  case $ssh::server::validate_config {
-    false: {
+  case $ssh::server::validate_sshd_file {
+    true: {
       $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
     }
     default: {
