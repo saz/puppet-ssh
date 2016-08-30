@@ -34,11 +34,9 @@ notifications:
   email: false
 deploy:
   provider: puppetforge
-  edge:
-    branch: ha-bug-puppet-forge
   user: saz
   password:
-    secure: "OLPENaUSD9iovwXtiqI/8mPhDUbxmsX8tmKVrwpRWLMehncYFA0brGvIqURvmozuzzSmdCcUwSIX3tM/wRgrMkmRNS2iB/v0QEUE86Zu5QXI4izlIMnHJg2n3pD2hgqJIN8zlazoH+BQdLpPET0zfOK6w5M0jIZyCnFvaYK6zW4="
+    secure: HOEacsz4i4p5Bagrotnyrst0TPMsbqlpfK8X2j/7ieGRqTJPuLx2yarz2ILHsEUnVPqlSJd4mDXabMZbPcpJlD/tJfNeoU1nVGUH+RX1BcXpakDeZrkraImDLjpnuw3ANtGgUpCFJlQLbYylHBA84RH/mZuroNhW5zi0polPz5M=
   on:
     tags: true
     all_branches: true
