@@ -13,4 +13,3 @@ describe 'ssh_server_version_full' do
     end
   end
 end
-
