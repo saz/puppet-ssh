@@ -1,10 +1,12 @@
-# puppet-ssh [![Build Status](https://secure.travis-ci.org/saz/puppet-ssh.png)](http://travis-ci.org/saz/puppet-ssh)
+# Puppet SSH [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/~saz/)
+
+[![Puppet Forge modules by saz](https://img.shields.io/puppetforge/mc/saz.svg)](https://forge.puppetlabs.com/saz)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/saz/ssh.svg)](https://forge.puppetlabs.com/saz/ssh)
+[![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/saz/ssh.svg)](https://forge.puppetlabs.com/saz/ssh)
+[![Puppet Forge score](https://img.shields.io/puppetforge/f/saz/ssh.svg)](https://forge.puppetlabs.com/saz/ssh)
+[![Build Status](https://travis-ci.org/saz/puppet-ssh.png)](https://travis-ci.org/saz/puppet-ssh)
 
 Manage SSH client and server via Puppet.
-
-### Gittip
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/saz/)
-
 Source: https://github.com/saz/puppet-ssh
 
 ## Requirements
