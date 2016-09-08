@@ -1,5 +1,5 @@
 Facter.add('ssh_client_version_full') do
-  confine kernel: %w(Linux SunOS FreeBSD Darwin)
+  confine :kernel => %w(Linux SunOS FreeBSD Darwin)
 
   setcode do
     version = Facter::Util::Resolution.exec('ssh -V 2>&1').
@@ -14,8 +14,8 @@ Facter.add('ssh_client_version_full') do
 end
 
 Facter.add('ssh_client_version_major') do
-  confine kernel: %w(Linux SunOS FreeBSD Darwin)
-  confine ssh_client_version_full: true
+  confine :kernel => %w(Linux SunOS FreeBSD Darwin)
+  confine :ssh_client_version_full => true
   setcode do
     version = Facter.value('ssh_client_version_full')
 
@@ -24,8 +24,8 @@ Facter.add('ssh_client_version_major') do
 end
 
 Facter.add('ssh_client_version_release') do
-  confine kernel: %w(Linux SunOS FreeBSD Darwin)
-  confine ssh_client_version_full: true
+  confine :kernel => %w(Linux SunOS FreeBSD Darwin)
+  confine :ssh_client_version_full => true
   setcode do
     version = Facter.value('ssh_client_version_full')
 
