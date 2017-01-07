@@ -38,7 +38,7 @@
     }
   ],
   "name": "saz-ssh",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "source": "git://github.com/saz/puppet-ssh.git",
   "author": "saz",
   "license": "Apache-2.0",
