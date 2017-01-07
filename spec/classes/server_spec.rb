@@ -95,13 +95,6 @@ X11Forwarding yes
           it { should contain_package('openssh-server').with_ensure(param_hash[:ensure]) }
 
           it do
-            should contain_file('/etc/ssh/sshd_config').with(
-              'owner' => 0,
-              'group' => 0
-          )
-          end
-
-          it do
             should contain_service('ssh').with(
               'ensure'     => 'running',
               'enable'     => true,
@@ -110,7 +103,6 @@ X11Forwarding yes
           )
           end
 
-          it { should contain_class('concat::setup') }
           it { should contain_concat('/etc/ssh/sshd_config') }
           it do
             should contain_concat__fragment('global config').with(
@@ -157,13 +149,6 @@ X11Forwarding yes
           end
 
           it do
-            should contain_file('/etc/ssh/sshd_config').with(
-              'owner' => 0,
-              'group' => 0
-          )
-          end
-
-          it do
             should contain_service('sshd.service').with(
               'ensure'     => 'running',
               'enable'     => true,
@@ -172,7 +157,6 @@ X11Forwarding yes
           )
           end
 
-          it { should contain_class('concat::setup') }
           it { should contain_concat('/etc/ssh/sshd_config') }
           it do
             should contain_concat__fragment('global config').with(
