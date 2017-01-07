@@ -19,13 +19,13 @@ class ssh::server::config {
       group        => '0',
       mode         => '0600',
       validate_cmd => $sshd_validate_cmd,
-      notify       => Service[$ssh::params::service_name]
+      notify       => Service[$ssh::params::service_name],
     }
 
     concat::fragment { 'global config':
       target  => $ssh::params::sshd_config,
       content => template("${module_name}/sshd_config.erb"),
-      order   => '00'
+      order   => '00',
     }
   }
 }

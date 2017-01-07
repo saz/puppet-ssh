@@ -11,7 +11,6 @@ if RUBY_VERSION >= '2.2.0'
   end
 end
 
-PuppetLint.configuration.log_format = '%{path}:%{linenumber}:%{check}:%{KIND}:%{message}'
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
 PuppetLint.configuration.send('disable_140chars')
