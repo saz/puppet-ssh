@@ -1,12 +1,17 @@
 # Class ssh::hostkeys
 class ssh::hostkeys(
-  $export_ipaddresses = true
+  $export_ipaddresses = true,
+  $storeconfigs_group = undef,
 ) {
   if $export_ipaddresses == true {
     $ipaddresses  = ipaddresses()
     $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
   } else {
     $host_aliases = flatten([ $::fqdn, $::hostname ])
+  }
+
+  if $storeconfigs_group {
+    tag 'hostkey_all', "hostkey_${storeconfigs_group}"
   }
 
   if defined('$::sshdsakey') {
