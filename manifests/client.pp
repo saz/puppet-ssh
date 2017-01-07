@@ -1,7 +1,9 @@
 class ssh::client(
   $ensure               = present,
   $storeconfigs_enabled = true,
-  $options              = {}
+  $options              = {},
+  $use_augeas           = false,
+  $options_absent       = [],
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
@@ -13,7 +15,11 @@ class ssh::client(
     default => $hiera_options,
   }
 
-  $merged_options = merge($ssh::params::ssh_default_options, $fin_options)
+  if $use_augeas {
+    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $::ssh::params::ssh_config })
+  } else {
+    $merged_options = merge($ssh::params::ssh_default_options, $fin_options)
+  }
 
   include ::ssh::client::install
   include ::ssh::client::config
