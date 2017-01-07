@@ -20,13 +20,13 @@ describe 'ssh', type: 'class' do
       }
     end
     it do
-      should contain_class('ssh::client')
+      is_expected.to contain_class('ssh::client')
     end
     it do
-      should contain_class('ssh::server')
+      is_expected.to contain_class('ssh::server')
     end
     it do
-      should contain_concat('/etc/ssh/sshd_config').with_validate_cmd(nil)
+      is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd(nil)
     end
 
     context 'On Debian with the validate_sshd_file setting' do
@@ -53,10 +53,10 @@ describe 'ssh', type: 'class' do
         }
       end
       it do
-        should contain_class('ssh::client')
+        is_expected.to contain_class('ssh::client')
       end
       it do
-        should contain_concat('/etc/ssh/sshd_config').with_validate_cmd('/usr/sbin/sshd -tf %')
+        is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd('/usr/sbin/sshd -tf %')
       end
     end
   end

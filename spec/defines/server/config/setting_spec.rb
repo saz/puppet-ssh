@@ -29,7 +29,7 @@ describe 'ssh::server::config::setting', type: :define do
     end
 
     it do
-      should contain_concat__fragment('ssh_setting_something_AllowGroups').with_content(%r{\nAllowGroups group1 group2\n})
+      is_expected.to contain_concat__fragment('ssh_setting_something_AllowGroups').with_content(%r{\nAllowGroups group1 group2\n})
     end
   end
 
@@ -42,7 +42,7 @@ describe 'ssh::server::config::setting', type: :define do
     end
 
     it do
-      should contain_concat__fragment('ssh_setting_something_Somesetting').with_content(%r{\nSomesetting yes\n})
+      is_expected.to contain_concat__fragment('ssh_setting_something_Somesetting').with_content(%r{\nSomesetting yes\n})
     end
   end
 
@@ -55,7 +55,7 @@ describe 'ssh::server::config::setting', type: :define do
     end
 
     it do
-      should contain_concat__fragment('ssh_setting_something_Foo').with_content(%r{\nFoo 1 2\n})
+      is_expected.to contain_concat__fragment('ssh_setting_something_Foo').with_content(%r{\nFoo 1 2\n})
     end
   end
 
@@ -71,7 +71,7 @@ describe 'ssh::server::config::setting', type: :define do
 
     it 'fails' do
       expect do
-        should compile
+        is_expected.to compile
       end.to raise_error(%r{Hash values are not supported})
     end
   end

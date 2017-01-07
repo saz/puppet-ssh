@@ -13,7 +13,7 @@ describe 'ssh::client', type: 'class' do
       }
     end
     it do
-      should contain_package('openssh-client').with(ensure: 'present')
+      is_expected.to contain_package('openssh-client').with(ensure: 'present')
     end
   end
   context 'On Debian with custom ensure' do
@@ -33,7 +33,7 @@ describe 'ssh::client', type: 'class' do
       }
     end
     it do
-      should contain_package('openssh-client').with(ensure: 'latest')
+      is_expected.to contain_package('openssh-client').with(ensure: 'latest')
     end
   end
 end

@@ -36,7 +36,7 @@ describe 'ssh::server' do
     end
 
     it do
-      should contain_concat__fragment('global config').with(
+      is_expected.to contain_concat__fragment('global config').with(
         target: '/etc/ssh/sshd_config',
         content: '# File is managed by Puppet
 
@@ -91,11 +91,11 @@ X11Forwarding yes
         end
 
         describe "on supported osfamily: #{osfamily}" do
-          it { should contain_class('ssh::params') }
-          it { should contain_package('openssh-server').with_ensure(param_hash[:ensure]) }
+          it { is_expected.to contain_class('ssh::params') }
+          it { is_expected.to contain_package('openssh-server').with_ensure(param_hash[:ensure]) }
 
           it do
-            should contain_service('ssh').with(
+            is_expected.to contain_service('ssh').with(
               'ensure'     => 'running',
               'enable'     => true,
               'hasrestart' => true,
@@ -103,9 +103,9 @@ X11Forwarding yes
           )
           end
 
-          it { should contain_concat('/etc/ssh/sshd_config') }
+          it { is_expected.to contain_concat('/etc/ssh/sshd_config') }
           it do
-            should contain_concat__fragment('global config').with(
+            is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
 
@@ -140,16 +140,16 @@ X11Forwarding yes
             }
           end
 
-          it { should contain_class('ssh::params') }
+          it { is_expected.to contain_class('ssh::params') }
           it do
-            should contain_package('openssh').with(
+            is_expected.to contain_package('openssh').with(
               ensure: param_hash[:ensure],
               name: 'openssh'
           )
           end
 
           it do
-            should contain_service('sshd.service').with(
+            is_expected.to contain_service('sshd.service').with(
               'ensure'     => 'running',
               'enable'     => true,
               'hasrestart' => true,
@@ -157,9 +157,9 @@ X11Forwarding yes
           )
           end
 
-          it { should contain_concat('/etc/ssh/sshd_config') }
+          it { is_expected.to contain_concat('/etc/ssh/sshd_config') }
           it do
-            should contain_concat__fragment('global config').with(
+            is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
 

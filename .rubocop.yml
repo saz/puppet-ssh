@@ -504,3 +504,5 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: False
 
+RSpec/NestedGroups:
+    MaxNesting: 5

@@ -41,7 +41,7 @@ describe 'ssh::client::config::user', type: :define do
 
         it 'fails' do
           expect do
-            should compile
+            is_expected.to compile
           end.to raise_error(%r{#{value[1]}})
         end
       end
@@ -61,9 +61,9 @@ describe 'ssh::client::config::user', type: :define do
       end
 
       it do
-        should contain_file(target).with(ensure: 'file',
-                                         owner: title,
-                                         mode: '0600')
+        is_expected.to contain_file(target).with(ensure: 'file',
+                                                 owner: title,
+                                                 mode: '0600')
       end
     end # describe 'with a user provided target'
 
@@ -81,13 +81,13 @@ describe 'ssh::client::config::user', type: :define do
           end
 
           it 'contains ssh directory and ssh config' do
-            should contain_file("#{user_home_dir}/.ssh").with(ensure: 'directory',
-                                                              owner: title,
-                                                              mode: '0700').that_comes_before("File[#{user_home_dir}/.ssh/config]")
+            is_expected.to contain_file("#{user_home_dir}/.ssh").with(ensure: 'directory',
+                                                                      owner: title,
+                                                                      mode: '0700').that_comes_before("File[#{user_home_dir}/.ssh/config]")
 
-            should contain_file("#{user_home_dir}/.ssh/config").with(ensure: 'file',
-                                                                     owner: title,
-                                                                     mode: '0600')
+            is_expected.to contain_file("#{user_home_dir}/.ssh/config").with(ensure: 'file',
+                                                                             owner: title,
+                                                                             mode: '0600')
           end
         end # context 'with manage_user_ssh_dir default value'
 
@@ -100,15 +100,15 @@ describe 'ssh::client::config::user', type: :define do
           end
 
           it do
-            should_not contain_file("#{user_home_dir}/.ssh")
+            is_expected.not_to contain_file("#{user_home_dir}/.ssh")
           end
         end # context 'with manage_user_ssh_dir set to false'
       end # context 'with a user provided user_home_dir'
 
       context 'with no user provided user_home_dir' do
         it 'with manage_user_ssh_dir default value' do
-          should contain_file("/home/#{title}/.ssh").that_comes_before("File[/home/#{title}/.ssh/config]")
-          should contain_file("/home/#{title}/.ssh/config")
+          is_expected.to contain_file("/home/#{title}/.ssh").that_comes_before("File[/home/#{title}/.ssh/config]")
+          is_expected.to contain_file("/home/#{title}/.ssh/config")
         end
 
         context 'with manage_user_ssh_dir set to false' do
@@ -119,11 +119,11 @@ describe 'ssh::client::config::user', type: :define do
           end
 
           it do
-            should_not contain_file("/home/#{title}/.ssh")
+            is_expected.not_to contain_file("/home/#{title}/.ssh")
           end
 
           it do
-            should contain_file("/home/#{title}/.ssh/config")
+            is_expected.to contain_file("/home/#{title}/.ssh/config")
           end
         end # context 'with manage_user_ssh_dir set to false'
       end # context 'with no user provided user_home_dir'
@@ -137,11 +137,11 @@ describe 'ssh::client::config::user', type: :define do
       end
 
       it 'has single value' do
-        should contain_file("/home/#{title}/.ssh/config").with(content: %r{HashKnownHosts\s+yes})
+        is_expected.to contain_file("/home/#{title}/.ssh/config").with(content: %r{HashKnownHosts\s+yes})
       end
 
       it 'has Hash value' do
-        should contain_file("/home/#{title}/.ssh/config").with(content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton})
+        is_expected.to contain_file("/home/#{title}/.ssh/config").with(content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton})
       end
     end
   end # describe 'with correct values'
