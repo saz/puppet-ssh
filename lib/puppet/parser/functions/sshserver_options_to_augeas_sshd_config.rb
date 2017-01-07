@@ -27,7 +27,7 @@ module Puppet::Parser::Functions
   $options_final_augeas = sshserver_options_to_augeas_sshd_config($options, $options_absent, $other_parameters)
 
   In this case, the value of $options_final_augeas would be:
- 
+
   'PasswordAuthentication User www-data' => {
       'ensure'    => 'present',
       'condition' => 'User www-data',
@@ -76,43 +76,42 @@ module Puppet::Parser::Functions
 
   ENDHEREDOC
 
-  if args.length < 1
-     raise Puppet::ParseError,("sshserver_options_to_augeas_sshd_config: expects at least one argument")
-  end
-
-  options = args[0]
-  unless options.is_a?(Hash)
-    raise Puppet::ParseError,("sshserver_options_to_augeas_sshd_config: first argument must be a hash")
-  end
-
-  options_absent = args[1] if args[1]
-  other_parameters = args[2] if args[2]
-  if options_absent
-    unless options_absent.is_a?(Array) or options_absent.is_a?(String)
-      raise Puppet::ParseError,("sshserver_options_to_augeas_sshd_config: second argument, if supplied, must be an array or a string")
+    if args.empty?
+      raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: expects at least one argument'
     end
-  end
-  if other_parameters
-    unless other_parameters.is_a?(Hash)
-      raise Puppet::ParseError,("sshserver_options_to_augeas_sshd_config: third argument, if supplied, must be a hash")
+
+    options = args[0]
+    unless options.is_a?(Hash)
+      raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: first argument must be a hash'
     end
-  end
-   
-  options_final_augeas = {} 
-  options.each do |key1,value1|
-    if value1.is_a?(Hash)
-      value1.each do |key2,value2|
-        v = { 'ensure' => 'present' }.merge({'condition' => key1.gsub("Match ","")}).merge({'key' => key2, 'value' => value2})
-        options_final_augeas["#{key2} #{key1.gsub("Match ","")}"] = v.merge(other_parameters)
+
+    options_absent = args[1] if args[1]
+    other_parameters = args[2] if args[2]
+    if options_absent
+      unless options_absent.is_a?(Array) || options_absent.is_a?(String)
+        raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: second argument, if supplied, must be an array or a string'
       end
-    else
-      options_final_augeas[key1] = { 'ensure' => 'present' }.merge({'key' => key1, 'value' => value1}).merge(other_parameters)
-    end 
-  end
-  options_absent.each do |value| 
-    options_final_augeas[value] = { 'ensure' => 'absent' }.merge({'key' => value}).merge(other_parameters)
-  end
-  return options_final_augeas
+    end
+    if other_parameters
+      unless other_parameters.is_a?(Hash)
+        raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: third argument, if supplied, must be a hash'
+      end
+    end
 
-  end #newfunction
-end #module
+    options_final_augeas = {}
+    options.each do |key1, value1|
+      if value1.is_a?(Hash)
+        value1.each do |key2, value2|
+          v = { 'ensure' => 'present' }.merge('condition' => key1.gsub('Match ', '')).merge('key' => key2, 'value' => value2)
+          options_final_augeas["#{key2} #{key1.gsub('Match ', '')}"] = v.merge(other_parameters)
+        end
+      else
+        options_final_augeas[key1] = { 'ensure' => 'present' }.merge('key' => key1, 'value' => value1).merge(other_parameters)
+      end
+    end
+    options_absent.each do |value|
+      options_final_augeas[value] = { 'ensure' => 'absent' }.merge('key' => value).merge(other_parameters)
+    end
+    return options_final_augeas
+  end # newfunction
+end # module

@@ -494,6 +494,9 @@ Lint/UselessAssignment:
 Style/ClosingParenthesisIndentation:
   Enabled: false
 
+BlockLength:
+      Max: 70
+
 # RSpec
 
 # We don't use rspec in this way
