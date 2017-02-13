@@ -10,6 +10,7 @@ class ssh (
   $use_augeas            = false,
   $server_options_absent = [],
   $client_options_absent = [],
+  $use_issue_net         = false,
 ) inherits ssh::params {
 
   validate_hash($server_options)
@@ -59,6 +60,7 @@ class ssh (
     validate_sshd_file   => $validate_sshd_file,
     use_augeas           => $use_augeas,
     options_absent       => $server_options_absent,
+    use_issue_net        => $use_issue_net,
   }
 
   class { '::ssh::client':
