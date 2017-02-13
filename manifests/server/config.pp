@@ -29,7 +29,7 @@ class ssh::server::config {
     }
   }
   
-  if $::ssh::server::use_isse_net {
+  if $::ssh::server::use_issue_net {
     file { $ssh::params::issue_net:
       ensure  => present,
       owner   => 0,
