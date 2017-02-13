@@ -22,6 +22,7 @@ class ssh (
   validate_bool($use_augeas)
   validate_array($server_options_absent)
   validate_array($client_options_absent)
+  validate_bool($use_issue_net)
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
