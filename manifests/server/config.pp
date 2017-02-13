@@ -36,7 +36,6 @@ class ssh::server::config {
       group   => 0,
       mode    => '0644',
       content => template("${module_name}/issue.net.erb"),
-      require => Class['ssh::server::install'],
       notify  => Service[$ssh::params::service_name],
     }
   }
