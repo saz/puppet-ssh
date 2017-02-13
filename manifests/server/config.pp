@@ -38,5 +38,11 @@ class ssh::server::config {
       content => template("${module_name}/issue.net.erb"),
       notify  => Service[$ssh::params::service_name],
     }
+
+    concat::fragment { "banner file":
+      target  => $ssh::params::sshd_config,
+      content => "Banner ${ssh::params::issue_net}\n",
+      order   => 01,
+    }
   }
 }
