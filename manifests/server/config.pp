@@ -28,4 +28,16 @@ class ssh::server::config {
       order   => '00',
     }
   }
+  
+  if $::ssh::server::use_isse_net {
+    file { $ssh::params::issue_net:
+      ensure  => present,
+      owner   => 0,
+      group   => 0,
+      mode    => '0644',
+      content => template("${module_name}/issue.net.erb"),
+      require => Class['ssh::server::install'],
+      notify  => Service[$ssh::params::service_name],
+    }
+  }
 }
