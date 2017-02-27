@@ -1,6 +1,7 @@
 #
 # Copyright (c) IN2P3 Computing Centre, IN2P3, CNRS
 # Contributor: Remi Ferrand <remi{dot}ferrand_at_cc(dot)in2p3.fr> (2015)
+# Contributor: Tim Meusel <tim@bastelfreak.de> (2017)
 #
 define ssh::client::config::user(
   Enum['present', 'absent']      $ensure              = present,
@@ -10,6 +11,7 @@ define ssh::client::config::user(
   Hash $options                                       = {}
 )
 {
+
   include ::ssh::params
 
   $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
@@ -47,4 +49,5 @@ define ssh::client::config::user(
     mode    => $::ssh::params::user_ssh_config_default_mode,
     content => template("${module_name}/ssh_config.erb"),
   }
+
 }

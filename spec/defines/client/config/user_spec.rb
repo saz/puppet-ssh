@@ -42,8 +42,8 @@ describe 'ssh::client::config::user', type: :define do
 
         it 'fails' do
           expect do
-            is_expected.to compile
-          end.to raise_error(%r{#{value[1]}})
+            is_expected.to not_compile
+          end
         end
       end
     end
