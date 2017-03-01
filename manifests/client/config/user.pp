@@ -14,8 +14,6 @@ define ssh::client::config::user(
 
   include ::ssh::params
 
-  $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
-
   # If a specific target file was specified,
   # it must have higher priority than any
   # other parameter.
@@ -24,7 +22,7 @@ define ssh::client::config::user(
   }
   else {
     if ($user_home_dir == undef) {
-      $_user_home_dir = "/home/${name}"
+      $_user_home_dir = "/home/${user}"
     }
     else {
       $_user_home_dir = $user_home_dir
@@ -34,20 +32,28 @@ define ssh::client::config::user(
     $_target      = "${user_ssh_dir}/config"
 
     if ($manage_user_ssh_dir == true) {
-      file { $user_ssh_dir:
-        ensure => directory,
-        owner  => $name,
-        mode   => $::ssh::params::user_ssh_directory_default_mode,
-        before => File[$_target],
+      unless defined(File[$user_ssh_dir]) {
+        file { $user_ssh_dir:
+          ensure => directory,
+          owner  => $user,
+          mode   => $::ssh::params::user_ssh_directory_default_mode,
+          before => Concat_file[$_target],
+        }
       }
     }
   }
 
-  file { $_target:
-    ensure  => $_files_ensure,
-    owner   => $name,
-    mode    => $::ssh::params::user_ssh_config_default_mode,
-    content => template("${module_name}/ssh_config.erb"),
+  unless defined(Concat_file[$_target]) {
+    concat_file{$_target:
+      ensure => $ensure,
+      owner  => $user,
+      mode   => $::ssh::params::user_ssh_config_default_mode,
+      tag    => $user,
+    }
   }
-
+  concat_fragment{$name:
+    tag     => $user,
+    content => template("${module_name}/ssh_config.erb"),
+    target  => $_target,
+  }
 }
