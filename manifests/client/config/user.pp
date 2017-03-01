@@ -8,7 +8,8 @@ define ssh::client::config::user(
   Optional[Stdlib::Absolutepath] $target              = undef,
   Optional[Stdlib::Absolutepath] $user_home_dir       = undef,
   Boolean                        $manage_user_ssh_dir = true,
-  Hash $options                                       = {}
+  Hash $options                                       = {},
+  String[1] $user                                     = $name,
 )
 {
 
@@ -22,7 +23,7 @@ define ssh::client::config::user(
   }
   else {
     if ($user_home_dir == undef) {
-      $_user_home_dir = "/home/${name}"
+      $_user_home_dir = "/home/${user}"
     }
     else {
       $_user_home_dir = $user_home_dir
@@ -35,7 +36,7 @@ define ssh::client::config::user(
       unless defined(File[$user_ssh_dir]) {
         file { $user_ssh_dir:
           ensure => directory,
-          owner  => $name,
+          owner  => $user,
           mode   => $::ssh::params::user_ssh_directory_default_mode,
           before => Concat_file[$_target],
         }
@@ -46,7 +47,7 @@ define ssh::client::config::user(
   unless defined(Concat_file[$_target]) {
     concat_file{$_target:
       ensure => $ensure,
-      owner  => $name,
+      owner  => $user,
       mode   => $::ssh::params::user_ssh_config_default_mode,
       tag    => $name,
     }
