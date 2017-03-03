@@ -22,10 +22,10 @@ client and server, configuration files.
 Multiple occurrences of one config key (e.g. sshd should be listening on
 port 22 and 2222) should be passed as an array.
 
-```
-    options => {
-      'Port' => [22, 2222],
-    }
+```puppet
+options => {
+  'Port' => [22, 2222],
+}
 ```
 
 This is working for both, client and server.
@@ -34,44 +34,44 @@ This is working for both, client and server.
 Host keys will be collected and distributed unless
  `storeconfigs_enabled` is `false`.
 
-```
-    include ssh
+```puppet
+include ssh
 ```
 
 or
 
-```
-    class { 'ssh':
-      storeconfigs_enabled => false,
-      server_options => {
-        'Match User www-data' => {
-          'ChrootDirectory' => '%h',
-          'ForceCommand' => 'internal-sftp',
-          'PasswordAuthentication' => 'yes',
-          'AllowTcpForwarding' => 'no',
-          'X11Forwarding' => 'no',
-        },
-        'Port' => [22, 2222, 2288],
-      },
-      client_options => {
-        'Host *.amazonaws.com' => {
-          'User' => 'ec2-user',
-        },
-      },
-      users_client_options => {
-        'bob' => {
-          options => {
-            'Host *.alice.fr' => {
-              'User' => 'alice',
-            },
-          },
+```puppet
+class { 'ssh':
+  storeconfigs_enabled => false,
+  server_options => {
+    'Match User www-data' => {
+      'ChrootDirectory' => '%h',
+      'ForceCommand' => 'internal-sftp',
+      'PasswordAuthentication' => 'yes',
+      'AllowTcpForwarding' => 'no',
+      'X11Forwarding' => 'no',
+    },
+    'Port' => [22, 2222, 2288],
+  },
+  client_options => {
+    'Host *.amazonaws.com' => {
+      'User' => 'ec2-user',
+    },
+  },
+  users_client_options => {
+    'bob' => {
+      options => {
+        'Host *.alice.fr' => {
+          'User' => 'alice',
         },
       },
-    }
+    },
+  },
+}
 ```
 
 ### Hiera example
-```
+```yaml
 ssh::storeconfigs_enabled: true
 
 ssh::server_options:
@@ -109,26 +109,26 @@ ssh::users_client_options:
 Collected host keys from servers will be written to `known_hosts` unless
  `storeconfigs_enabled` is `false`
 
-```
-    include ssh::client
+```puppet
+include ssh::client
 ```
 
 or
 
-```
-    class { 'ssh::client':
-      storeconfigs_enabled => false,
-      options => {
-        'Host short' => {
-          'User' => 'my-user',
-          'HostName' => 'extreme.long.and.complicated.hostname.domain.tld',
-        },
-        'Host *' => {
-          'User' => 'andromeda',
-          'UserKnownHostsFile' => '/dev/null',
-        },
-      },
-    }
+```puppet
+class { 'ssh::client':
+  storeconfigs_enabled => false,
+  options => {
+    'Host short' => {
+      'User' => 'my-user',
+      'HostName' => 'extreme.long.and.complicated.hostname.domain.tld',
+    },
+    'Host *' => {
+      'User' => 'andromeda',
+      'UserKnownHostsFile' => '/dev/null',
+    },
+  },
+}
 ```
 
 ### Per user client configuration
@@ -192,35 +192,35 @@ SSH configuration file will be `/var/lib/bob/.ssh/config`.
 Host keys will be collected for client distribution unless
  `storeconfigs_enabled` is `false`
 
-```
-    include ssh::server
+```puppet
+include ssh::server
 ```
 
 or
 
-```
-    class { 'ssh::server':
-      storeconfigs_enabled => false,
-      options => {
-        'Match User www-data' => {
-          'ChrootDirectory' => '%h',
-          'ForceCommand' => 'internal-sftp',
-          'PasswordAuthentication' => 'yes',
-          'AllowTcpForwarding' => 'no',
-          'X11Forwarding' => 'no',
-        },
-        'PasswordAuthentication' => 'no',
-        'PermitRootLogin'        => 'no',
-        'Port'                   => [22, 2222],
-      },
-    }
+```puppet
+class { 'ssh::server':
+  storeconfigs_enabled => false,
+  options => {
+    'Match User www-data' => {
+      'ChrootDirectory' => '%h',
+      'ForceCommand' => 'internal-sftp',
+      'PasswordAuthentication' => 'yes',
+      'AllowTcpForwarding' => 'no',
+      'X11Forwarding' => 'no',
+    },
+    'PasswordAuthentication' => 'no',
+    'PermitRootLogin'        => 'no',
+    'Port'                   => [22, 2222],
+  },
+}
 ```
 
 ### Validate config before replacing it
 
 `validate_sshd_file` allows you to run `/usr/sbin/sshd -tf` against the sshd config file before it gets replaced, and will raise an error if the config is incorrect.
 
-```
+```puppet
 class { 'ssh::server':
   validate_sshd_file => true,
 }
@@ -231,23 +231,23 @@ class { 'ssh::server':
 
 ### Client
 
-```
-    'Host *'                 => {
-      'SendEnv'              => 'LANG LC_*',
-      'HashKnownHosts'       => 'yes',
-      'GSSAPIAuthentication' => 'yes',
-    }
+```puppet
+'Host *'                 => {
+  'SendEnv'              => 'LANG LC_*',
+  'HashKnownHosts'       => 'yes',
+  'GSSAPIAuthentication' => 'yes',
+}
 ```
 
 ### Server
 
-```
-    'ChallengeResponseAuthentication' => 'no',
-    'X11Forwarding'                   => 'yes',
-    'PrintMotd'                       => 'no',
-    'AcceptEnv'                       => 'LANG LC_*',
-    'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
-    'UsePAM'                          => 'yes',
+```puppet
+'ChallengeResponseAuthentication' => 'no',
+'X11Forwarding'                   => 'yes',
+'PrintMotd'                       => 'no',
+'AcceptEnv'                       => 'LANG LC_*',
+'Subsystem'                       => 'sftp /usr/lib/openssh/sftp-server',
+'UsePAM'                          => 'yes',
 ```
 
 ## Overwriting default options
@@ -257,12 +257,12 @@ will win.
 
 The following example will disable X11Forwarding, which is enabled by default:
 
-```
-    class { 'ssh::server':
-      options           => {
-        'X11Forwarding' => 'no',
-      },
-    }
+```puppet
+class { 'ssh::server':
+  options           => {
+    'X11Forwarding' => 'no',
+  },
+}
 ```
 
 Which will lead to the following `sshd_config` file:
@@ -273,7 +273,7 @@ Which will lead to the following `sshd_config` file:
 ChallengeResponseAuthentication no
 X11Forwarding no
 PrintMotd no
-AcceptEnv LANG LC_*
+AcceptEnv LANG LC\_\*
 Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 PasswordAuthentication no
@@ -281,12 +281,12 @@ PasswordAuthentication no
 
 Values can also be arrays, which will result in the option being specified multiple times
 
-```
-    class { 'ssh::server':
-      options           => {
-        'HostKey' => ['/etc/ssh/ssh_host_ed25519_key', '/etc/ssh/ssh_host_rsa_key'],
-      },
-    }
+```puppet
+class { 'ssh::server':
+  options           => {
+    'HostKey' => ['/etc/ssh/ssh_host_ed25519_key', '/etc/ssh/ssh_host_rsa_key'],
+  },
+}
 ```
 
 Which will lead to the following `sshd_config` file:
@@ -298,7 +298,7 @@ ChallengeResponseAuthentication no
 HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key
 PrintMotd no
-AcceptEnv LANG LC_*
+AcceptEnv LANG LC_\*
 Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 PasswordAuthentication no
@@ -307,7 +307,7 @@ PasswordAuthentication no
 ## Defining host keys for server
 You can define host keys your server will use
 
-```
+```puppet
 ssh::server::host_key {'ssh_host_rsa_key':
   private_key_content => '<the private key>',
   public_key_content  => '<the public key>',
@@ -317,7 +317,7 @@ ssh::server::host_key {'ssh_host_rsa_key':
 Alternately, you could create the host key providing the files, instead
 of the content:
 
-```
+```puppet
 ssh::server::host_key {'ssh_host_rsa_key':
   private_key_source => 'puppet:///mymodule/ssh_host_rsa_key',
   public_key_source  => 'puppet:///mymodule/ssh_host_rsa_key.pub',
@@ -330,7 +330,7 @@ Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 
 ## Adding custom match blocks
 
-```
+```puppet
 class YOURCUSTOMCLASS {
 
   include ssh
