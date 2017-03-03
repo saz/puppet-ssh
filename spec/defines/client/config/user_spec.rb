@@ -63,9 +63,14 @@ describe 'ssh::client::config::user', type: :define do
       end
 
       it do
-        is_expected.to contain_file(target).with(ensure: 'file',
-                                                 owner: title,
-                                                 mode: '0600')
+        is_expected.to contain_concat_file(target).with(
+          ensure: 'present',
+          tag: title
+        )
+        is_expected.to contain_concat_fragment(title).with(
+          tag: title,
+          target: target
+        )
       end
     end
     # describe 'with a user provided target'
@@ -84,13 +89,17 @@ describe 'ssh::client::config::user', type: :define do
           end
 
           it 'contains ssh directory and ssh config' do
-            is_expected.to contain_file("#{user_home_dir}/.ssh").with(ensure: 'directory',
-                                                                      owner: title,
-                                                                      mode: '0700').that_comes_before("File[#{user_home_dir}/.ssh/config]")
+            is_expected.to contain_file("#{user_home_dir}/.ssh").with(
+              ensure: 'directory',
+              owner: title,
+              mode: '0700'
+            ).that_comes_before("Concat_file[#{user_home_dir}/.ssh/config]")
 
-            is_expected.to contain_file("#{user_home_dir}/.ssh/config").with(ensure: 'file',
-                                                                             owner: title,
-                                                                             mode: '0600')
+            is_expected.to contain_concat_file("#{user_home_dir}/.ssh/config").with(
+              ensure: 'present',
+              owner: title,
+              mode: '0600'
+            )
           end
         end
         # context 'with manage_user_ssh_dir default value'
@@ -113,8 +122,8 @@ describe 'ssh::client::config::user', type: :define do
 
       context 'with no user provided user_home_dir' do
         it 'with manage_user_ssh_dir default value' do
-          is_expected.to contain_file("/home/#{title}/.ssh").that_comes_before("File[/home/#{title}/.ssh/config]")
-          is_expected.to contain_file("/home/#{title}/.ssh/config")
+          is_expected.to contain_file("/home/#{title}/.ssh").that_comes_before("Concat_file[/home/#{title}/.ssh/config]")
+          is_expected.to contain_concat_file("/home/#{title}/.ssh/config")
         end
 
         context 'with manage_user_ssh_dir set to false' do
@@ -129,7 +138,7 @@ describe 'ssh::client::config::user', type: :define do
           end
 
           it do
-            is_expected.to contain_file("/home/#{title}/.ssh/config")
+            is_expected.to contain_concat_file("/home/#{title}/.ssh/config")
           end
         end
         # context 'with manage_user_ssh_dir set to false'
@@ -146,11 +155,17 @@ describe 'ssh::client::config::user', type: :define do
       end
 
       it 'has single value' do
-        is_expected.to contain_file("/home/#{title}/.ssh/config").with(content: %r{HashKnownHosts\s+yes})
+        is_expected.to contain_concat_fragment(title).with(
+          content: %r{HashKnownHosts\s+yes},
+          target: "/home/#{title}/.ssh/config"
+        )
       end
 
       it 'has Hash value' do
-        is_expected.to contain_file("/home/#{title}/.ssh/config").with(content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton})
+        is_expected.to contain_concat_fragment(title).with(
+          content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton},
+          target: "/home/#{title}/.ssh/config"
+        )
       end
     end
   end
