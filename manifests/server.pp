@@ -5,10 +5,20 @@ class ssh::server(
   $validate_sshd_file   = false,
   $use_augeas           = false,
   $options_absent       = [],
+  $match_block          = {},
 ) inherits ssh::params {
+
+  validate_hash($match_block)
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_options = hiera_hash("${module_name}::server::options", undef)
+  $hiera_match_block = hiera_hash("${module_name}::server::match_block", undef)
+
+  $fin_match_block = $hiera_match_block ? {
+    undef   => $match_block,
+    ''      => $match_block,
+    default => $hiera_match_block,
+  }
 
   $fin_options = $hiera_options ? {
     undef   => $options,
@@ -49,4 +59,6 @@ class ssh::server(
     Class['ssh::server::service'] ->
     Anchor['ssh::server::end']
   }
+  
+  create_resources('::ssh::server::match_block', $fin_match_block)
 }
