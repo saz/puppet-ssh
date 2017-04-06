@@ -20,7 +20,7 @@ class ssh::params {
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/openssh/sftp-server'
     }
-    'FreeBSD': {
+    'FreeBSD', 'DragonFly': {
       $server_package_name = undef
       $client_package_name = undef
       $sshd_dir = '/etc/ssh'
