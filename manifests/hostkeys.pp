@@ -64,4 +64,12 @@ class ssh::hostkeys(
       type   => 'ed25519',
     }
   }
+  if $::sshed25519key {
+    @@sshkey { "${::fqdn}_ed25519":
+      host_aliases => $host_aliases,
+      type         => 'ssh-ed25519',
+      key          => $::sshed25519key,
+    }
+  }
+
 }
