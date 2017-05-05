@@ -32,15 +32,15 @@ class ssh::client(
   if ($storeconfigs_enabled) {
     include ::ssh::knownhosts
 
-    Anchor['ssh::client::start'] ->
-    Class['ssh::client::install'] ->
-    Class['ssh::client::config'] ->
-    Class['ssh::knownhosts'] ->
-    Anchor['ssh::client::end']
+    Anchor['ssh::client::start']
+    -> Class['ssh::client::install']
+    -> Class['ssh::client::config']
+    -> Class['ssh::knownhosts']
+    -> Anchor['ssh::client::end']
   } else {
-    Anchor['ssh::client::start'] ->
-    Class['ssh::client::install'] ->
-    Class['ssh::client::config'] ->
-    Anchor['ssh::client::end']
+    Anchor['ssh::client::start']
+    -> Class['ssh::client::install']
+    -> Class['ssh::client::config']
+    -> Anchor['ssh::client::end']
   }
 }
