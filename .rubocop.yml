@@ -507,7 +507,7 @@ Metrics/BlockLength:
   Enabled: false
 
 BlockLength:
-  Max: 70
+  Max: 161
 
 NumericLiterals:
   Enabled: false
