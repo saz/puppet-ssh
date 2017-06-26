@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'ssh_server_version_full' do
   before do
+    Facter.clear
     Facter.fact(:kernel).stubs(:value).returns('linux')
   end
   context 'on a Linux host' do
