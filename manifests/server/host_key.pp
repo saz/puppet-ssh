@@ -28,12 +28,22 @@
 #   Sets the content for the private key file.
 #   Note private_key_source and private_key_content are mutually exclusive.
 #
+# [*certificate_source*]
+#   Sets the content of the source parameter for the host key certificate.
+#   Note certificate_source and certificate_content are mutually exclusive.
+#
+# [*certificate_content*]
+#   Sets the content for the host key certificate.
+#   Note certificate_source and certificate_content are mutually exclusive.
+#
 define ssh::server::host_key (
   $ensure = 'present',
   $public_key_source = '',
   $public_key_content = '',
   $private_key_source = '',
   $private_key_content = '',
+  $certificate_source = '',
+  $certificate_content = '',
 ) {
   if $public_key_source == '' and $public_key_content == '' {
     fail('You must provide either public_key_source or public_key_content parameter')
@@ -60,6 +70,15 @@ define ssh::server::host_key (
     default => $private_key_source,
   }
 
+  $manage_cert_content = $certificate_source ? {
+    ''      => $certificate_content,
+    default => undef,
+  }
+  $manage_cert_source = $certificate_source ? {
+    ''      => undef,
+    default => $certificate_source,
+  }
+
   file {"${name}_pub":
     ensure  => $ensure,
     owner   => 'root',
@@ -80,5 +99,18 @@ define ssh::server::host_key (
     source  => $manage_priv_key_source,
     content => $manage_priv_key_content,
     notify  => Class['ssh::server::service'],
+  }
+
+  if !empty($certificate_source) or !empty($certificate_content) {
+    file {"${name}_cert":
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      path    => "${::ssh::params::sshd_dir}/${name}-cert.pub",
+      source  => $manage_cert_source,
+      content => $manage_cert_content,
+      notify  => Class['ssh::server::service'],
+    }
   }
 }

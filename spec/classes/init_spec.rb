@@ -19,6 +19,7 @@ describe 'ssh', type: 'class' do
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
       }
     end
+
     it do
       is_expected.to contain_class('ssh::client')
     end
@@ -52,6 +53,7 @@ describe 'ssh', type: 'class' do
           validate_sshd_file: true
         }
       end
+
       it do
         is_expected.to contain_class('ssh::client')
       end

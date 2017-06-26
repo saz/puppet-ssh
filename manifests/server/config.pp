@@ -28,4 +28,21 @@ class ssh::server::config {
       order   => '00',
     }
   }
+
+  if $::ssh::server::use_issue_net {
+    file { $ssh::params::issue_net:
+      ensure  => present,
+      owner   => 0,
+      group   => 0,
+      mode    => '0644',
+      content => template("${module_name}/issue.net.erb"),
+      notify  => Service[$ssh::params::service_name],
+    }
+
+    concat::fragment { 'banner file':
+      target  => $ssh::params::sshd_config,
+      content => "Banner ${ssh::params::issue_net}\n",
+      order   => '01',
+    }
+  }
 }

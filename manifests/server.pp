@@ -6,6 +6,7 @@ class ssh::server(
   $use_augeas           = false,
   $options_absent       = [],
   $match_block          = {},
+  $use_issue_net        = false
 ) inherits ssh::params {
 
   validate_hash($match_block)
@@ -45,19 +46,19 @@ class ssh::server(
     include ::ssh::hostkeys
     include ::ssh::knownhosts
 
-    Anchor['ssh::server::start'] ->
-    Class['ssh::server::install'] ->
-    Class['ssh::server::config'] ~>
-    Class['ssh::server::service'] ->
-    Class['ssh::hostkeys'] ->
-    Class['ssh::knownhosts'] ->
-    Anchor['ssh::server::end']
+    Anchor['ssh::server::start']
+    -> Class['ssh::server::install']
+    -> Class['ssh::server::config']
+    ~> Class['ssh::server::service']
+    -> Class['ssh::hostkeys']
+    -> Class['ssh::knownhosts']
+    -> Anchor['ssh::server::end']
   } else {
-    Anchor['ssh::server::start'] ->
-    Class['ssh::server::install'] ->
-    Class['ssh::server::config'] ~>
-    Class['ssh::server::service'] ->
-    Anchor['ssh::server::end']
+    Anchor['ssh::server::start']
+    -> Class['ssh::server::install']
+    -> Class['ssh::server::config']
+    ~> Class['ssh::server::service']
+    -> Anchor['ssh::server::end']
   }
   
   create_resources('::ssh::server::match_block', $fin_match_block)
