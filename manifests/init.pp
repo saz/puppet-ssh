@@ -10,6 +10,7 @@ class ssh (
   $use_augeas            = false,
   $server_options_absent = [],
   $client_options_absent = [],
+  $use_issue_net         = false,
 ) inherits ssh::params {
 
   validate_hash($server_options)
@@ -21,6 +22,7 @@ class ssh (
   validate_bool($use_augeas)
   validate_array($server_options_absent)
   validate_array($client_options_absent)
+  validate_bool($use_issue_net)
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
@@ -59,6 +61,7 @@ class ssh (
     validate_sshd_file   => $validate_sshd_file,
     use_augeas           => $use_augeas,
     options_absent       => $server_options_absent,
+    use_issue_net        => $use_issue_net,
   }
 
   class { '::ssh::client':
