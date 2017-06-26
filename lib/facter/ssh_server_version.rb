@@ -20,17 +20,24 @@ end
 
 Facter.add('ssh_server_version_major') do
   confine :kernel => %w(Linux SunOS FreeBSD DragonFly Darwin)
-  confine :ssh_server_version_full => true
+  confine :ssh_server_version_full => /\d+/
   setcode do
     version = Facter.value('ssh_server_version_full')
 
-    version.gsub(%r{^([0-9]+\.[0-9]+).*$}, '\1') unless version.nil?
+    case version
+    when /([0-9]+)\.([0-9]+)\.([0-9]+p[0-9]+)/
+      # 6.6.1p1 style formatting
+      version.gsub(%r{([0-9]+)\.([0-9]+)\.([0-9]+p[0-9]+)}, '\1')
+    when /^([0-9]+)\.([0-9]+p[0-9]+)/
+      # 7.2p2 style formatting
+      version.gsub(%r{^([0-9]+)\.([0-9]+p[0-9]+)}, '\1')
+    end
+
   end
 end
 
 Facter.add('ssh_server_version_release') do
-  confine :kernel => %w(Linux SunOS FreeBSD DragonFly Darwin)
-  confine :ssh_server_version_full => true
+  confine :ssh_server_version_full => /\d+/
   setcode do
     version = Facter.value('ssh_server_version_full')
 
