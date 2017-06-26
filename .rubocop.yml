@@ -301,6 +301,9 @@ Style/EmptyLiteral:
 Metrics/LineLength:
   Enabled: false
 
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: true
+
 Style/MethodDefParentheses:
   Enabled: true
 
@@ -503,6 +506,9 @@ Layout/ClosingParenthesisIndentation:
 Metrics/BlockLength:
   Enabled: false
 
+BlockLength:
+  Max: 70
+
 NumericLiterals:
   Enabled: false
 
@@ -516,5 +522,5 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: False
 
-RSpec/NestedGroups:                                                                                                                                                                                              
+RSpec/NestedGroups:
   Max: 5

@@ -2,12 +2,15 @@
 class ssh::hostkeys(
   $export_ipaddresses = true,
   $storeconfigs_group = undef,
+  $extra_aliases = [],
 ) {
+  validate_array($extra_aliases)
+
   if $export_ipaddresses == true {
     $ipaddresses  = ipaddresses()
-    $host_aliases = flatten([ $::fqdn, $::hostname, $ipaddresses ])
+    $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses ])
   } else {
-    $host_aliases = flatten([ $::fqdn, $::hostname ])
+    $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases])
   }
 
   if $storeconfigs_group {
