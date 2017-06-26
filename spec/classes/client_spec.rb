@@ -12,6 +12,7 @@ describe 'ssh::client', type: 'class' do
         puppetversion: '3.7.0'
       }
     end
+
     it do
       is_expected.to contain_package('openssh-client').with(ensure: 'present')
     end
@@ -32,6 +33,7 @@ describe 'ssh::client', type: 'class' do
         ensure: 'latest'
       }
     end
+
     it do
       is_expected.to contain_package('openssh-client').with(ensure: 'latest')
     end
