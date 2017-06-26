@@ -5,6 +5,7 @@ class ssh::server(
   $validate_sshd_file   = false,
   $use_augeas           = false,
   $options_absent       = [],
+  $use_issue_net        = false,
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
