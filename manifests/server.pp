@@ -60,6 +60,6 @@ class ssh::server(
     ~> Class['ssh::server::service']
     -> Anchor['ssh::server::end']
   }
-  
+
   create_resources('::ssh::server::match_block', $fin_match_block)
 }
