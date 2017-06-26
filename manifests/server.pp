@@ -35,18 +35,18 @@ class ssh::server(
     include ::ssh::hostkeys
     include ::ssh::knownhosts
 
-    Anchor['ssh::server::start'] ->
-    Class['ssh::server::install'] ->
-    Class['ssh::server::config'] ~>
-    Class['ssh::server::service'] ->
-    Class['ssh::hostkeys'] ->
-    Class['ssh::knownhosts'] ->
-    Anchor['ssh::server::end']
+    Anchor['ssh::server::start']
+    -> Class['ssh::server::install']
+    -> Class['ssh::server::config']
+    ~> Class['ssh::server::service']
+    -> Class['ssh::hostkeys']
+    -> Class['ssh::knownhosts']
+    -> Anchor['ssh::server::end']
   } else {
-    Anchor['ssh::server::start'] ->
-    Class['ssh::server::install'] ->
-    Class['ssh::server::config'] ~>
-    Class['ssh::server::service'] ->
-    Anchor['ssh::server::end']
+    Anchor['ssh::server::start']
+    -> Class['ssh::server::install']
+    -> Class['ssh::server::config']
+    ~> Class['ssh::server::service']
+    -> Anchor['ssh::server::end']
   }
 }
