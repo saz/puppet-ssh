@@ -22,7 +22,7 @@ EOS
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     else
-      unless interfaces.include?('lo') or interfaces.include?('docker')
+      unless interfaces.include?('lo') || interfaces.include?('docker')
         ipaddr = lookupvar("ipaddress_#{interfaces}")
         ipaddr6 = lookupvar("ipaddress6_#{interfaces}")
         result << ipaddr if ipaddr && (ipaddr != :undefined)
