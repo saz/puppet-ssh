@@ -28,7 +28,10 @@ EOS
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     end
-
+    
+    # Throw away any v6 link-local addresses
+    result.delete_if { |ipaddr| IPAddr.new("fe80::/64").include? IPAddr.new(ipaddr) }
+    
     return result
   end
 end
