@@ -55,7 +55,7 @@
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.2.5 < 3.0.0"
+      "version_requirement": ">= 1.2.5 < 5.0.0"
     }
   ]
 }
