@@ -29,6 +29,10 @@ EOS
       end
     end
 
+    # Throw away any v6 link-local addresses
+    fe80_64 = IPAddr.new("fe80::/64")
+    result.delete_if { |ip| fe80_64.include? IPAddr.new(ip) }
+
     return result
   end
 end
