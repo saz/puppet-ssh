@@ -16,13 +16,14 @@ EOS
       interfaces.each do |iface|
         next if iface.include?('lo')
         next if iface.include?('docker')
+        next if iface.include?('veth')
         ipaddr = lookupvar("ipaddress_#{iface}")
         ipaddr6 = lookupvar("ipaddress6_#{iface}")
         result << ipaddr if ipaddr && (ipaddr != :undefined)
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     else
-      unless interfaces.include?('lo') || interfaces.include?('docker')
+      unless interfaces.include?('lo') || interfaces.include?('docker') || interfaces.include?('veth')
         ipaddr = lookupvar("ipaddress_#{interfaces}")
         ipaddr6 = lookupvar("ipaddress6_#{interfaces}")
         result << ipaddr if ipaddr && (ipaddr != :undefined)
