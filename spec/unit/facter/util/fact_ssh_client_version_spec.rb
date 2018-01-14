@@ -5,7 +5,7 @@ describe 'ssh_client_version_full' do
     Facter.clear
     Facter.fact(:kernel).stubs(:value).returns('linux')
   end
-  context 'on a Linux host' do
+  context 'when on a Linux host' do
     before do
       Facter::Util::Resolution.stubs(:which).with('ssh').returns('/usr/bin/ssh')
       Facter::Util::Resolution.stubs(:exec).with('ssh -V 2>&1').returns('OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.8, OpenSSL 1.0.1f 6 Jan 2014')

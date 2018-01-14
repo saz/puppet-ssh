@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ssh', type: 'class' do
-  context 'On Debian with no other parameters' do
+  context 'when on Debian with no other parameters' do
     let :facts do
       {
         osfamily: 'Debian',
@@ -30,7 +30,7 @@ describe 'ssh', type: 'class' do
       is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd(nil)
     end
 
-    context 'On Debian with the validate_sshd_file setting' do
+    context 'when on Debian with the validate_sshd_file setting' do
       let :facts do
         {
           osfamily: 'Debian',

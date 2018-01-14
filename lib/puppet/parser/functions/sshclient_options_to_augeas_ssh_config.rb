@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-  newfunction(:sshclient_options_to_augeas_ssh_config, :type => :rvalue, :doc => <<-'ENDHEREDOC') do |args|
+  newfunction(:sshclient_options_to_augeas_ssh_config, :type => :rvalue, :doc => <<-'DOC') do |args|
   This function will convert a key-value hash to a format understandable by the augeas sshd_config provider
   It will also optionally deal with keys that should be absent, and inject static parameters if supplied.
 
@@ -64,7 +64,7 @@ module Puppet::Parser::Functions
 
   Note how the word "Host" is stripped away.
 
-  ENDHEREDOC
+  DOC
 
     if args.empty?
       raise Puppet::ParseError, 'sshclient_options_to_augeas_ssh_config: expects at least one argument'
@@ -103,5 +103,7 @@ module Puppet::Parser::Functions
       options_final_augeas[value] = { 'ensure' => 'absent' }.merge('key' => value).merge(other_parameters)
     end
     return options_final_augeas
-  end # newfunction
-end # module
+  end
+  # newfunction
+end
+# module

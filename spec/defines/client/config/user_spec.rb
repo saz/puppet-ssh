@@ -45,8 +45,9 @@ describe 'ssh::client::config::user', type: :define do
           end.to raise_error(%r{#{value[1]}})
         end
       end
-    end # params.each
-  end # describe 'with invalid parameters'
+    end
+  end
+  # describe 'with invalid parameters'
 
   describe 'with correct values' do
     describe 'with a user provided target' do
@@ -65,7 +66,8 @@ describe 'ssh::client::config::user', type: :define do
                                                  owner: title,
                                                  mode: '0600')
       end
-    end # describe 'with a user provided target'
+    end
+    # describe 'with a user provided target'
 
     describe 'user_home_dir behavior' do
       context 'with a user provided user_home_dir' do
@@ -89,7 +91,8 @@ describe 'ssh::client::config::user', type: :define do
                                                                              owner: title,
                                                                              mode: '0600')
           end
-        end # context 'with manage_user_ssh_dir default value'
+        end
+        # context 'with manage_user_ssh_dir default value'
 
         context 'with manage_user_ssh_dir set to false' do
           let :params do
@@ -102,8 +105,10 @@ describe 'ssh::client::config::user', type: :define do
           it do
             is_expected.not_to contain_file("#{user_home_dir}/.ssh")
           end
-        end # context 'with manage_user_ssh_dir set to false'
-      end # context 'with a user provided user_home_dir'
+        end
+        # context 'with manage_user_ssh_dir set to false'
+      end
+      # context 'with a user provided user_home_dir'
 
       context 'with no user provided user_home_dir' do
         it 'with manage_user_ssh_dir default value' do
@@ -125,9 +130,12 @@ describe 'ssh::client::config::user', type: :define do
           it do
             is_expected.to contain_file("/home/#{title}/.ssh/config")
           end
-        end # context 'with manage_user_ssh_dir set to false'
-      end # context 'with no user provided user_home_dir'
-    end # describe 'user_home_dir behavior'
+        end
+        # context 'with manage_user_ssh_dir set to false'
+      end
+      # context 'with no user provided user_home_dir'
+    end
+    # describe 'user_home_dir behavior'
 
     describe 'ssh configuration content' do
       let :params do
@@ -144,7 +152,8 @@ describe 'ssh::client::config::user', type: :define do
         is_expected.to contain_file("/home/#{title}/.ssh/config").with(content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton})
       end
     end
-  end # describe 'with correct values'
+  end
+  # describe 'with correct values'
 end
 
 # vim: tabstop=2 shiftwidth=2 softtabstop=2

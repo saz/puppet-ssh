@@ -39,7 +39,6 @@ describe 'ssh::server' do
       is_expected.to contain_concat__fragment('global config').with(
         target: '/etc/ssh/sshd_config',
         content: '# File is managed by Puppet
-
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no
@@ -108,7 +107,6 @@ X11Forwarding yes
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
-
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no
@@ -162,7 +160,6 @@ X11Forwarding yes
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
-
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no
