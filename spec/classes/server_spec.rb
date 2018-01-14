@@ -20,6 +20,7 @@ describe 'ssh::server' do
     let :facts do
       {
         osfamily: 'RedHat',
+        operatingsystemmajrelease: '6',
         interfaces: 'eth0',
         ipaddress_eth0: '192.168.1.1',
         ipaddress6_eth0: '::1',
@@ -39,6 +40,7 @@ describe 'ssh::server' do
       is_expected.to contain_concat__fragment('global config').with(
         target: '/etc/ssh/sshd_config',
         content: '# File is managed by Puppet
+
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no
@@ -107,6 +109,7 @@ X11Forwarding yes
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
+
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no
@@ -160,6 +163,7 @@ X11Forwarding yes
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
               content: '# File is managed by Puppet
+
 AcceptEnv LANG LC_*
 ChallengeResponseAuthentication no
 PrintMotd no

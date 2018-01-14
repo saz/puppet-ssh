@@ -18,7 +18,8 @@ describe 'ssh::client::config::user', type: :define do
   let :facts do
     {
       osfamily: 'RedHat',
-      concat_basedir: '/tmp'
+      operatingsystemmajrelease: '6',
+      concat_basedir: '/tmp',
     }
   end
 
