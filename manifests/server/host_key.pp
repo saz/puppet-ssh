@@ -93,7 +93,7 @@ define ssh::server::host_key (
   file {"${name}_priv":
     ensure  => $ensure,
     owner   => 'root',
-    group   => 'root',
+    group   => $::ssh::params::host_priv_key_group,
     mode    => '0600',
     path    => "${::ssh::params::sshd_dir}/${name}",
     source  => $manage_priv_key_source,
