@@ -1,11 +1,13 @@
 require: rubocop-rspec
 AllCops:
-  TargetRubyVersion: 1.9
+  TargetRubyVersion: 2.2
   Include:
     - ./**/*.rb
   Exclude:
     - files/**/*
     - vendor/**/*
+    - Gemfile
+    - Rakefile
     - .vendor/**/*
     - pkg/**/*
     - spec/fixtures/**/*
@@ -27,9 +29,6 @@ Lint/EnsureReturn:
   Enabled: true
 
 Lint/HandleExceptions:
-  Enabled: true
-
-Lint/LiteralInCondition:
   Enabled: true
 
 Lint/ShadowingOuterLocalVariable:
@@ -118,7 +117,7 @@ Lint/Void:
 Layout/AccessModifierIndentation:
   Enabled: true
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Enabled: true
 
 Style/Alias:
@@ -154,7 +153,7 @@ Layout/CaseIndentation:
 Style/CharacterLiteral:
   Enabled: true
 
-Style/ClassAndModuleCamelCase:
+Naming/ClassAndModuleCamelCase:
   Enabled: true
 
 Style/ClassAndModuleChildren:
@@ -192,9 +191,6 @@ Layout/TrailingBlankLines:
   Enabled: true
 
 Layout/SpaceInsideBlockBraces:
-  Enabled: true
-
-Layout/SpaceInsideBrackets:
   Enabled: true
 
 Layout/SpaceInsideHashLiteralBraces:
@@ -252,7 +248,7 @@ Style/CommentAnnotation:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Style/ConstantName:
+Naming/ConstantName:
   Enabled: true
 
 Style/Documentation:
@@ -361,7 +357,7 @@ Style/UnlessElse:
 Style/VariableInterpolation:
   Enabled: true
 
-Style/VariableName:
+Naming/VariableName:
   Enabled: true
 
 Style/WhileUntilDo:
@@ -370,7 +366,7 @@ Style/WhileUntilDo:
 Style/EvenOdd:
   Enabled: true
 
-Style/FileName:
+Naming/FileName:
   Enabled: true
 
 Style/For:
@@ -379,7 +375,7 @@ Style/For:
 Style/Lambda:
   Enabled: true
 
-Style/MethodName:
+Naming/MethodName:
   Enabled: true
 
 Style/MultilineTernaryOperator:
@@ -415,7 +411,7 @@ Style/NumericLiterals:
 Style/OneLineConditional:
   Enabled: true
 
-Style/OpMethod:
+Naming/BinaryOperatorParameterName:
   Enabled: true
 
 Style/ParenthesesAroundCondition:
@@ -427,7 +423,7 @@ Style/PercentLiteralDelimiters:
 Style/PerlBackrefs:
   Enabled: true
 
-Style/PredicateName:
+Naming/PredicateName:
   Enabled: true
 
 Style/RedundantException:
@@ -503,15 +499,6 @@ Lint/UselessAssignment:
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 
-Metrics/BlockLength:
-  Enabled: false
-
-BlockLength:
-  Max: 161
-
-NumericLiterals:
-  Enabled: false
-
 # RSpec
 
 # We don't use rspec in this way
@@ -521,6 +508,7 @@ RSpec/DescribeClass:
 # Example length is not necessarily an indicator of code quality
 RSpec/ExampleLength:
   Enabled: False
-
-RSpec/NestedGroups:
-  Max: 5
+RSpec/NestedGroups:                                                                                                                                                                                              
+  Max: 5 
+RSpec/MultipleExpectations:
+  Max: 3
