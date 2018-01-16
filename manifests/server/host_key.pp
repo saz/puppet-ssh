@@ -45,10 +45,10 @@ define ssh::server::host_key (
   $certificate_source = '',
   $certificate_content = '',
 ) {
-  if $public_key_source == '' and $public_key_content == '' {
+  if $public_key_source == '' and $public_key_content == '' and $ensure == 'present' {
     fail('You must provide either public_key_source or public_key_content parameter')
   }
-  if $private_key_source == '' and $private_key_content == '' {
+  if $private_key_source == '' and $private_key_content == '' and $ensure == 'present' {
     fail('You must provide either private_key_source or private_key_content parameter')
   }
 
@@ -79,38 +79,69 @@ define ssh::server::host_key (
     default => $certificate_source,
   }
 
-  file {"${name}_pub":
-    ensure  => $ensure,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    path    => "${::ssh::params::sshd_dir}/${name}.pub",
-    source  => $manage_pub_key_source,
-    content => $manage_pub_key_content,
-    notify  => Class['ssh::server::service'],
-  }
-
-  file {"${name}_priv":
-    ensure  => $ensure,
-    owner   => 'root',
-    group   => $::ssh::params::host_priv_key_group,
-    mode    => '0600',
-    path    => "${::ssh::params::sshd_dir}/${name}",
-    source  => $manage_priv_key_source,
-    content => $manage_priv_key_content,
-    notify  => Class['ssh::server::service'],
-  }
-
-  if !empty($certificate_source) or !empty($certificate_content) {
-    file {"${name}_cert":
+  if $ensure == 'present' {
+    file {"${name}_pub":
       ensure  => $ensure,
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      path    => "${::ssh::params::sshd_dir}/${name}-cert.pub",
-      source  => $manage_cert_source,
-      content => $manage_cert_content,
+      path    => "${::ssh::params::sshd_dir}/${name}.pub",
+      source  => $manage_pub_key_source,
+      content => $manage_pub_key_content,
       notify  => Class['ssh::server::service'],
+    }
+
+    file {"${name}_priv":
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => $::ssh::params::host_priv_key_group,
+      mode    => '0600',
+      path    => "${::ssh::params::sshd_dir}/${name}",
+      source  => $manage_priv_key_source,
+      content => $manage_priv_key_content,
+      notify  => Class['ssh::server::service'],
+    }
+  } else {
+    file {"${name}_pub":
+      ensure => $ensure,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      path   => "${::ssh::params::sshd_dir}/${name}.pub",
+      notify => Class['ssh::server::service'],
+    }
+
+    file {"${name}_priv":
+      ensure => $ensure,
+      owner  => 'root',
+      group  => $::ssh::params::host_priv_key_group,
+      mode   => '0600',
+      path   => "${::ssh::params::sshd_dir}/${name}",
+      notify => Class['ssh::server::service'],
+    }
+  }
+
+  if !empty($certificate_source) or !empty($certificate_content) {
+    if $ensure == 'present' {
+      file {"${name}_cert":
+        ensure  => $ensure,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        path    => "${::ssh::params::sshd_dir}/${name}-cert.pub",
+        source  => $manage_cert_source,
+        content => $manage_cert_content,
+        notify  => Class['ssh::server::service'],
+      }
+    } else {
+      file {"${name}_cert":
+        ensure => $ensure,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0644',
+        path   => "${::ssh::params::sshd_dir}/${name}-cert.pub",
+        notify => Class['ssh::server::service'],
+      }
     }
   }
 }
