@@ -31,6 +31,9 @@
       "operatingsystem": "Gentoo"
     },
     {
+      "operatingsystem": "Solaris"
+    },
+    {
       "operatingsystem": "ArchLinux"
     }
   ],
