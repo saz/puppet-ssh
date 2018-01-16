@@ -9,11 +9,11 @@ Facter.add('ssh_server_version_full') do
       version = Facter::Util::Resolution.exec('sshd -V 2>&1').
                 lines.
                 to_a.
-                select { |line| line.match(%r{^OpenSSH_}) }.
+                select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }.
                 first.
                 rstrip
 
-      version.gsub(%r{^OpenSSH_([^ ]+).*$}, '\1') unless version.nil?
+      version.gsub(%r{^(OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2') unless version.nil?
     end
   end
 end
