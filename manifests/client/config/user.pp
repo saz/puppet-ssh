@@ -10,9 +10,9 @@ define ssh::client::config::user(
   $options              = {}
 )
 {
-  validate_re($ensure, '^(present|absent)$')
-  validate_hash($options)
-  validate_bool($manage_user_ssh_dir)
+  validate_legacy(Optional[String], 'validate_re', $ensure, ['^(present|absent)$'])
+  validate_legacy(Hash, 'validate_hash', $options)
+  validate_legacy(Boolean, 'validate_bool', $manage_user_ssh_dir)
 
   include ::ssh::params
 
