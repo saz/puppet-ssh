@@ -29,7 +29,7 @@ describe 'ssh::client::config::user', type: :define do
       target: ['./somedir', 'Pattern'],
       user_home_dir: ['./somedir', 'Pattern'],
       manage_user_ssh_dir: ['maybe', 'expects a Boolean'],
-      options: ['the_options', 'expects a value of type Undef or Hash']
+      options: ['the_options', 'Hash value']
     }
 
     params.each do |param, value|
