@@ -19,7 +19,7 @@ describe 'ssh::client::config::user', type: :define do
     {
       osfamily: 'RedHat',
       operatingsystemmajrelease: '6',
-      concat_basedir: '/tmp',
+      concat_basedir: '/tmp'
     }
   end
 
