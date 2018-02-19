@@ -25,11 +25,11 @@ describe 'ssh::client::config::user', type: :define do
 
   describe 'with invalid parameters' do
     params = {
-      ensure: ['somestate', 'does not'],
-      target: ['./somedir', 'is not an absolute path'],
-      user_home_dir: ['./somedir', 'is not an absolute path'],
-      manage_user_ssh_dir: ['maybe', 'is not a boolean'],
-      options: ['the_options', 'is not a Hash']
+      ensure: ['somestate', 'expects a match for Enum'],
+      target: ['./somedir', 'Pattern'],
+      user_home_dir: ['./somedir', 'Pattern'],
+      manage_user_ssh_dir: ['maybe', 'expects a Boolean'],
+      options: ['the_options', 'expects a value of type Undef or Hash']
     }
 
     params.each do |param, value|
