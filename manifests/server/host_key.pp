@@ -45,6 +45,10 @@ define ssh::server::host_key (
   $certificate_source = '',
   $certificate_content = '',
 ) {
+
+  # Ensure the ssh::server class is included in the manifest
+  include ::ssh::server
+
   if $public_key_source == '' and $public_key_content == '' and $ensure == 'present' {
     fail('You must provide either public_key_source or public_key_content parameter')
   }
