@@ -1,12 +1,12 @@
 class ssh::server(
-  String $ensure = present,
+  String  $ensure               = present,
   Boolean $storeconfigs_enabled = true,
-  Hash $options = {},
-  Boolean $validate_sshd_file = false,
-  Boolean $use_augeas = false,
-  Array $options_absent = [],
-  Hash $match_block = {},
-  Boolean $use_issue_net = false
+  Hash    $options              = {},
+  Boolean $validate_sshd_file   = false,
+  Boolean $use_augeas           = false,
+  Array   $options_absent       = [],
+  Hash    $match_block          = {},
+  Boolean $use_issue_net        = false
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera

@@ -1,16 +1,16 @@
 # Main file for puppet-ssh
 class ssh (
-  Hash $server_options = {},
-  Hash $server_match_block = {},
-  Hash $client_options = {},
-  Hash $users_client_options = {},
-  String $version = 'present',
-  Boolean $storeconfigs_enabled = true,
-  Boolean $validate_sshd_file = $::ssh::params::validate_sshd_file,
-  Boolean $use_augeas = false,
-  Array $server_options_absent = [],
-  Array $client_options_absent = [],
-  Boolean $use_issue_net = false,
+  Hash    $server_options        = {},
+  Hash    $server_match_block    = {},
+  Hash    $client_options        = {},
+  Hash    $users_client_options  = {},
+  String  $version               = 'present',
+  Boolean $storeconfigs_enabled  = true,
+  Boolean $validate_sshd_file    = $::ssh::params::validate_sshd_file,
+  Boolean $use_augeas            = false,
+  Array   $server_options_absent = [],
+  Array   $client_options_absent = [],
+  Boolean $use_issue_net         = false,
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera

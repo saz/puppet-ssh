@@ -3,11 +3,11 @@
 # Contributor: Remi Ferrand <remi{dot}ferrand_at_cc(dot)in2p3.fr> (2015)
 #
 define ssh::client::config::user(
-  Enum['present', 'absent'] $ensure = present,
-  Optional[Stdlib::Absolutepath] $target = undef,
-  Optional[Stdlib::Absolutepath] $user_home_dir = undef,
-  Boolean $manage_user_ssh_dir  = true,
-  Hash $options = {}
+  Enum['present', 'absent']      $ensure              = present,
+  Optional[Stdlib::Absolutepath] $target              = undef,
+  Optional[Stdlib::Absolutepath] $user_home_dir       = undef,
+  Boolean                        $manage_user_ssh_dir = true,
+  Hash $options                                       = {}
 )
 {
   include ::ssh::params

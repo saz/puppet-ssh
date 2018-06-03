@@ -37,12 +37,12 @@
 #   Note certificate_source and certificate_content are mutually exclusive.
 #
 define ssh::server::host_key (
-  $ensure = 'present',
-  $public_key_source = '',
-  $public_key_content = '',
-  $private_key_source = '',
+  $ensure              = 'present',
+  $public_key_source   = '',
+  $public_key_content  = '',
+  $private_key_source  = '',
   $private_key_content = '',
-  $certificate_source = '',
+  $certificate_source  = '',
   $certificate_content = '',
 ) {
 

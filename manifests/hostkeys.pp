@@ -1,8 +1,8 @@
 # Class ssh::hostkeys
 class ssh::hostkeys(
-  Boolean $export_ipaddresses = true,
+  Boolean          $export_ipaddresses = true,
   Optional[String] $storeconfigs_group = undef,
-  Array $extra_aliases = [],
+  Array            $extra_aliases      = [],
 ) {
 
   if $export_ipaddresses == true {

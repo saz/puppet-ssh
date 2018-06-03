@@ -1,6 +1,6 @@
 class ssh::knownhosts(
-  $collect_enabled = $ssh::params::collect_enabled,
-  $storeconfigs_group = undef,
+  Boolean          $collect_enabled    = $ssh::params::collect_enabled,
+  Optional[String] $storeconfigs_group = undef,
 ) inherits ssh::params {
   if ($collect_enabled) {
     resources { 'sshkey':
