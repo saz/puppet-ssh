@@ -18,7 +18,7 @@ class ssh::client(
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $::ssh::params::ssh_config })
   } else {
-    $merged_options = merge($ssh::params::ssh_default_options, $fin_options)
+    $merged_options = merge($fin_options, delete($ssh::params::ssh_default_options, keys($fin_options)))
   }
 
   include ::ssh::client::install
