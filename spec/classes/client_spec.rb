@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ssh::client', type: 'class' do
-  context 'On Debian with no other parameters' do
+  context 'when on Debian with no other parameters' do
     let :facts do
       {
         osfamily: 'Debian',
@@ -17,7 +17,7 @@ describe 'ssh::client', type: 'class' do
       is_expected.to contain_package('openssh-client').with(ensure: 'present')
     end
   end
-  context 'On Debian with custom ensure' do
+  context 'when on Debian with custom ensure' do
     let :facts do
       {
         osfamily: 'Debian',

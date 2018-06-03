@@ -7,8 +7,8 @@ describe Facter::Util::Fact do
   end
 
   describe 'ssh_server_version_major' do
-    context '3 point semver syntax (6.6.1p1)' do
-      context 'returns major version when ssh_server_version_full fact present' do
+    context 'with 3 point semver syntax (6.6.1p1)' do
+      context 'with ssh_server_version_full fact present returns major version' do
         before do
           Facter.fact(:ssh_server_version_full).stubs(:value).returns('6.6.1p1')
         end
@@ -18,8 +18,8 @@ describe Facter::Util::Fact do
       end
     end
 
-    context '2 point semver syntax (7.2p2)' do
-      context 'returns major version when ssh_server_version_full fact present' do
+    context 'with 2 point semver syntax (7.2p2)' do
+      context 'with ssh_server_version_full fact present returns major version' do
         before do
           Facter.fact(:ssh_server_version_full).stubs(:value).returns('7.2p2')
         end
@@ -29,7 +29,7 @@ describe Facter::Util::Fact do
       end
     end
 
-    context 'returns nil when ssh_server_version_full fact not present' do
+    context 'without ssh_server_version_full fact present returns nil' do
       before do
         Facter.fact(:ssh_server_version_full).stubs(:value).returns(nil)
       end

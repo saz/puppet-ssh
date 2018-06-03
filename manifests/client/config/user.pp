@@ -3,17 +3,13 @@
 # Contributor: Remi Ferrand <remi{dot}ferrand_at_cc(dot)in2p3.fr> (2015)
 #
 define ssh::client::config::user(
-  $ensure               = present,
-  $target               = undef,
-  $user_home_dir        = undef,
-  $manage_user_ssh_dir  = true,
-  $options              = {}
+  Enum['present', 'absent']      $ensure              = present,
+  Optional[Stdlib::Absolutepath] $target              = undef,
+  Optional[Stdlib::Absolutepath] $user_home_dir       = undef,
+  Boolean                        $manage_user_ssh_dir = true,
+  Hash $options                                       = {}
 )
 {
-  validate_re($ensure, '^(present|absent)$')
-  validate_hash($options)
-  validate_bool($manage_user_ssh_dir)
-
   include ::ssh::params
 
   $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
@@ -22,7 +18,6 @@ define ssh::client::config::user(
   # it must have higher priority than any
   # other parameter.
   if ($target != undef) {
-    validate_absolute_path($target)
     $_target = $target
   }
   else {
@@ -30,7 +25,6 @@ define ssh::client::config::user(
       $_user_home_dir = "/home/${name}"
     }
     else {
-      validate_absolute_path($user_home_dir)
       $_user_home_dir = $user_home_dir
     }
 

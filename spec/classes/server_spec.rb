@@ -20,6 +20,7 @@ describe 'ssh::server' do
     let :facts do
       {
         osfamily: 'RedHat',
+        operatingsystemmajrelease: '6',
         interfaces: 'eth0',
         ipaddress_eth0: '192.168.1.1',
         ipaddress6_eth0: '::1',
@@ -38,6 +39,7 @@ describe 'ssh::server' do
     it do
       is_expected.to contain_concat__fragment('global config').with(
         target: '/etc/ssh/sshd_config',
+        # rubocop:disable EmptyLinesAroundArguments
         content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*
@@ -49,6 +51,7 @@ TestString /usr/bin
 UsePAM yes
 X11Forwarding yes
 '
+        # rubocop:enable EmptyLinesAroundArguments
       )
     end
   end
@@ -107,6 +110,7 @@ X11Forwarding yes
           it do
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
+              # rubocop:disable EmptyLinesAroundArguments
               content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*
@@ -116,6 +120,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 X11Forwarding yes
 '
+            # rubocop:enable EmptyLinesAroundArguments
           )
           end
         end
@@ -161,6 +166,7 @@ X11Forwarding yes
           it do
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
+              # rubocop:disable EmptyLinesAroundArguments
               content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*
@@ -170,6 +176,7 @@ Subsystem sftp /usr/lib/ssh/sftp-server
 UsePAM yes
 X11Forwarding yes
 '
+            # rubocop:enable EmptyLinesAroundArguments
           )
           end
         end

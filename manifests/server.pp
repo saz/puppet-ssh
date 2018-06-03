@@ -1,15 +1,29 @@
 class ssh::server(
-  $ensure               = present,
-  $storeconfigs_enabled = true,
-  $options              = {},
-  $validate_sshd_file   = false,
-  $use_augeas           = false,
-  $options_absent       = [],
-  $match_block          = {},
-  $use_issue_net        = false
+  String  $ensure               = present,
+  Boolean $storeconfigs_enabled = true,
+  Hash    $options              = {},
+  Boolean $validate_sshd_file   = false,
+  Boolean $use_augeas           = false,
+  Array   $options_absent       = [],
+  Hash    $match_block          = {},
+  Boolean $use_issue_net        = false
 ) inherits ssh::params {
 
-  validate_hash($match_block)
+  # Merge hashes from multiple layer of hierarchy in hiera
+  $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'hash', undef)
+  $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'hash', undef)
+
+  $fin_match_block = $hiera_match_block ? {
+    undef   => $match_block,
+    ''      => $match_block,
+    default => $hiera_match_block,
+  }
+
+  $fin_options = $hiera_options ? {
+    undef   => $options,
+    ''      => $options,
+    default => $hiera_options,
+  }
 
   if $use_augeas {
     $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $::ssh::params::sshd_config })

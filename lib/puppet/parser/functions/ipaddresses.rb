@@ -1,7 +1,7 @@
 module Puppet::Parser::Functions
-  newfunction(:ipaddresses, :type => :rvalue, :doc => <<-EOS
+  newfunction(:ipaddresses, :type => :rvalue, :doc => <<-DOC
   Returns all ip addresses of network interfaces (except lo) found by facter.
-EOS
+DOC
   ) do |_args|
     interfaces = lookupvar('interfaces')
 
@@ -28,6 +28,10 @@ EOS
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     end
+
+    # Throw away any v6 link-local addresses
+    fe8064 = IPAddr.new('fe80::/64')
+    result.delete_if { |ip| fe8064.include? IPAddr.new(ip) }
 
     return result
   end

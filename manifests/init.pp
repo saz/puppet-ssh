@@ -1,34 +1,23 @@
 # Main file for puppet-ssh
 class ssh (
-  $server_options         = {},
-  $server_match_block     = {},
-  $client_options         = {},
-  $users_client_options   = {},
-  $version                = 'present',
-  $storeconfigs_enabled   = true,
-  $validate_sshd_file     = $::ssh::params::validate_sshd_file,
-  $use_augeas            = false,
-  $server_options_absent = [],
-  $client_options_absent = [],
-  $use_issue_net         = false,
+  Hash    $server_options        = {},
+  Hash    $server_match_block    = {},
+  Hash    $client_options        = {},
+  Hash    $users_client_options  = {},
+  String  $version               = 'present',
+  Boolean $storeconfigs_enabled  = true,
+  Boolean $validate_sshd_file    = $::ssh::params::validate_sshd_file,
+  Boolean $use_augeas            = false,
+  Array   $server_options_absent = [],
+  Array   $client_options_absent = [],
+  Boolean $use_issue_net         = false,
 ) inherits ssh::params {
 
-  validate_hash($server_options)
-  validate_hash($server_match_block)
-  validate_hash($client_options)
-  validate_hash($users_client_options)
-  validate_bool($storeconfigs_enabled)
-  validate_bool($validate_sshd_file)
-  validate_bool($use_augeas)
-  validate_array($server_options_absent)
-  validate_array($client_options_absent)
-  validate_bool($use_issue_net)
-
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_server_options = hiera_hash("${module_name}::server_options", undef)
-  $hiera_server_match_block = hiera_hash("${module_name}::server_match_block", undef)
-  $hiera_client_options = hiera_hash("${module_name}::client_options", undef)
-  $hiera_users_client_options = hiera_hash("${module_name}::users_client_options", undef)
+  $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'hash', undef)
+  $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'hash', undef)
+  $hiera_client_options = lookup("${module_name}::client_options", Optional[Hash], 'hash', undef)
+  $hiera_users_client_options = lookup("${module_name}::users_client_options", Optional[Hash], 'hash', undef)
 
   $fin_server_options = $hiera_server_options ? {
     undef   => $server_options,
