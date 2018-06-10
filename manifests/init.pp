@@ -1,16 +1,17 @@
 # Main file for puppet-ssh
 class ssh (
-  Hash    $server_options        = {},
-  Hash    $server_match_block    = {},
-  Hash    $client_options        = {},
-  Hash    $users_client_options  = {},
-  String  $version               = 'present',
-  Boolean $storeconfigs_enabled  = true,
-  Boolean $validate_sshd_file    = $::ssh::params::validate_sshd_file,
-  Boolean $use_augeas            = false,
-  Array   $server_options_absent = [],
-  Array   $client_options_absent = [],
-  Boolean $use_issue_net         = false,
+  Hash    $server_options          = {},
+  Hash    $server_match_block      = {},
+  Hash    $client_options          = {},
+  Hash    $users_client_options    = {},
+  String  $version                 = 'present',
+  Boolean $storeconfigs_enabled    = true,
+  Boolean $validate_sshd_file      = $::ssh::params::validate_sshd_file,
+  Boolean $use_augeas              = false,
+  Array   $server_options_absent   = [],
+  Array   $client_options_absent   = [],
+  Boolean $use_issue_net           = false,
+  Boolean $purge_unmanaged_sshkeys = true,
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
@@ -59,6 +60,13 @@ class ssh (
     options              => $fin_client_options,
     use_augeas           => $use_augeas,
     options_absent       => $client_options_absent,
+  }
+
+  # If host keys are being managed, optionally purge unmanaged ones as well.
+  if ($storeconfigs_enabled and $purge_unmanaged_sshkeys) {
+    resources { 'sshkey':
+      purge => true,
+    }
   }
 
   create_resources('::ssh::client::config::user', $fin_users_client_options)
