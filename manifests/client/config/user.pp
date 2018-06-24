@@ -22,7 +22,7 @@ define ssh::client::config::user(
   }
   else {
     if ($user_home_dir == undef) {
-      $_user_home_dir = "/home/${user}"
+      $_user_home_dir = "/home/${name}"
     }
     else {
       $_user_home_dir = $user_home_dir
@@ -35,7 +35,7 @@ define ssh::client::config::user(
       unless defined(File[$user_ssh_dir]) {
         file { $user_ssh_dir:
           ensure => directory,
-          owner  => $user,
+          owner  => $name,
           mode   => $::ssh::params::user_ssh_directory_default_mode,
           before => Concat_file[$_target],
         }
@@ -46,13 +46,13 @@ define ssh::client::config::user(
   unless defined(Concat_file[$_target]) {
     concat_file{$_target:
       ensure => $ensure,
-      owner  => $user,
+      owner  => $name,
       mode   => $::ssh::params::user_ssh_config_default_mode,
-      tag    => $user,
+      tag    => $name,
     }
   }
   concat_fragment{$name:
-    tag     => $user,
+    tag     => $name,
     content => template("${module_name}/ssh_config.erb"),
     target  => $_target,
   }

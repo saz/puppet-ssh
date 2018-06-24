@@ -324,9 +324,6 @@ Style/StringLiterals:
 Style/TrailingCommaInArguments:
   Enabled: True
 
-Style/TrailingCommaInLiteral:
-  Enabled: True
-
 Style/GlobalVars:
   Enabled: True
 
@@ -418,9 +415,6 @@ Style/NumericLiterals:
   Enabled: True
 
 Style/OneLineConditional:
-  Enabled: True
-
-Style/OpMethod:
   Enabled: True
 
 Style/ParenthesesAroundCondition:
