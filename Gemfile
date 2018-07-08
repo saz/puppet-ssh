@@ -12,7 +12,7 @@ end
 
 group :test do
   gem 'puppetlabs_spec_helper',                                     require: false
-  gem 'rspec-puppet', '~> 2.5',                                     require: false
+  gem 'rspec-puppet',                                               require: false
   gem 'rspec-puppet-facts',                                         require: false
   gem 'rspec-puppet-utils',                                         require: false
   gem 'puppet-lint-absolute_classname-check',                       require: false
@@ -26,8 +26,8 @@ group :test do
   gem 'puppet-blacksmith',                                          require: false
   gem 'voxpupuli-release',                                          require: false, git: 'https://github.com/voxpupuli/voxpupuli-release-gem.git'
   gem 'puppet-strings', '~> 1.0',                                   require: false
-  gem 'rubocop-rspec', '~> 1.5',                                    require: false if RUBY_VERSION >= '2.2.0'
-  gem 'json_pure', '<= 2.0.1',                                      require: false if RUBY_VERSION < '2.0.0'
+  gem 'rubocop', '~> 0.49.1',                                       require: false
+  gem 'rubocop-rspec',                                              require: false
   gem 'rspec-its',                                                  require: false
 end
 

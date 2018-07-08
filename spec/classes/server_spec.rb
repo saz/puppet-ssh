@@ -39,7 +39,6 @@ describe 'ssh::server' do
     it do
       is_expected.to contain_concat__fragment('global config').with(
         target: '/etc/ssh/sshd_config',
-        # rubocop:disable EmptyLinesAroundArguments
         content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*
@@ -110,7 +109,6 @@ X11Forwarding yes
           it do
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
-              # rubocop:disable EmptyLinesAroundArguments
               content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*
@@ -165,7 +163,6 @@ X11Forwarding yes
           it do
             is_expected.to contain_concat__fragment('global config').with(
               target: '/etc/ssh/sshd_config',
-              # rubocop:disable EmptyLinesAroundArguments
               content: '# File is managed by Puppet
 
 AcceptEnv LANG LC_*

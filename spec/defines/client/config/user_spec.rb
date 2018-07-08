@@ -40,11 +40,7 @@ describe 'ssh::client::config::user', type: :define do
           }
         end
 
-        it 'fails' do
-          expect do
-            is_expected.to not_compile
-          end
-        end
+        it { is_expected.not_to compile }
       end
     end
   end
