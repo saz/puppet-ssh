@@ -103,7 +103,7 @@ X11Forwarding yes
               'enable'     => true,
               'hasrestart' => true,
               'hasstatus'  => true
-          )
+            )
           end
 
           it { is_expected.to contain_concat('/etc/ssh/sshd_config') }
@@ -120,8 +120,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 X11Forwarding yes
 '
-            # rubocop:enable EmptyLinesAroundArguments
-          )
+            )
           end
         end
         describe 'on Arch' do
@@ -150,7 +149,7 @@ X11Forwarding yes
             is_expected.to contain_package('openssh').with(
               ensure: param_hash[:ensure],
               name: 'openssh'
-          )
+            )
           end
 
           it do
@@ -159,7 +158,7 @@ X11Forwarding yes
               'enable'     => true,
               'hasrestart' => true,
               'hasstatus'  => true
-          )
+            )
           end
 
           it { is_expected.to contain_concat('/etc/ssh/sshd_config') }
@@ -176,8 +175,7 @@ Subsystem sftp /usr/lib/ssh/sftp-server
 UsePAM yes
 X11Forwarding yes
 '
-            # rubocop:enable EmptyLinesAroundArguments
-          )
+            )
           end
         end
       end
