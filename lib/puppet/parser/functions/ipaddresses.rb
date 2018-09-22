@@ -4,14 +4,14 @@ module Puppet::Parser::Functions
   Special network interfaces (e.g. docker0) can be excluded by an exclude list as
   first argument for this function.
 EOS
-             ) do |_args|
+             ) do |args|
     interfaces = lookupvar('interfaces')
 
-    if _args.size == 1
-      if !_args[0].is_a?(Array)
+    if args.size == 1
+      unless args[0].is_a?(Array)
         raise(Puppet::ParseError, 'ipaddresses(): Requires first argument to be a Array')
       end
-      interfaces_exclude = _args[0]
+      interfaces_exclude = args[0]
     else
       interfaces_exclude = []
     end
