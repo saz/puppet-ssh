@@ -4,5 +4,3 @@ fixtures:
     concat:
       repo: "https://github.com/puppetlabs/puppetlabs-concat"
       ref: "2.2.1"
-  symlinks:
-    ssh: "#{source_dir}"
