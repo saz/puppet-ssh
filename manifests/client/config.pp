@@ -17,15 +17,4 @@ class ssh::client::config
       require => Class['ssh::client::install'],
     }
   }
-
-  # Workaround for https://tickets.puppetlabs.com/browse/PUP-1177.
-  # Fixed in Puppet 3.7.0
-  if versioncmp($::puppetversion, '3.7.0') < 0 {
-    ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
-      'ensure' => 'file',
-      'owner'  => 0,
-      'group'  => 0,
-      'mode'   => '0644',
-    })
-  }
 }
