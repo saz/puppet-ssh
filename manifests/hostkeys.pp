@@ -3,10 +3,11 @@ class ssh::hostkeys(
   Boolean          $export_ipaddresses = true,
   Optional[String] $storeconfigs_group = undef,
   Array            $extra_aliases      = [],
+  Array            $exclude_interfaces = [],
 ) {
 
   if $export_ipaddresses == true {
-    $ipaddresses  = ipaddresses()
+    $ipaddresses  = ipaddresses($exclude_interfaces)
     $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses ])
   } else {
     $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases])
