@@ -60,5 +60,5 @@
       "name": "puppet",
       "version_requirement": ">= 4.10.10 < 7.0.0"
     }
-  ],  
+  ]
 }
