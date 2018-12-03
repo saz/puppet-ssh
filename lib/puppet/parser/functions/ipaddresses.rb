@@ -31,15 +31,15 @@ EOS
           skip_iface = true if iface.include?(iface_exclude)
         end
         next if skip_iface == true
-        ipaddr = lookupvar("ipaddress_#{iface}")
-        ipaddr6 = lookupvar("ipaddress6_#{iface}")
+        ipaddr = lookupvar("ipaddress_#{iface}") rescue nil
+        ipaddr6 = lookupvar("ipaddress6_#{iface}") rescue nil
         result << ipaddr if ipaddr && (ipaddr != :undefined)
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     else
       unless interfaces.include?('lo')
-        ipaddr = lookupvar("ipaddress_#{interfaces}")
-        ipaddr6 = lookupvar("ipaddress6_#{interfaces}")
+        ipaddr = lookupvar("ipaddress_#{interfaces}") rescue nil
+        ipaddr6 = lookupvar("ipaddress6_#{interfaces}") rescue nil
         result << ipaddr if ipaddr && (ipaddr != :undefined)
         result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
