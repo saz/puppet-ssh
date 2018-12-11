@@ -10,7 +10,7 @@ class ssh::server(
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'hash', undef)
+  $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'deep', undef)
   $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'hash', undef)
 
   $fin_match_block = $hiera_match_block ? {
