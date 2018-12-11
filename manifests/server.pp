@@ -11,24 +11,15 @@ class ssh::server(
 
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'deep', undef)
-  $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'hash', undef)
+  $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'deep', undef)
 
-  $fin_match_block = $hiera_match_block ? {
-    undef   => $match_block,
-    ''      => $match_block,
-    default => $hiera_match_block,
-  }
-
-  $fin_options = $hiera_options ? {
-    undef   => $options,
-    ''      => $options,
-    default => $hiera_options,
-  }
+  $fin_options = deep_merge($hiera_options, $options)
+  $fin_match_block = deep_merge($hiera_match_block, $match_block)
 
   if $use_augeas {
     $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $::ssh::params::sshd_config })
   } else {
-    $merged_options = merge($ssh::params::sshd_default_options, $fin_options)
+    $merged_options = deep_merge($ssh::params::sshd_default_options, $fin_options)
   }
 
   include ::ssh::server::install

@@ -7,13 +7,9 @@ class ssh::client(
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'hash', undef)
+  $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'deep', undef)
 
-  $fin_options = $hiera_options ? {
-    undef   => $options,
-    ''      => $options,
-    default => $hiera_options,
-  }
+  $fin_options = deep_merge($hiera_options, $options)
 
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $::ssh::params::ssh_config })

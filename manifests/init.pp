@@ -15,34 +15,15 @@ class ssh (
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'hash', undef)
-  $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'hash', undef)
-  $hiera_client_options = lookup("${module_name}::client_options", Optional[Hash], 'hash', undef)
-  $hiera_users_client_options = lookup("${module_name}::users_client_options", Optional[Hash], 'hash', undef)
+  $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'deep', undef)
+  $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'deep', undef)
+  $hiera_client_options = lookup("${module_name}::client_options", Optional[Hash], 'deep', undef)
+  $hiera_users_client_options = lookup("${module_name}::users_client_options", Optional[Hash], 'deep', undef)
 
-  $fin_server_options = $hiera_server_options ? {
-    undef   => $server_options,
-    ''      => $server_options,
-    default => $hiera_server_options,
-  }
-
-  $fin_server_match_block = $hiera_server_match_block ? {
-    undef   => $server_match_block,
-    ''      => $server_match_block,
-    default => $hiera_server_match_block,
-  }
-
-  $fin_client_options = $hiera_client_options ? {
-    undef   => $client_options,
-    ''      => $client_options,
-    default => $hiera_client_options,
-  }
-
-  $fin_users_client_options = $hiera_users_client_options ? {
-    undef   => $users_client_options,
-    ''      => $users_client_options,
-    default => $hiera_users_client_options,
-  }
+  $fin_server_options = deep_merge($hiera_server_options, $server_options)
+  $fin_server_match_block = deep_merge($hiera_server_match_block, $server_match_block)
+  $fin_client_options = deep_merge($hiera_client_options, $client_options)
+  $fin_users_client_options = deep_merge($hiera_users_client_options, $users_client_options)
 
   class { '::ssh::server':
     ensure               => $version,
