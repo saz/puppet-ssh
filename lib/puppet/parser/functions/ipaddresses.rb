@@ -5,43 +5,30 @@ module Puppet::Parser::Functions
   first argument for this function.
 EOS
              ) do |args|
-    interfaces = lookupvar('interfaces')
+    networking = lookupvar('networking')
 
+    # always exclude loopback interface
+    interfaces_exclude = ['lo']
     if args.size == 1
       unless args[0].is_a?(Array)
-        raise(Puppet::ParseError, 'ipaddresses(): Requires first argument to be a Array')
+        raise(Puppet::ParseError, 'ipaddresses(): Requires first argument to be an Array')
       end
-      interfaces_exclude = args[0]
-    else
-      interfaces_exclude = []
+      interfaces_exclude << args[0]
     end
 
-    # In Puppet v2.7, lookupvar returns :undefined if the variable does
-    # not exist.  In Puppet 3.x, it returns nil.
-    # See http://docs.puppetlabs.com/guides/custom_functions.html
-    return false if interfaces.nil? || interfaces == :undefined
+    return false if not networking.include?('interfaces')
 
     result = []
-    if interfaces.count(',') > 0
-      interfaces = interfaces.split(',')
-      interfaces.each do |iface|
-        next if iface.include?('lo')
-        skip_iface = false
-        interfaces_exclude.each do |iface_exclude|
-          skip_iface = true if iface.include?(iface_exclude)
+    networking['interfaces'].each do |iface, data|
+      # skip excluded interfaces
+      next if interfaces_exclude.include?(iface)
+
+      ['bindings', 'bindings6'].each do |binding_type|
+        next if not data.key?(binding_type)
+        data[binding_type].each do |binding|
+          next if not binding.key?('address')
+          result << binding['address']
         end
-        next if skip_iface == true
-        ipaddr = lookupvar("ipaddress_#{iface}")
-        ipaddr6 = lookupvar("ipaddress6_#{iface}")
-        result << ipaddr if ipaddr && (ipaddr != :undefined)
-        result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
-      end
-    else
-      unless interfaces.include?('lo')
-        ipaddr = lookupvar("ipaddress_#{interfaces}")
-        ipaddr6 = lookupvar("ipaddress6_#{interfaces}")
-        result << ipaddr if ipaddr && (ipaddr != :undefined)
-        result << ipaddr6 if ipaddr6 && (ipaddr6 != :undefined)
       end
     end
 
@@ -49,6 +36,6 @@ EOS
     fe8064 = IPAddr.new('fe80::/64')
     result.delete_if { |ip| fe8064.include? IPAddr.new(ip) }
 
-    return result
+    return result.uniq
   end
 end

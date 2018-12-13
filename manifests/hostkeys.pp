@@ -1,16 +1,18 @@
 # Class ssh::hostkeys
 class ssh::hostkeys(
-  Boolean          $export_ipaddresses = true,
-  Optional[String] $storeconfigs_group = undef,
-  Array            $extra_aliases      = [],
-  Array            $exclude_interfaces = [],
+  Boolean          $export_ipaddresses  = true,
+  Optional[String] $storeconfigs_group  = undef,
+  Array            $extra_aliases       = [],
+  Array            $exclude_interfaces  = [],
+  Array            $exclude_ipaddresses = [],
 ) {
 
   if $export_ipaddresses == true {
     $ipaddresses  = ipaddresses($exclude_interfaces)
-    $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses ])
+    $ipaddresses_real = delete($ipaddresses, $exclude_ipaddresses)
+    $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses_real ]))
   } else {
-    $host_aliases = flatten([ $::fqdn, $::hostname, $extra_aliases])
+    $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases]))
   }
 
   if $storeconfigs_group {
