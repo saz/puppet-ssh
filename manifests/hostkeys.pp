@@ -8,8 +8,7 @@ class ssh::hostkeys(
 ) {
 
   if $export_ipaddresses == true {
-    $ipaddresses  = ipaddresses($exclude_interfaces)
-    $ipaddresses_real = delete($ipaddresses, $exclude_ipaddresses)
+    $ipaddresses_real = delete(ipaddresses($exclude_interfaces), $exclude_ipaddresses)
     $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses_real ]))
   } else {
     $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases]))
@@ -19,54 +18,25 @@ class ssh::hostkeys(
     tag 'hostkey_all', "hostkey_${storeconfigs_group}"
   }
 
-  if defined('$::sshdsakey') {
-    @@sshkey { "${::fqdn}_dsa":
-      ensure       => present,
-      host_aliases => $host_aliases,
-      type         => dsa,
-      key          => $::sshdsakey,
+  ['dsa', 'rsa', 'ecdsa', 'ed25519'].each |String $key_type| {
+    if $key_type == 'ecdsa' {
+      $key_type_real = 'ecdsa-sha2-nistp256'
+    } else {
+      $key_type_real = $key_type
     }
-  } else {
-    @@sshkey { "${::fqdn}_dsa":
-      ensure => absent,
-    }
-  }
-  if defined('$::sshrsakey') {
-    @@sshkey { "${::fqdn}_rsa":
-      ensure       => present,
-      host_aliases => $host_aliases,
-      type         => rsa,
-      key          => $::sshrsakey,
-    }
-  } else {
-    @@sshkey { "${::fqdn}_rsa":
-      ensure => absent,
-    }
-  }
-  if defined('$::sshecdsakey') {
-    @@sshkey { "${::fqdn}_ecdsa":
-      ensure       => present,
-      host_aliases => $host_aliases,
-      type         => 'ecdsa-sha2-nistp256',
-      key          => $::sshecdsakey,
-    }
-  } else {
-    @@sshkey { "${::fqdn}_ecdsa":
-      ensure => absent,
-      type   => 'ecdsa-sha2-nistp256',
-    }
-  }
-  if defined('$::sshed25519key') {
-    @@sshkey { "${::fqdn}_ed25519":
-      ensure       => present,
-      host_aliases => $host_aliases,
-      type         => 'ed25519',
-      key          => $::sshed25519key,
-    }
-  } else {
-    @@sshkey { "${::fqdn}_ed25519":
-      ensure => absent,
-      type   => 'ed25519',
+
+    if $key_type in $facts['ssh'] {
+      @@sshkey { "${::fqdn}_${key_type}":
+        ensure       => present,
+        host_aliases => $host_aliases,
+        type         => $key_type_real,
+        key          => $facts['ssh'][$key_type]['key'],
+      }
+    } else {
+      @@sshkey { "${::fqdn}_${key_type}":
+        ensure => absent,
+        type   => $key_type_real,
+      }
     }
   }
 }
