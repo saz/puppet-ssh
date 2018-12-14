@@ -4,9 +4,7 @@ class ssh::client::config
   $use_augeas = $::ssh::client::use_augeas
 
   if $use_augeas {
-
     create_resources('ssh_config', $options)
-
   } else {
     file { $ssh::params::ssh_config:
       ensure  => present,

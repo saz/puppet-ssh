@@ -15,8 +15,8 @@ class ssh::server::config {
   } else {
     concat { $ssh::params::sshd_config:
       ensure       => present,
-      owner        => '0',
-      group        => '0',
+      owner        => 0,
+      group        => 0,
       mode         => '0600',
       validate_cmd => $sshd_validate_cmd,
       notify       => Service[$ssh::params::service_name],

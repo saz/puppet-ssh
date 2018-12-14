@@ -86,8 +86,8 @@ define ssh::server::host_key (
   if $ensure == 'present' {
     file {"${name}_pub":
       ensure  => $ensure,
-      owner   => 'root',
-      group   => 'root',
+      owner   => 0,
+      group   => 0,
       mode    => '0644',
       path    => "${::ssh::params::sshd_dir}/${name}.pub",
       source  => $manage_pub_key_source,
@@ -97,7 +97,7 @@ define ssh::server::host_key (
 
     file {"${name}_priv":
       ensure  => $ensure,
-      owner   => 'root',
+      owner   => 0,
       group   => $::ssh::params::host_priv_key_group,
       mode    => '0600',
       path    => "${::ssh::params::sshd_dir}/${name}",
@@ -108,8 +108,8 @@ define ssh::server::host_key (
   } else {
     file {"${name}_pub":
       ensure => $ensure,
-      owner  => 'root',
-      group  => 'root',
+      owner  => 0,
+      group  => 0,
       mode   => '0644',
       path   => "${::ssh::params::sshd_dir}/${name}.pub",
       notify => Class['ssh::server::service'],
@@ -117,7 +117,7 @@ define ssh::server::host_key (
 
     file {"${name}_priv":
       ensure => $ensure,
-      owner  => 'root',
+      owner  => 0,
       group  => $::ssh::params::host_priv_key_group,
       mode   => '0600',
       path   => "${::ssh::params::sshd_dir}/${name}",
@@ -129,8 +129,8 @@ define ssh::server::host_key (
     if $ensure == 'present' {
       file {"${name}_cert":
         ensure  => $ensure,
-        owner   => 'root',
-        group   => 'root',
+        owner   => 0,
+        group   => 0,
         mode    => '0644',
         path    => "${::ssh::params::sshd_dir}/${name}-cert.pub",
         source  => $manage_cert_source,
@@ -140,8 +140,8 @@ define ssh::server::host_key (
     } else {
       file {"${name}_cert":
         ensure => $ensure,
-        owner  => 'root',
-        group  => 'root',
+        owner  => 0,
+        group  => 0,
         mode   => '0644',
         path   => "${::ssh::params::sshd_dir}/${name}-cert.pub",
         notify => Class['ssh::server::service'],

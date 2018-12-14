@@ -10,9 +10,7 @@ define ssh::client::config::user(
   Boolean                        $manage_user_ssh_dir = true,
   Hash $options                                       = {},
   String[1] $user                                     = $name,
-)
-{
-
+) {
   include ::ssh::params
 
   # If a specific target file was specified,
@@ -20,12 +18,10 @@ define ssh::client::config::user(
   # other parameter.
   if ($target != undef) {
     $_target = $target
-  }
-  else {
+  } else {
     if ($user_home_dir == undef) {
       $_user_home_dir = "/home/${user}"
-    }
-    else {
+    } else {
       $_user_home_dir = $user_home_dir
     }
 
@@ -45,14 +41,14 @@ define ssh::client::config::user(
   }
 
   unless defined(Concat_file[$_target]) {
-    concat_file{$_target:
+    concat_file { $_target:
       ensure => $ensure,
       owner  => $user,
       mode   => $::ssh::params::user_ssh_config_default_mode,
       tag    => $name,
     }
   }
-  concat_fragment{$name:
+  concat_fragment { $name:
     tag     => $name,
     content => template("${module_name}/ssh_config.erb"),
     target  => $_target,
