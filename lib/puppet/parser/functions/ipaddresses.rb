@@ -16,17 +16,17 @@ EOS
       interfaces_exclude << args[0]
     end
 
-    return false if not networking.include?('interfaces')
+    return false unless networking.include?('interfaces')
 
     result = []
     networking['interfaces'].each do |iface, data|
       # skip excluded interfaces
       next if interfaces_exclude.include?(iface)
 
-      ['bindings', 'bindings6'].each do |binding_type|
-        next if not data.key?(binding_type)
+      %w[bindings bindings6].each do |binding_type|
+        next unless data.key?(binding_type)
         data[binding_type].each do |binding|
-          next if not binding.key?('address')
+          next unless binding.key?('address')
           result << binding['address']
         end
       end
