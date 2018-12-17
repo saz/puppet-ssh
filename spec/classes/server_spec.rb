@@ -20,7 +20,7 @@ describe 'ssh::server' do
     let :facts do
       {
         osfamily: 'RedHat',
-        operatingsystemmajrelease: '6',
+        operatingsystemmajrelease: '6'
       }
     end
 
@@ -64,7 +64,7 @@ X11Forwarding yes
       ['Debian'].each do |osfamily|
         let :facts do
           {
-            osfamily: osfamily,
+            osfamily: osfamily
           }
         end
 
@@ -102,7 +102,7 @@ X11Forwarding yes
             {
               osfamily: 'Archlinux',
               lsbdistdescription: 'Arch Linux',
-              lsbdistid: 'Arch',
+              lsbdistid: 'Arch'
             }
           end
 

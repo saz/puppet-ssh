@@ -8,16 +8,16 @@ RSpec.configure do |c|
         'eth0' => {
           'bindings' => [
             {
-              'address' => '192.168.1.1',
-	    },
-	  ],
+              'address' => '192.168.1.1'
+            }
+          ],
           'bindings6' => [
             {
-              'address' => '::1',
-	    },
-	  ],
-	},
-      },
+              'address' => '::1'
+            }
+          ]
+        }
+      }
     },
     concat_basedir: '/tmp',
     puppetversion: '3.7.0',

@@ -4,7 +4,7 @@ describe 'ssh', type: 'class' do
   context 'when on Debian with no other parameters' do
     let :facts do
       {
-        osfamily: 'Debian',
+        osfamily: 'Debian'
       }
     end
 
@@ -25,7 +25,7 @@ describe 'ssh', type: 'class' do
     context 'when on Debian with the validate_sshd_file setting' do
       let :facts do
         {
-          osfamily: 'Debian',
+          osfamily: 'Debian'
         }
       end
       let :params do
@@ -44,7 +44,7 @@ describe 'ssh', type: 'class' do
   end
 
   standard_facts = {
-    osfamily: 'Debian',
+    osfamily: 'Debian'
   }
 
   context 'When on Debian without resource purging' do

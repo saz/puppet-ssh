@@ -8,7 +8,7 @@ describe 'ssh::server::config::setting', type: :define do
   let :facts do
     {
       osfamily: 'RedHat',
-      operatingsystemmajrelease: '6',
+      operatingsystemmajrelease: '6'
     }
   end
 

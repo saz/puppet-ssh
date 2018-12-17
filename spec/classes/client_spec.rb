@@ -4,7 +4,7 @@ describe 'ssh::client', type: 'class' do
   context 'when on Debian with no other parameters' do
     let :facts do
       {
-        osfamily: 'Debian',
+        osfamily: 'Debian'
       }
     end
 
@@ -15,7 +15,7 @@ describe 'ssh::client', type: 'class' do
   context 'when on Debian with custom ensure' do
     let :facts do
       {
-        osfamily: 'Debian',
+        osfamily: 'Debian'
       }
     end
     let :params do
