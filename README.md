@@ -84,7 +84,7 @@ ssh::server_options:
     UsePAM: 'yes'
     X11Forwarding: 'yes'
 
-ssh::server_match_block:
+ssh::server::match_block:
   filetransfer:
     type: group
     options:
