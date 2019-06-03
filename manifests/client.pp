@@ -7,7 +7,7 @@ class ssh::client(
 ) inherits ssh::params {
 
   # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'deep', undef)
+  $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'deep', {})
 
   $fin_options = deep_merge($hiera_options, $options)
 
