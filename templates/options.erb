@@ -18,22 +18,22 @@
     <%- value = v[key] -%>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
-    <%- if a != '' -%>
+    <%- if a != '' && a != nil -%>
     <%= key %> <%= bool2str(a) %>
     <%- end -%>
     <%- end -%>
-    <%- elsif value != '' -%>
+    <%- elsif value != '' && value != nil -%>
     <%= key %> <%= bool2str(value) %>
     <%- end -%>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
 <%- v.each do |a| -%>
-<%- if a != '' -%>
+<%- if a != '' && a != nil -%>
 <%= k %> <%= bool2str(a) %>
 <%- end -%>
 <%- end -%>
-<%- elsif v != :undef and v != '' -%>
+<%- elsif v != nil and v != '' -%>
 <%= k %> <%= bool2str(v) %>
 <%- end -%>
 <%- end -%>
