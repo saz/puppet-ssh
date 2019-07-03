@@ -96,14 +96,15 @@ define ssh::server::host_key (
     }
 
     file {"${name}_priv":
-      ensure  => $ensure,
-      owner   => 0,
-      group   => $::ssh::params::host_priv_key_group,
-      mode    => '0600',
-      path    => "${::ssh::params::sshd_dir}/${name}",
-      source  => $manage_priv_key_source,
-      content => $manage_priv_key_content,
-      notify  => Class['ssh::server::service'],
+      ensure    => $ensure,
+      owner     => 0,
+      group     => $::ssh::params::host_priv_key_group,
+      mode      => '0600',
+      path      => "${::ssh::params::sshd_dir}/${name}",
+      source    => $manage_priv_key_source,
+      content   => $manage_priv_key_content,
+      show_diff => false,
+      notify    => Class['ssh::server::service'],
     }
   } else {
     file {"${name}_pub":
@@ -116,12 +117,13 @@ define ssh::server::host_key (
     }
 
     file {"${name}_priv":
-      ensure => $ensure,
-      owner  => 0,
-      group  => $::ssh::params::host_priv_key_group,
-      mode   => '0600',
-      path   => "${::ssh::params::sshd_dir}/${name}",
-      notify => Class['ssh::server::service'],
+      ensure    => $ensure,
+      owner     => 0,
+      group     => $::ssh::params::host_priv_key_group,
+      mode      => '0600',
+      path      => "${::ssh::params::sshd_dir}/${name}",
+      show_diff => false,
+      notify    => Class['ssh::server::service'],
     }
   }
 
