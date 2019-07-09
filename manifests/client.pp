@@ -1,3 +1,25 @@
+# @summary
+#   This class add ssh client management
+#
+# @example Puppet usage
+#   class { 'ssh::client':
+#     ensure               => present,
+#     storeconfigs_enabled => true,
+#     use_augeas           => false,
+#   }
+#
+# @param ensure
+#   Ensurable param to ssh client
+#
+# @param storeconfigs_enabled
+#   Collected host keys from servers will be written to known_hosts unless storeconfigs_enabled is false
+#
+# @param options
+#   Dynamic hash for openssh client options
+#
+# @param options_absent
+#   Remove options (with augeas style)
+#
 class ssh::client(
   String  $ensure               = present,
   Boolean $storeconfigs_enabled = true,

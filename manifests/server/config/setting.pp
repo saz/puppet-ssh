@@ -1,3 +1,8 @@
+# @summary
+#   Internal define to managed ssh server param
+#
+# @api private
+#
 define ssh::server::config::setting (
   $key,
   $value,

@@ -1,4 +1,8 @@
-# Class ssh::hostkeys
+# @summary
+#   This class manged hostkeys
+#
+# @api private
+#
 class ssh::hostkeys(
   Boolean          $export_ipaddresses  = true,
   Optional[String] $storeconfigs_group  = undef,
