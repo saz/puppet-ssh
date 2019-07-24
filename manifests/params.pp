@@ -2,82 +2,204 @@ class ssh::params {
   case $::osfamily {
     'Debian': {
       $server_package_name = 'openssh-server'
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = 'openssh-client'
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'ssh'
       $sftp_server_path = '/usr/lib/openssh/sftp-server'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       $host_priv_key_group = 'root'
+      $host_priv_key_mode = '0600'
     }
     'RedHat': {
       $server_package_name = 'openssh-server'
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = 'openssh-clients'
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/openssh/sftp-server'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $host_priv_key_group = 'ssh_keys'
       } else {
         $host_priv_key_group = 'root'
       }
+      $host_priv_key_mode = '0600'
     }
     'FreeBSD', 'DragonFly': {
       $server_package_name = undef
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = undef
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       $host_priv_key_group = 'root'
+      $host_priv_key_mode = '0600'
     }
     'OpenBSD': {
       $server_package_name = undef
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = undef
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       $host_priv_key_group = 'root'
+      $host_priv_key_mode = '0600'
     }
     'Darwin': {
       $server_package_name = undef
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = undef
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'com.openssh.sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
-      $host_priv_key_group = 'root'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'wheel'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'wheel'
+      $host_key_mode = '0644'
+      $host_priv_key_group = 'wheel'
+      $host_priv_key_mode = '0600'
+    }
+    'windows': {
+      $server_package_name = 'openssh'
+      $client_package_name = 'openssh'
+      $package_install_options = ['-params', '""/SSHServerFeature""']
+      $package_uninstall_options = ['-params','""/SSHServerFeature""']
+      $package_provider = 'chocolatey'
+      $home_dir_path = 'C:/Users'
+      if $::architecture == 'x64' {
+        $sshd_exe_dir = 'C:/Program Files/OpenSSH-Win64'
+      }
+      else {
+        $sshd_exe_dir = 'C:/Program Files/OpenSSH-Win32'
+      }
+      $sshd_path = "${sshd_exe_dir}/sshd.exe"
+      $ssh_cfg_dir = 'C:/ProgramData/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
+      $service_name = 'sshd'
+      $sftp_server_path = 'sftp-server.exe'
+      $cfg_file_owner = 'Administrators'
+      $cfg_file_group = 'Users'
+      $cfg_file_mode = '0755'
+      $cfg_priv_file_mode = '0750'
+      $host_key_owner = 'Administrators'
+      $host_key_group = 'NT SERVICE\SSHD'
+      $host_key_mode = '0755'
+      $host_priv_key_group = 'NT SERVICE\SSHD'
+      $host_priv_key_mode = '0750'
+
     }
     'ArchLinux': {
       $server_package_name = 'openssh'
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = 'openssh'
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'sshd.service'
       $sftp_server_path = '/usr/lib/ssh/sftp-server'
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       $host_priv_key_group = 'root'
+      $host_priv_key_mode = '0600'
     }
     'Suse': {
       $server_package_name = 'openssh'
+      $package_install_options = undef
+      $package_uninstall_options = undef
       $client_package_name = 'openssh'
-      $sshd_dir = '/etc/ssh'
-      $sshd_config = '/etc/ssh/sshd_config'
-      $ssh_config = '/etc/ssh/ssh_config'
-      $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+      $package_provider = undef
+      $home_dir_path = '/home'
+      $sshd_path = '/usr/sbin/sshd'
+      $ssh_cfg_dir = '/etc/ssh'
+      $sshd_config = "${ssh_cfg_dir}/sshd_config"
+      $ssh_config = "${ssh_cfg_dir}/ssh_config"
+      $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
+      $cfg_file_owner = 'root'
+      $cfg_file_group = 'root'
+      $cfg_file_mode = '0644'
+      $cfg_priv_file_mode = '0600'
+      $host_key_owner = 'root'
+      $host_key_group = 'root'
+      $host_key_mode = '0644'
       $host_priv_key_group = 'root'
+      $host_priv_key_mode = '0600'
       case $::operatingsystem {
         'SLES': {
           $service_name = 'sshd'
@@ -108,23 +230,49 @@ class ssh::params {
       case $::operatingsystem {
         'SmartOS': {
           $server_package_name = undef
+          $package_install_options = undef
+          $package_uninstall_options = undef
           $client_package_name = undef
-          $sshd_dir = '/etc/ssh'
-          $sshd_config = '/etc/ssh/sshd_config'
-          $ssh_config = '/etc/ssh/ssh_config'
-          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $package_provider = undef
+          $home_dir_path = '/home'
+          $sshd_path = '/usr/sbin/sshd'
+          $ssh_cfg_dir = '/etc/ssh'
+          $sshd_config = "${ssh_cfg_dir}/sshd_config"
+          $ssh_config = "${ssh_cfg_dir}/ssh_config"
+          $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
           $service_name = 'svc:/network/ssh:default'
           $sftp_server_path = 'internal-sftp'
+          $cfg_file_owner = 'root'
+          $cfg_file_group = 'root'
+          $cfg_file_mode = '0644'
+          $cfg_priv_file_mode = '0600'
+          $host_key_owner = 'root'
+          $host_key_group = 'root'
+          $host_key_mode = '0644'
           $host_priv_key_group = 'root'
+          $host_priv_key_mode = '0600'
         }
         default: {
-          $sshd_dir = '/etc/ssh'
-          $sshd_config = '/etc/ssh/sshd_config'
-          $ssh_config = '/etc/ssh/ssh_config'
-          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $ssh_cfg_dir = '/etc/ssh'
+          $sshd_config = "${ssh_cfg_dir}/sshd_config"
+          $ssh_config = "${ssh_cfg_dir}/ssh_config"
+          $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
           $service_name = 'svc:/network/ssh:default'
           $sftp_server_path = 'internal-sftp'
+          $package_install_options = undef
+          $package_uninstall_options = undef
+          $package_provider = undef
+          $home_dir_path = '/home'
+          $sshd_path = '/usr/sbin/sshd'
+          $cfg_file_owner = 'root'
+          $cfg_file_group = 'root'
+          $cfg_file_mode = '0644'
+          $cfg_priv_file_mode = '0600'
+          $host_key_owner = 'root'
+          $host_key_group = 'root'
+          $host_key_mode = '0644'
           $host_priv_key_group = 'root'
+          $host_priv_key_mode = '0600'
           case versioncmp($::kernelrelease, '5.10') {
             1: {
               # Solaris 11 and later
@@ -148,25 +296,51 @@ class ssh::params {
       case $::operatingsystem {
         'Gentoo': {
           $server_package_name = 'openssh'
+          $package_install_options = undef
+          $package_uninstall_options = undef
           $client_package_name = 'openssh'
-          $sshd_dir = '/etc/ssh'
-          $sshd_config = '/etc/ssh/sshd_config'
-          $ssh_config = '/etc/ssh/ssh_config'
-          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $package_provider = undef
+          $home_dir_path = '/home'
+          $sshd_path = '/usr/sbin/sshd'
+          $ssh_cfg_dir = '/etc/ssh'
+          $sshd_config = "${ssh_cfg_dir}/sshd_config"
+          $ssh_config = "${ssh_cfg_dir}/ssh_config"
+          $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
           $service_name = 'sshd'
           $sftp_server_path = '/usr/lib/misc/sftp-server'
+          $cfg_file_owner = 'root'
+          $cfg_file_group = 'root'
+          $cfg_file_mode = '0644'
+          $cfg_priv_file_mode = '0600'
+          $host_key_owner = 'root'
+          $host_key_group = 'root'
+          $host_key_mode = '0644'
           $host_priv_key_group = 'root'
+          $host_priv_key_mode = '0600'
         }
         'Amazon': {
           $server_package_name = 'openssh-server'
+          $package_install_options = undef
+          $package_uninstall_options = undef
           $client_package_name = 'openssh-clients'
-          $sshd_dir = '/etc/ssh'
-          $sshd_config = '/etc/ssh/sshd_config'
-          $ssh_config = '/etc/ssh/ssh_config'
-          $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
+          $package_provider = undef
+          $home_dir_path = '/home'
+          $sshd_path = '/usr/sbin/sshd'
+          $ssh_cfg_dir = '/etc/ssh'
+          $sshd_config = "${ssh_cfg_dir}/sshd_config"
+          $ssh_config = "${ssh_cfg_dir}/ssh_config"
+          $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
           $service_name = 'sshd'
           $sftp_server_path = '/usr/libexec/openssh/sftp-server'
+          $cfg_file_owner = 'root'
+          $cfg_file_group = 'root'
+          $cfg_file_mode = '0644'
+          $cfg_priv_file_mode = '0600'
+          $host_key_owner = 'root'
+          $host_key_group = 'root'
+          $host_key_mode = '0644'
           $host_priv_key_group = 'root'
+          $host_priv_key_mode = '0600'
         }
         default: {
           fail("Unsupported platform: ${::osfamily}/${::operatingsystem}")
@@ -178,6 +352,7 @@ class ssh::params {
   # ssh & sshd default options:
   # - OpenBSD doesn't know about UsePAM
   # - Sun_SSH doesn't know about UsePAM & AcceptEnv; SendEnv & HashKnownHosts
+  # - Windows doesn't know about UsePAM & override host key paths
   case $::osfamily {
     'OpenBSD': {
       $sshd_default_options = {
@@ -201,9 +376,18 @@ class ssh::params {
         'PrintMotd'                       => 'no',
         'Subsystem'                       => "sftp ${sftp_server_path}",
         'HostKey'                         => [
-          "${sshd_dir}/ssh_host_rsa_key",
-          "${sshd_dir}/ssh_host_dsa_key",
+          "${ssh_cfg_dir}/ssh_host_rsa_key",
+          "${ssh_cfg_dir}/ssh_host_dsa_key",
         ],
+      }
+      $ssh_default_options = { }
+    }
+    'windows': {
+      $sshd_default_options = {
+        'AuthorizedKeysFile' => '.ssh/authorized_keys',
+        'LogLevel'           => 'QUIET',
+        'Subsystem'          => "sftp ${sftp_server_path}",
+        'hostkeyagent'       => '\\\\.\pipe\openssh-ssh-agent',
       }
       $ssh_default_options = { }
     }

@@ -27,22 +27,22 @@ describe 'ssh::server::host_key', type: :define do
       is_expected.to contain_file('something_pub').
         with_content('abc').
         with_ensure('present').
-        with_owner(0).
-        with_group(0).
+        with_owner('root').
+        with_group('root').
         with_mode('0644').
         with_path('/etc/ssh/something.pub')
       is_expected.to contain_file('something_priv').
         with_content('bcd').
         with_ensure('present').
-        with_owner(0).
+        with_owner('root').
         with_group('root').
         with_mode('0600').
         with_path('/etc/ssh/something')
       is_expected.to contain_file('something_cert').
         with_content('cde').
         with_ensure('present').
-        with_owner(0).
-        with_group(0).
+        with_owner('root').
+        with_group('root').
         with_mode('0644').
         with_path('/etc/ssh/something-cert.pub')
     end
@@ -60,14 +60,14 @@ describe 'ssh::server::host_key', type: :define do
       is_expected.to contain_file('something_pub').
         with_content('abc').
         with_ensure('present').
-        with_owner(0).
-        with_group(0).
+        with_owner('root').
+        with_group('root').
         with_mode('0644').
         with_path('/etc/ssh/something.pub')
       is_expected.to contain_file('something_priv').
         with_content('bcd').
         with_ensure('present').
-        with_owner(0).
+        with_owner('root').
         with_group('root').
         with_mode('0600').
         with_path('/etc/ssh/something')
@@ -90,15 +90,15 @@ describe 'ssh::server::host_key', type: :define do
         without_content.
         with_source('a').
         with_ensure('present').
-        with_owner(0).
-        with_group(0).
+        with_owner('root').
+        with_group('root').
         with_mode('0644').
         with_path('/etc/ssh/something.pub')
       is_expected.to contain_file('something_priv').
         without_content.
         with_source('b').
         with_ensure('present').
-        with_owner(0).
+        with_owner('root').
         with_group('root').
         with_mode('0600').
         with_path('/etc/ssh/something')

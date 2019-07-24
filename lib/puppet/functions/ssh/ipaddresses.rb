@@ -15,7 +15,7 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     facts = closure_scope['facts']
 
     # always exclude loopback interface
-    excluded_interfaces += ['lo']
+    excluded_interfaces += %w[lo lo0]
 
     result = []
     facts['networking']['interfaces'].each do |iface, data|
@@ -26,7 +26,10 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
         next unless data.key?(binding_type)
         data[binding_type].each do |binding|
           next unless binding.key?('address')
-          result << binding['address']
+          result << binding['address'].sub(%r{%.*$}, '')
+          # Note: This sub is a workaround for Facter under Windows doing this:
+          # facter -p ipaddress6
+          # fe80::18fa:a970:c261:1cd8%3
         end
       end
     end

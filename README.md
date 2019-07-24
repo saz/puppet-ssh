@@ -14,6 +14,10 @@ Source: https://github.com/saz/puppet-ssh
 * puppetlabs/stdlib
 * puppetlabs/concat
 
+For Windows:
+* puppetlabs/chocolatey (configured externally)
+* At least Puppet 5.5.1 (due to a bug with templates in earlier versions)
+
 ## Usage
 
 Since version 2.0.0 only non-default values are written to both,
@@ -369,3 +373,16 @@ ssh_server_version_full => 6.6.1p1
 ssh_server_version_major => 6.6
 ssh_server_version_release => 6.6.1
 ```
+
+## Special note about Windows support
+
+Support for Windows is semi experimental at present.  There are definite possibilities
+that some options do not currently work correctly.
+
+It is based on the following project: <https://github.com/PowerShell/openssh-portable>
+
+This product is installed via Chocolatey and the package definition
+can be found here: <https://chocolatey.org/packages/openssh>
+
+SSHD server support is assumed, so this module installs the server features regardless
+of whether you intend to only use the client.

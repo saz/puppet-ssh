@@ -20,8 +20,9 @@ define ssh::client::config::user(
     $_target = $target
   } else {
     if ($user_home_dir == undef) {
-      $_user_home_dir = "/home/${user}"
-    } else {
+      $_user_home_dir = "${::ssh::params::home_dir_path}/${name}"
+    }
+    else {
       $_user_home_dir = $user_home_dir
     }
 
