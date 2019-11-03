@@ -35,7 +35,7 @@ class ssh::params {
       $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/sftp-server'
-      $host_priv_key_group = 'root'
+      $host_priv_key_group = 0
     }
     'OpenBSD': {
       $server_package_name = undef
