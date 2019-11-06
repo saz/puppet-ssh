@@ -1,3 +1,8 @@
+# @summary
+#   Params class
+#
+# @api private
+#
 class ssh::params {
   case $::osfamily {
     'Debian': {
