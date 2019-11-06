@@ -35,7 +35,7 @@ describe 'ssh::server::host_key', type: :define do
         with_content('bcd').
         with_ensure('present').
         with_owner(0).
-        with_group('root').
+        with_group(0).
         with_mode('0600').
         with_path('/etc/ssh/something')
       is_expected.to contain_file('something_cert').
@@ -68,7 +68,7 @@ describe 'ssh::server::host_key', type: :define do
         with_content('bcd').
         with_ensure('present').
         with_owner(0).
-        with_group('root').
+        with_group(0).
         with_mode('0600').
         with_path('/etc/ssh/something')
       is_expected.not_to contain_file('something_cert')
@@ -99,7 +99,7 @@ describe 'ssh::server::host_key', type: :define do
         with_source('b').
         with_ensure('present').
         with_owner(0).
-        with_group('root').
+        with_group(0).
         with_mode('0600').
         with_path('/etc/ssh/something')
       is_expected.not_to contain_file('something_cert')
