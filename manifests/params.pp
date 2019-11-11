@@ -43,12 +43,12 @@ class ssh::params {
       $ssh_known_hosts = "${ssh_cfg_dir}/ssh_known_hosts"
       $service_name = 'sshd'
       $sftp_server_path = '/usr/libexec/openssh/sftp-server'
-      $cfg_file_owner = 'root'
-      $cfg_file_group = 'root'
+      $cfg_file_owner = 0
+      $cfg_file_group = 0
       $cfg_file_mode = '0644'
       $cfg_priv_file_mode = '0600'
-      $host_key_owner = 'root'
-      $host_key_group = 'root'
+      $host_key_owner = 0
+      $host_key_group = 0
       $host_key_mode = '0644'
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $host_priv_key_group = 'ssh_keys'
