@@ -1,4 +1,8 @@
-# Class ssh::hostkeys
+# @summary
+#   This class manged hostkeys
+#
+# @api private
+#
 class ssh::hostkeys(
   Boolean          $export_ipaddresses  = true,
   Optional[String] $storeconfigs_group  = undef,
@@ -10,9 +14,9 @@ class ssh::hostkeys(
   if $export_ipaddresses == true {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
-    $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses_real ]))
+    $host_aliases = sort(unique(flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses_real ])))
   } else {
-    $host_aliases = unique(flatten([ $::fqdn, $::hostname, $extra_aliases]))
+    $host_aliases = sort(unique(flatten([ $::fqdn, $::hostname, $extra_aliases])))
   }
 
   if $storeconfigs_group {

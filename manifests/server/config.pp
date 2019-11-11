@@ -1,3 +1,8 @@
+# @summary
+#   Managed ssh server configuration
+#
+# @api private
+#
 class ssh::server::config {
   $options = $::ssh::server::merged_options
 

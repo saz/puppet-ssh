@@ -1,3 +1,37 @@
+# @summary
+#   This class managed ssh server
+#
+# @example Puppet usage
+#   class { 'ssh::server':
+#     ensure               => present,
+#     storeconfigs_enabled => true,
+#     use_issue_net        => false,
+#   }
+#
+# @param ensure
+#   Ensurable param to ssh server
+#
+# @param storeconfigs_enabled
+#   Host keys will be collected and distributed unless storeconfigs_enabled is false.
+#
+# @param options
+#   Dynamic hash for openssh server option
+#
+# @param validate_sshd_file
+#   Add sshd file validate cmd
+#
+# @param use_augeas
+#   Use augeas for configuration (default concat)
+#
+# @param options_absent
+#   Remove options (with augeas style)
+#
+# @param match_block
+#   Add sshd match_block (with concat)
+#
+# @use_issue_net
+#   Add issue_net banner
+#
 class ssh::server(
   String  $ensure               = present,
   Boolean $storeconfigs_enabled = true,
