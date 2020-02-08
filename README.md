@@ -348,6 +348,19 @@ class YOURCUSTOMCLASS {
 }
 ```
 
+## Excluding network interfaces or ipaddresses
+
+Use hiera to exclude interfaces or ipaddresses from hostkey inclusion
+
+```yaml
+ssh::hostkeys::exclude_interfaces:
+  - eth0
+  - eth3
+ssh::hostkeys::exclude_ipaddresses:
+  - 192.168.0.1
+  - 10.42.24.242
+```
+
 ## Facts
 
 This module provides facts detailing the available SSH client and server
