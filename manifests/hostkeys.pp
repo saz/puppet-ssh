@@ -9,14 +9,23 @@ class ssh::hostkeys(
   Array            $extra_aliases       = [],
   Array            $exclude_interfaces  = [],
   Array            $exclude_ipaddresses = [],
+  Boolean          $use_trusted_facts   = false,
 ) {
+
+  if $use_trusted_facts {
+    $fqdn_real = $trusted['certname']
+    $hostname_real = $trusted['hostname']
+  } else {
+    $fqdn_real = $facts['networking']['fqdn']
+    $hostname_real = $facts['networking']['hostname']
+  }
 
   if $export_ipaddresses == true {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
-    $host_aliases = sort(unique(flatten([ $::fqdn, $::hostname, $extra_aliases, $ipaddresses_real ])))
+    $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real ])))
   } else {
-    $host_aliases = sort(unique(flatten([ $::fqdn, $::hostname, $extra_aliases])))
+    $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases ])))
   }
 
   if $storeconfigs_group {
@@ -33,14 +42,14 @@ class ssh::hostkeys(
     }
 
     if $key_type in $facts['ssh'] {
-      @@sshkey { "${::fqdn}_${key_type}":
+      @@sshkey { "${fqdn_real}_${key_type}":
         ensure       => present,
         host_aliases => $host_aliases,
         type         => $key_type_real,
         key          => $facts['ssh'][$key_type]['key'],
       }
     } else {
-      @@sshkey { "${::fqdn}_${key_type}":
+      @@sshkey { "${fqdn_real}_${key_type}":
         ensure => absent,
         type   => $key_type_real,
       }
