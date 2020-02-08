@@ -104,7 +104,7 @@ class ssh (
   Hash    $users_client_options    = {},
   String  $version                 = 'present',
   Boolean $storeconfigs_enabled    = true,
-  Boolean $validate_sshd_file      = $::ssh::params::validate_sshd_file,
+  Boolean $validate_sshd_file      = $ssh::params::validate_sshd_file,
   Boolean $use_augeas              = false,
   Array   $server_options_absent   = [],
   Array   $client_options_absent   = [],
@@ -123,7 +123,7 @@ class ssh (
   $fin_client_options = deep_merge($hiera_client_options, $client_options)
   $fin_users_client_options = deep_merge($hiera_users_client_options, $users_client_options)
 
-  class { '::ssh::server':
+  class { 'ssh::server':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_server_options,
@@ -133,7 +133,7 @@ class ssh (
     use_issue_net        => $use_issue_net,
   }
 
-  class { '::ssh::client':
+  class { 'ssh::client':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
     options              => $fin_client_options,
@@ -148,6 +148,6 @@ class ssh (
     }
   }
 
-  create_resources('::ssh::client::config::user', $fin_users_client_options)
-  create_resources('::ssh::server::match_block', $fin_server_match_block)
+  create_resources('ssh::client::config::user', $fin_users_client_options)
+  create_resources('ssh::server::match_block', $fin_server_match_block)
 }

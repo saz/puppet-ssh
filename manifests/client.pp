@@ -34,13 +34,13 @@ class ssh::client(
   $fin_options = deep_merge($hiera_options, $options)
 
   if $use_augeas {
-    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $::ssh::params::ssh_config })
+    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $ssh::params::ssh_config })
   } else {
     $merged_options = merge($fin_options, delete($ssh::params::ssh_default_options, keys($fin_options)))
   }
 
-  include ::ssh::client::install
-  include ::ssh::client::config
+  include ssh::client::install
+  include ssh::client::config
 
   anchor { 'ssh::client::start': }
   anchor { 'ssh::client::end': }
@@ -48,7 +48,7 @@ class ssh::client(
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    include ::ssh::knownhosts
+    include ssh::knownhosts
 
     Anchor['ssh::client::start']
     -> Class['ssh::client::install']

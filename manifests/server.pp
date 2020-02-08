@@ -51,14 +51,14 @@ class ssh::server(
   $fin_match_block = deep_merge($hiera_match_block, $match_block)
 
   if $use_augeas {
-    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $::ssh::params::sshd_config })
+    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $ssh::params::sshd_config })
   } else {
     $merged_options = deep_merge($ssh::params::sshd_default_options, $fin_options)
   }
 
-  include ::ssh::server::install
-  include ::ssh::server::config
-  include ::ssh::server::service
+  include ssh::server::install
+  include ssh::server::config
+  include ssh::server::service
 
   anchor { 'ssh::server::start': }
   anchor { 'ssh::server::end': }
@@ -66,8 +66,8 @@ class ssh::server(
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    include ::ssh::hostkeys
-    include ::ssh::knownhosts
+    include ssh::hostkeys
+    include ssh::knownhosts
 
     Anchor['ssh::server::start']
     -> Class['ssh::server::install']
@@ -84,5 +84,5 @@ class ssh::server(
     -> Anchor['ssh::server::end']
   }
 
-  create_resources('::ssh::server::match_block', $fin_match_block)
+  create_resources('ssh::server::match_block', $fin_match_block)
 }

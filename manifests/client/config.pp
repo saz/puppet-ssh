@@ -1,7 +1,7 @@
 class ssh::client::config
 {
-  $options = $::ssh::client::merged_options
-  $use_augeas = $::ssh::client::use_augeas
+  $options = $ssh::client::merged_options
+  $use_augeas = $ssh::client::use_augeas
 
   if $use_augeas {
     create_resources('ssh_config', $options)

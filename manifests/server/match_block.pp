@@ -8,7 +8,7 @@ define ssh::server::match_block (
   String $type   = 'user',
   Integer $order = 50,
 ) {
-  if $::ssh::server::use_augeas {
+  if $ssh::server::use_augeas {
     fail('ssh::server::match_block() define not supported with use_augeas = true')
   } else {
     concat::fragment { "match_block ${name}":
