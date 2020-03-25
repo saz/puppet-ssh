@@ -35,6 +35,6 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     fe8064 = IPAddr.new('fe80::/64')
     result.delete_if { |ip| fe8064.include? IPAddr.new(ip) }
 
-    result.uniq
+    result.uniq.sort
   end
 end
