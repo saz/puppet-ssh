@@ -4,12 +4,12 @@
 # @api private
 #
 class ssh::hostkeys(
-  Boolean          $export_ipaddresses  = true,
-  Optional[String] $storeconfigs_group  = undef,
-  Array            $extra_aliases       = [],
-  Array            $exclude_interfaces  = [],
-  Array            $exclude_ipaddresses = [],
-  Boolean          $use_trusted_facts   = false,
+  Boolean                        $export_ipaddresses  = true,
+  Optional[String]               $storeconfigs_group  = undef,
+  Array                          $extra_aliases       = [],
+  Array[Variant[String, Regexp]] $exclude_interfaces  = [],
+  Array                          $exclude_ipaddresses = [],
+  Boolean                        $use_trusted_facts   = false,
 ) {
 
   if $use_trusted_facts {
@@ -20,7 +20,7 @@ class ssh::hostkeys(
     $hostname_real = $facts['networking']['hostname']
   }
 
-  if $export_ipaddresses == true {
+  if $export_ipaddresses {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
     $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real ])))
