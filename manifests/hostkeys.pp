@@ -21,7 +21,7 @@ class ssh::hostkeys(
   }
 
   if $export_ipaddresses == true {
-    $ipaddresses = ssh::ipaddresses($exclude_interfaces)
+    $ipaddresses = ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
     $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real ])))
   } else {
