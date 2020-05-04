@@ -15,13 +15,16 @@ class ssh::hostkeys(
   if $use_trusted_facts {
     $fqdn_real = $trusted['certname']
     $hostname_real = $trusted['hostname']
+  } elsif versioncmp('6.0.0', $facts['puppetversion']) >= 0 {
+    $fqdn_real = $facts['fqdn']
+    $hostname_real = $facts['hostname']
   } else {
     $fqdn_real = $facts['networking']['fqdn']
     $hostname_real = $facts['networking']['hostname']
   }
 
   if $export_ipaddresses == true {
-    $ipaddresses = ipaddresses($exclude_interfaces)
+    $ipaddresses = ssh::ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
     $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real ])))
   } else {
