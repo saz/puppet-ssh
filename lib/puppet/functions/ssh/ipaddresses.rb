@@ -18,15 +18,17 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     excluded_interfaces += ['lo']
 
     result = []
-    facts['networking']['interfaces'].each do |iface, data|
-      # skip excluded interfaces
-      next if excluded_interfaces.include?(iface)
+    if facts['networking']
+      facts['networking']['interfaces'].each do |iface, data|
+        # skip excluded interfaces
+        next if excluded_interfaces.include?(iface)
 
-      %w[bindings bindings6].each do |binding_type|
-        next unless data.key?(binding_type)
-        data[binding_type].each do |binding|
-          next unless binding.key?('address')
-          result << binding['address']
+        %w[bindings bindings6].each do |binding_type|
+          next unless data.key?(binding_type)
+          data[binding_type].each do |binding|
+            next unless binding.key?('address')
+            result << binding['address']
+          end
         end
       end
     end
