@@ -16,8 +16,9 @@ class ssh::hostkeys(
     $fqdn_real = $trusted['certname']
     $hostname_real = $trusted['hostname']
   } else {
-    $fqdn_real = $facts['networking']['fqdn']
-    $hostname_real = $facts['networking']['hostname']
+    # stick to legacy facts for older versions of facter
+    $fqdn_real = $facts['fqdn']
+    $hostname_real = $facts['hostname']
   }
 
   if $export_ipaddresses == true {
