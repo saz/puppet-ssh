@@ -17,8 +17,24 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     # always exclude loopback interface
     excluded_interfaces += ['lo']
 
+    if !facts['networking'].nil? && !facts['networking'].empty?
+      interfaces = facts['networking']['interfaces']
+    else
+      interfaces = {}
+      facts['interfaces'].split(',').each do |iface|
+        next if facts["ipaddress_#{iface}"].nil? && facts["ipaddress6_#{iface}"].nil?
+        interfaces[iface] = {}
+        if !facts["ipaddress_#{iface}"].nil? && !facts["ipaddress_#{iface}"].empty?
+          interfaces[iface]['bindings'] = [{ 'address' => facts["ipaddress_#{iface}"] }]
+        end
+        if !facts["ipaddress6_#{iface}"].nil? && !facts["ipaddress6_#{iface}"].empty?
+          interfaces[iface]['bindings6'] = [{ 'address' => facts["ipaddress6_#{iface}"] }]
+        end
+      end
+    end
+
     result = []
-    facts['networking']['interfaces'].each do |iface, data|
+    interfaces.each do |iface, data|
       # skip excluded interfaces
       next if excluded_interfaces.include?(iface)
 
