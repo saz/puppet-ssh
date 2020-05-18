@@ -1,8 +1,8 @@
 # @summary
-#   This class manged knownhosts if collect is enable
+#   This class manages knownhosts if collection is enabled.
 #
 # @param collect_enabled
-#   Enabled collect
+#   Enable collection
 #
 # @param storeconfigs_group
 #   Define the hostkeys group storage
