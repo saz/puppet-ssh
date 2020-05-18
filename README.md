@@ -252,7 +252,7 @@ class { 'ssh::server':
 
 ## Overwriting default options
 Default options will be merged with options passed in.
-If an option is set both as default and via options parameter, the latter will
+If an option is set both as default and via options parameter, the latter
 will win.
 
 The following example will disable X11Forwarding, which is enabled by default:
