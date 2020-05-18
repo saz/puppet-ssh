@@ -1,5 +1,5 @@
 # @summary
-#   This class managed ssh, client and server
+#   This class manages ssh client and server
 #
 # @example Puppet usage
 #   class { 'ssh':
