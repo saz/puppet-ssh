@@ -1,5 +1,5 @@
 # @summary
-#   This class manged hostkeys
+#   This class manages hostkeys
 #
 # @api private
 #
