@@ -12,18 +12,32 @@ describe 'ssh::ipaddresses', type: :puppet_function do
 
     describe 'without parameters' do
       it 'returns all IPs other than localhost' do
-        is_expected.to run.and_return(['172.17.0.1', '10.13.42.61', '10.0.0.110', '10.0.0.104', '10.0.0.109'])
+        is_expected.
+          to run.
+               and_return(['10.0.0.104',
+                           '10.0.0.109',
+                           '10.0.0.110',
+                           '10.13.42.61',
+                           '172.17.0.1',
+                           '172.19.0.1',
+                           '172.26.0.1'])
       end
     end
 
     describe 'with excluded interface' do
       it 'doesn\'t return the IPs of excluded interface' do
-        is_expected.to run.with_params(['docker0']).and_return(['10.13.42.61', '10.0.0.110', '10.0.0.104', '10.0.0.109'])
+        is_expected.
+          to run.
+               with_params(['docker0', /^br-/, /^docker_/]).
+               and_return(['10.0.0.104',
+                           '10.0.0.109',
+                           '10.0.0.110',
+                           '10.13.42.61'])
       end
     end
     describe 'with excluded interfaces' do
       it 'doesn\'t return the IPs of those interfaces' do
-        is_expected.to run.with_params(%w[docker0 eno1]).and_return([])
+        is_expected.to run.with_params(%w[docker0 eno1]).and_return(['172.19.0.1', '172.26.0.1'])
       end
     end
   end

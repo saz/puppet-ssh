@@ -83,6 +83,86 @@
         "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
         "network": "127.0.0.0",
         "network6": "::1"
+      },
+      "br-bf9119c86ea6": {
+        "bindings": [
+          {
+            "address": "172.26.0.1",
+            "netmask": "255.255.0.0",
+            "network": "172.26.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::42:2cff:fe68:c503",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "172.26.0.1",
+        "ip6": "fe80::42:2cff:fe68:c503",
+        "mac": "01:02:2c:68:09:0a",
+        "mtu": 1500,
+        "netmask": "255.255.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "172.26.0.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "docker_gwbridge": {
+        "bindings": [
+          {
+            "address": "172.19.0.1",
+            "netmask": "255.255.0.0",
+            "network": "172.19.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::42:dbff:fee2:7c4e",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "172.19.0.1",
+        "ip6": "fe80::42:dbff:fee2:7c4e",
+        "mac": "01:02:db:e2:07:08",
+        "mtu": 1500,
+        "netmask": "255.255.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "172.19.0.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "veth3a43276": {
+        "bindings6": [
+          {
+            "address": "fe80::8e1:37ff:fe75:4597",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip6": "fe80::8e1:37ff:fe75:4597",
+        "mac": "01:02:37:75:05:06",
+        "mtu": 1500,
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "veth408ad02": {
+        "bindings6": [
+          {
+            "address": "fe80::9c97:d6ff:fe5d:46af",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip6": "fe80::9c97:d6ff:fe5d:46af",
+        "mac": "01:02:d6:5d:03:04",
+        "mtu": 1500,
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network6": "fe80::",
+        "scope6": "link"
       }
     }
   }
