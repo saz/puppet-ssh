@@ -1,31 +1,36 @@
-Facter.add("ssh_client_version_full") do
-  confine :kernel => [ 'Linux' , 'SunOS' , 'FreeBSD' , 'Darwin' ]
-  setcode do
-    version = Facter::Util::Resolution.exec('sshd -V 2>&1').
-      lines.
-      to_a.
-      select { |line| line.match(/^OpenSSH_/) }.
-      first.
-      rstrip
+Facter.add('ssh_client_version_full') do
+  confine kernel: %w[Linux SunOS FreeBSD DragonFly Darwin]
 
-    version.gsub(/^OpenSSH_([^ ]+).*$/, '\1')
+  setcode do
+    if Facter::Util::Resolution.which('ssh')
+      version = Facter::Util::Resolution.exec('ssh -V 2>&1').
+                lines.
+                to_a.
+                select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }.
+                first.
+                rstrip
+
+      version.gsub(%r{^(OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2') unless version.nil?
+    end
   end
 end
 
-Facter.add("ssh_client_version_major") do
-  confine :kernel => [ 'Linux' , 'SunOS' , 'FreeBSD' , 'Darwin' ]
+Facter.add('ssh_client_version_major') do
+  confine kernel: %w[Linux SunOS FreeBSD DragonFly Darwin]
+  confine ssh_client_version_full: true
   setcode do
     version = Facter.value('ssh_client_version_full')
 
-    version.gsub(/^([0-9]+\.[0-9]+).*$/, '\1')
+    version.gsub(%r{^([0-9]+\.[0-9]+).*$}, '\1') unless version.nil?
   end
 end
 
-Facter.add("ssh_client_version_release") do
-  confine :kernel => [ 'Linux' , 'SunOS' , 'FreeBSD' , 'Darwin' ]
+Facter.add('ssh_client_version_release') do
+  confine kernel: %w[Linux SunOS FreeBSD DragonFly Darwin]
+  confine ssh_client_version_full: true
   setcode do
     version = Facter.value('ssh_client_version_full')
 
-    version.gsub(/^([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$/, '\1')
+    version.gsub(%r{^([0-9]+\.[0-9]+(?:\.[0-9]+)?).*$}, '\1') unless version.nil?
   end
 end

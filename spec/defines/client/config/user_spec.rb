@@ -1,167 +1,170 @@
 require 'spec_helper'
 
-describe 'ssh::client::config::user', :type => :define do
-
+describe 'ssh::client::config::user', type: :define do
   let :title do
-    'riton'  
+    'riton'
   end
 
-  let :ssh_options do {
-    'HashKnownHosts' => 'yes',
-    'Host *.in2p3.fr' => {
-      'User' => 'riton',
-      'GSSAPIAuthentication' => 'no'
+  let :ssh_options do
+    {
+      'HashKnownHosts' => 'yes',
+      'Host *.in2p3.fr' => {
+        'User' => 'riton',
+        'GSSAPIAuthentication' => 'no'
+      }
     }
-  } end
+  end
 
-  let :facts do {
-    :osfamily       => 'RedHat',
-    :concat_basedir => '/tmp'
-  } end
-
+  let :facts do
+    {
+      osfamily: 'RedHat',
+      operatingsystemmajrelease: '6'
+    }
+  end
 
   describe 'with invalid parameters' do
-
     params = {
-      :ensure              => [ 'somestate', 'does not' ],
-      :target              => [ './somedir', 'is not an absolute path' ],
-      :user_home_dir       => [ './somedir', 'is not an absolute path' ],
-      :manage_user_ssh_dir => [ 'maybe', 'is not a boolean' ],
-      :options             => [ 'the_options', 'is not a Hash' ]
+      ensure: ['somestate', 'expects a match for Enum'],
+      target: ['./somedir', 'Pattern'],
+      user_home_dir: ['./somedir', 'Pattern'],
+      manage_user_ssh_dir: ['maybe', 'expects a Boolean'],
+      options: ['the_options', 'Hash value']
     }
-    
+
     params.each do |param, value|
-
-      context "with invalid value for #{param.to_s}" do
-        let :params do {
-          param => value[0]
-        } end
-
-        it 'should fail' do
-          expect {
-            should compile
-          }.to raise_error(/#{value[1]}/)
+      context "with invalid value for #{param}" do
+        let :params do
+          {
+            param => value[0]
+          }
         end
-      end
 
-    end # params.each
-  end # describe 'with invalid parameters'
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+  # describe 'with invalid parameters'
 
   describe 'with correct values' do
-
     describe 'with a user provided target' do
-
       let :target do
         '/root/.ssh/config'
       end
 
-      let :params do {
-        :target  => target
-      } end
-
-      it do
-        should contain_file(target).with({
-          :ensure  => 'file',
-          :owner   => title,
-          :mode    => '0600'
-        })
+      let :params do
+        {
+          target: target
+        }
       end
 
-    end # describe 'with a user provided target'
+      it do
+        is_expected.to contain_concat_file(target).with(
+          ensure: 'present',
+          tag: title
+        )
+        is_expected.to contain_concat_fragment(title).with(
+          tag: title,
+          target: target
+        )
+      end
+    end
+    # describe 'with a user provided target'
 
     describe 'user_home_dir behavior' do
-
       context 'with a user provided user_home_dir' do
-
         let :user_home_dir do
           '/path/to/home'
         end
 
         context 'with manage_user_ssh_dir default value' do
-
-          let :params do {
-            :user_home_dir => user_home_dir
-          } end
-
-          it 'should contain ssh directory and ssh config' do
-
-            should contain_file("#{user_home_dir}/.ssh").with({
-              :ensure  => 'directory',
-              :owner   => title,
-              :mode    => '0700'
-            }).that_comes_before("File[#{user_home_dir}/.ssh/config]")
-
-            should contain_file("#{user_home_dir}/.ssh/config").with({
-              :ensure  => 'file',
-              :owner   => title,
-              :mode    => '0600'
-            })
+          let :params do
+            {
+              user_home_dir: user_home_dir
+            }
           end
 
-        end # context 'with manage_user_ssh_dir default value'
+          it 'contains ssh directory and ssh config' do
+            is_expected.to contain_file("#{user_home_dir}/.ssh").with(
+              ensure: 'directory',
+              owner: title,
+              mode: '0700'
+            ).that_comes_before("Concat_file[#{user_home_dir}/.ssh/config]")
+
+            is_expected.to contain_concat_file("#{user_home_dir}/.ssh/config").with(
+              ensure: 'present',
+              owner: title,
+              mode: '0600'
+            )
+          end
+        end
+        # context 'with manage_user_ssh_dir default value'
 
         context 'with manage_user_ssh_dir set to false' do
-
-          let :params do {
-            :user_home_dir       => user_home_dir,
-            :manage_user_ssh_dir => false
-          } end
-
-          it do
-            should_not contain_file("#{user_home_dir}/.ssh")
+          let :params do
+            {
+              user_home_dir: user_home_dir,
+              manage_user_ssh_dir: false
+            }
           end
 
-        end # context 'with manage_user_ssh_dir set to false'
-
-      end # context 'with a user provided user_home_dir'
+          it do
+            is_expected.not_to contain_file("#{user_home_dir}/.ssh")
+          end
+        end
+        # context 'with manage_user_ssh_dir set to false'
+      end
+      # context 'with a user provided user_home_dir'
 
       context 'with no user provided user_home_dir' do
         it 'with manage_user_ssh_dir default value' do
-          should contain_file("/home/#{title}/.ssh").that_comes_before("File[/home/#{title}/.ssh/config]")
-          should contain_file("/home/#{title}/.ssh/config")
+          is_expected.to contain_file("/home/#{title}/.ssh").that_comes_before("Concat_file[/home/#{title}/.ssh/config]")
+          is_expected.to contain_concat_file("/home/#{title}/.ssh/config")
         end
 
         context 'with manage_user_ssh_dir set to false' do
-          let :params do {
-            :manage_user_ssh_dir => false
-          } end
-
-          it do
-            should_not contain_file("/home/#{title}/.ssh")
+          let :params do
+            {
+              manage_user_ssh_dir: false
+            }
           end
 
           it do
-            should contain_file("/home/#{title}/.ssh/config")
+            is_expected.not_to contain_file("/home/#{title}/.ssh")
           end
 
-        end # context 'with manage_user_ssh_dir set to false'
-
-      end # context 'with no user provided user_home_dir'
-
-    end # describe 'user_home_dir behavior'
+          it do
+            is_expected.to contain_concat_file("/home/#{title}/.ssh/config")
+          end
+        end
+        # context 'with manage_user_ssh_dir set to false'
+      end
+      # context 'with no user provided user_home_dir'
+    end
+    # describe 'user_home_dir behavior'
 
     describe 'ssh configuration content' do
-
-      let :params do {
-        :options => ssh_options
-      } end
-
-      it 'should have single value' do
-        should contain_file("/home/#{title}/.ssh/config").with({
-          :content => /HashKnownHosts\s+yes/
-        })
+      let :params do
+        {
+          options: ssh_options
+        }
       end
 
-      it 'should have Hash value' do
-        should contain_file("/home/#{title}/.ssh/config").with({
-          :content => /Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton/
-        })
+      it 'has single value' do
+        is_expected.to contain_concat_fragment(title).with(
+          content: %r{HashKnownHosts\s+yes},
+          target: "/home/#{title}/.ssh/config"
+        )
       end
 
+      it 'has Hash value' do
+        is_expected.to contain_concat_fragment(title).with(
+          content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton},
+          target: "/home/#{title}/.ssh/config"
+        )
+      end
     end
-
-  end # describe 'with correct values'
-
+  end
+  # describe 'with correct values'
 end
 
 # vim: tabstop=2 shiftwidth=2 softtabstop=2

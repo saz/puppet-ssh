@@ -1,7 +1,16 @@
+# @summary
+#   This class managed ssh server service
+#
+# @param ensure
+#   Ensurable service param
+#
+# @param enable
+#   Define if service is enable
+#
 class ssh::server::service (
-  $ensure         = 'running',
-  $enable         = true,
-  $manage_service = true,
+  String  $ensure = 'running',
+  Boolean $enable = true,
+  Boolean $manage_service = true
 ){
   include ssh::params
   include ssh::server

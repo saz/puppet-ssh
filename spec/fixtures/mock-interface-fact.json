@@ -1,0 +1,89 @@
+{
+  "networking": {
+    "interfaces": {
+      "docker0": {
+        "bindings": [
+          {
+            "address": "172.17.0.1",
+            "netmask": "255.255.0.0",
+            "network": "172.17.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::42:2fff:fea3:f2b7",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "172.17.0.1",
+        "ip6": "fe80::42:2fff:fea3:f2b7",
+        "mac": "02:42:2f:a3:f2:b7",
+        "mtu": 1500,
+        "netmask": "255.255.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "172.17.0.0",
+        "network6": "fe80::"
+      },
+      "eno1": {
+        "bindings": [
+          {
+            "address": "10.13.42.61",
+            "netmask": "255.255.255.0",
+            "network": "10.13.42.0"
+          },
+          {
+            "address": "10.0.0.110",
+            "netmask": "255.255.255.255",
+            "network": "10.0.0.110"
+          },
+          {
+            "address": "10.0.0.104"
+          },
+          {
+            "address": "10.0.0.109"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::6544:473a:6ea4:c385",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "dhcp": "10.13.42.1",
+        "ip": "10.13.42.61",
+        "ip6": "fe80::6544:473a:6ea4:c385",
+        "mac": "08:00:20:97:23:d1",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "10.13.42.0",
+        "network6": "fe80::"
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1"
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1"
+      }
+    }
+  }
+}
