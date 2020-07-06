@@ -36,6 +36,7 @@ class ssh::server(
   String  $ensure               = present,
   Boolean $storeconfigs_enabled = true,
   Hash    $options              = {},
+  Boolean $manage_service       = true,
   Boolean $validate_sshd_file   = false,
   Boolean $use_augeas           = false,
   Array   $options_absent       = [],

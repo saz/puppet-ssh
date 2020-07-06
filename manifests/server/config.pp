@@ -24,7 +24,7 @@ class ssh::server::config {
       group        => 0,
       mode         => '0600',
       validate_cmd => $sshd_validate_cmd,
-      notify       => Service[$ssh::params::service_name],
+      notify       => Class['ssh::server::service']
     }
 
     concat::fragment { 'global config':
@@ -41,7 +41,7 @@ class ssh::server::config {
       group   => 0,
       mode    => '0644',
       content => template("${module_name}/issue.net.erb"),
-      notify  => Service[$ssh::params::service_name],
+      notify  => Class['ssh::server::service']
     }
 
     concat::fragment { 'banner file':

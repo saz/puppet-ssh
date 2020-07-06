@@ -9,16 +9,20 @@
 #
 class ssh::server::service (
   String  $ensure = 'running',
-  Boolean $enable = true
+  Boolean $enable = true,
+  Boolean $manage_service = true
 ){
   include ssh::params
   include ssh::server
 
-  service { $ssh::params::service_name:
-    ensure     => $ssh::server::service::ensure,
-    hasstatus  => true,
-    hasrestart => true,
-    enable     => $ssh::server::service::enable,
-    require    => Class['ssh::server::config'],
+  if $manage_service {
+    service { $ssh::params::service_name:
+      ensure     => $ssh::server::service::ensure,
+      hasstatus  => true,
+      hasrestart => true,
+      enable     => $ssh::server::service::enable,
+      require    => Class['ssh::server::config'],
+      subscribe  => Class['ssh::server::config']
+    }
   }
 }
