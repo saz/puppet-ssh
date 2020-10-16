@@ -45,11 +45,11 @@ define ssh::client::config::user(
       ensure => $ensure,
       owner  => $user,
       mode   => $ssh::params::user_ssh_config_default_mode,
-      tag    => $name,
+      tag    => "${user}_ssh_client_config",
     }
   }
   concat_fragment { $name:
-    tag     => $name,
+    tag     => "${user}_ssh_client_config",
     content => template("${module_name}/ssh_config.erb"),
     target  => $_target,
   }
