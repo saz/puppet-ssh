@@ -3,12 +3,14 @@
 #
 # @api private
 #
-class ssh::server::config {
+class ssh::server::config (
+  String $validate_cmd = '/usr/sbin/sshd -tf %'
+){
   $options = $ssh::server::merged_options
 
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
+      $sshd_validate_cmd = $validate_cmd
     }
     default: {
       $sshd_validate_cmd = undef
