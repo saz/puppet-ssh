@@ -3,7 +3,7 @@
 # Contributor: Remi Ferrand <remi{dot}ferrand_at_cc(dot)in2p3.fr> (2015)
 # Contributor: Tim Meusel <tim@bastelfreak.de> (2017)
 #
-define ssh::client::config::user(
+define ssh::client::config::user (
   Enum['present', 'absent']      $ensure              = present,
   Optional[Stdlib::Absolutepath] $target              = undef,
   Optional[Stdlib::Absolutepath] $user_home_dir       = undef,

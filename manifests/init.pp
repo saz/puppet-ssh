@@ -111,7 +111,6 @@ class ssh (
   Boolean $use_issue_net           = false,
   Boolean $purge_unmanaged_sshkeys = true,
 ) inherits ssh::params {
-
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'deep', {})
   $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'deep', {})

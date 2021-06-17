@@ -7,7 +7,7 @@
 # @param storeconfigs_group
 #   Define the hostkeys group storage
 #
-class ssh::knownhosts(
+class ssh::knownhosts (
   Boolean          $collect_enabled    = $ssh::params::collect_enabled,
   Optional[String] $storeconfigs_group = undef,
 ) inherits ssh::params {

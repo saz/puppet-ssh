@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [6.1.0]
 ### Fixed
-- Fix absolute class name includes 
+- Fix absolute class name includes
 - Use gid 0 instead of group name for $host_priv_key_group (#289)
 - Sort hostkeys (#288)
 - Do not show diff when installing a ssh private host key (#283)

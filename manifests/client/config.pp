@@ -1,5 +1,4 @@
-class ssh::client::config
-{
+class ssh::client::config {
   $options = $ssh::client::merged_options
   $use_augeas = $ssh::client::use_augeas
 
@@ -7,7 +6,7 @@ class ssh::client::config
     create_resources('ssh_config', $options)
   } else {
     file { $ssh::params::ssh_config:
-      ensure  => present,
+      ensure  => file,
       owner   => '0',
       group   => '0',
       mode    => '0644',

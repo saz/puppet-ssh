@@ -10,7 +10,7 @@
 class ssh::server::service (
   String  $ensure = 'running',
   Boolean $enable = true
-){
+) {
   include ssh::params
   include ssh::server
 
