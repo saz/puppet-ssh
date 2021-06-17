@@ -32,7 +32,7 @@
 # @use_issue_net
 #   Add issue_net banner
 #
-class ssh::server(
+class ssh::server (
   String  $ensure               = present,
   Boolean $storeconfigs_enabled = true,
   Hash    $options              = {},
@@ -42,7 +42,6 @@ class ssh::server(
   Hash    $match_block          = {},
   Boolean $use_issue_net        = false
 ) inherits ssh::params {
-
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'deep', {})
   $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'deep', {})
@@ -60,28 +59,21 @@ class ssh::server(
   include ssh::server::config
   include ssh::server::service
 
-  anchor { 'ssh::server::start': }
-  anchor { 'ssh::server::end': }
-
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
     include ssh::hostkeys
     include ssh::knownhosts
 
-    Anchor['ssh::server::start']
-    -> Class['ssh::server::install']
+    Class['ssh::server::install']
     -> Class['ssh::server::config']
     ~> Class['ssh::server::service']
     -> Class['ssh::hostkeys']
     -> Class['ssh::knownhosts']
-    -> Anchor['ssh::server::end']
   } else {
-    Anchor['ssh::server::start']
-    -> Class['ssh::server::install']
+    Class['ssh::server::install']
     -> Class['ssh::server::config']
     ~> Class['ssh::server::service']
-    -> Anchor['ssh::server::end']
   }
 
   create_resources('ssh::server::match_block', $fin_match_block)

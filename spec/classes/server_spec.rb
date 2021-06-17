@@ -19,8 +19,22 @@ describe 'ssh::server' do
 
     let :facts do
       {
-        osfamily: 'RedHat',
-        operatingsystemmajrelease: '6'
+        :os => {
+          'family' => 'RedHat',
+          'release' => {
+            'major' => '6'
+          }
+        },
+        'networking' => {
+          'interfaces' => {
+            'eth0' => {
+              'ip' => '10.0.0.1'
+            },
+            'eth1' => {
+              'ip' => '10.0.1.1'
+            },
+          }
+        }
       }
     end
 
@@ -64,7 +78,19 @@ X11Forwarding yes
       ['Debian'].each do |osfamily|
         let :facts do
           {
-            osfamily: osfamily
+            :os => {
+              'family' => osfamily
+            },
+            'networking' => {
+              'interfaces' => {
+                'eth0' => {
+                  'ip' => '10.0.0.1'
+                },
+                'eth1' => {
+                  'ip' => '10.0.1.1'
+                },
+              }
+            }
           }
         end
 
@@ -100,9 +126,19 @@ X11Forwarding yes
         describe 'on Arch' do
           let :facts do
             {
-              osfamily: 'Archlinux',
-              lsbdistdescription: 'Arch Linux',
-              lsbdistid: 'Arch'
+              :os => {
+                'family' => 'Archlinux'
+              },
+              'networking' => {
+                'interfaces' => {
+                  'eth0' => {
+                    'ip' => '10.0.0.1'
+                  },
+                  'eth1' => {
+                    'ip' => '10.0.1.1'
+                  },
+                }
+              }
             }
           end
 

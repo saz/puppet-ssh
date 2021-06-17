@@ -3,7 +3,7 @@
 #
 # @api private
 #
-class ssh::hostkeys(
+class ssh::hostkeys (
   Boolean          $export_ipaddresses  = true,
   Optional[String] $storeconfigs_group  = undef,
   Array            $extra_aliases       = [],
@@ -11,22 +11,21 @@ class ssh::hostkeys(
   Array            $exclude_ipaddresses = [],
   Boolean          $use_trusted_facts   = false,
 ) {
-
   if $use_trusted_facts {
     $fqdn_real = $trusted['certname']
     $hostname_real = $trusted['hostname']
   } else {
     # stick to legacy facts for older versions of facter
-    $fqdn_real = $facts['fqdn']
-    $hostname_real = $facts['hostname']
+    $fqdn_real = $facts['networking']['fqdn']
+    $hostname_real = $facts['networking']['hostname']
   }
 
   if $export_ipaddresses == true {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
-    $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real ])))
+    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real])))
   } else {
-    $host_aliases = sort(unique(flatten([ $fqdn_real, $hostname_real, $extra_aliases ])))
+    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases])))
   }
 
   if $storeconfigs_group {

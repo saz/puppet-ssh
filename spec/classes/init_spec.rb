@@ -4,7 +4,19 @@ describe 'ssh', type: 'class' do
   context 'when on Debian with no other parameters' do
     let :facts do
       {
-        osfamily: 'Debian'
+        :os => {
+          'family' => 'Debian'
+        },
+        'networking' => {
+          'interfaces' => {
+            'eth0' => {
+              'ip' => '10.0.0.1'
+            },
+            'eth1' => {
+              'ip' => '10.0.1.1'
+            },
+          }
+        }
       }
     end
 
@@ -25,7 +37,19 @@ describe 'ssh', type: 'class' do
     context 'when on Debian with the validate_sshd_file setting' do
       let :facts do
         {
-          osfamily: 'Debian'
+          :os => {
+            'family' => 'Debian'
+          },
+          'networking' => {
+            'interfaces' => {
+              'eth0' => {
+                'ip' => '10.0.0.1'
+              },
+              'eth1' => {
+                'ip' => '10.0.1.1'
+              },
+            }
+          }
         }
       end
       let :params do
@@ -44,7 +68,19 @@ describe 'ssh', type: 'class' do
   end
 
   standard_facts = {
-    osfamily: 'Debian'
+    :os => {
+      'family' => 'Debian'
+    },
+    'networking' => {
+      'interfaces' => {
+        'eth0' => {
+          'ip' => '10.0.0.1'
+        },
+        'eth1' => {
+          'ip' => '10.0.1.1'
+        },
+      }
+    }
   }
 
   context 'When on Debian without resource purging' do

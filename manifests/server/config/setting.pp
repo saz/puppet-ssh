@@ -29,5 +29,4 @@ define ssh::server::config::setting (
     content => "\n# added by Ssh::Server::Config::Setting[${name}]\n${key} ${real_value}\n",
     order   => $order,
   }
-
 }

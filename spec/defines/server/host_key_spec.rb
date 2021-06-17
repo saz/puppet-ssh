@@ -9,8 +9,22 @@ describe 'ssh::server::host_key', type: :define do
 
   let :facts do
     {
-      osfamily: 'RedHat',
-      operatingsystemmajrelease: '6'
+      :os => {
+        'family' => 'RedHat',
+        'release' => {
+          'major' => '6'
+        },
+      },
+      'networking' => {
+        'interfaces' => {
+          'eth0' => {
+            'ip' => '10.0.0.1'
+          },
+          'eth1' => {
+            'ip' => '10.0.1.1'
+          },
+        }
+      }
     }
   end
 
