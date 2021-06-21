@@ -21,7 +21,7 @@
 <%- v.sort.each do |key, value| -%>
     <%- if value.is_a?(Array) -%>
     <%- value.each do |a| -%>
-    <%- if a != '' -%>
+    <%- if a != '' && a != nil -%>
     <%- line_content = "#{key} #{bool2str(a)}" -%>
     <%- if line_content.length > 1020 -%>
     <%- fail("Line exceeds 1024 characters: #{line_content}") -%>
@@ -30,7 +30,7 @@
     <%- end -%>
     <%- end -%>
     <%- end -%>
-    <%- elsif value != '' -%>
+    <%- elsif value != '' && value != nil -%>
     <%- line_content = "#{key} #{bool2str(value)}" -%>
     <%- if line_content.length > 1020 -%>
     <%- fail("Line exceeds 1024 characters: #{line_content}") -%>
@@ -41,7 +41,7 @@
 <%- else -%>
 <%- if v.is_a?(Array) -%>
 <%- v.each do |a| -%>
-<%- if a != '' -%>
+<%- if a != '' && a != nil -%>
 <%- line_content = "#{k} #{bool2str(a)}" -%>
 <%- if line_content.length > 1024 -%>
 <%- fail("Line exceeds 1024 characters: #{line_content}") -%>
@@ -49,7 +49,7 @@
 <%= k %> <%= bool2str(a) %>
 <%- end -%>
 <%- end -%>
-<%- elsif v != :undef and v != '' -%>
+<%- elsif v != :undef && v != '' && v != nil -%>
 <%- line_content = "#{k} #{bool2str(v)}" -%>
 <%- if line_content.length > 1024 -%>
 <%- fail("Line exceeds 1024 characters: #{line_content}") -%>
