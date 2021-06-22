@@ -45,7 +45,6 @@ define ssh::server::host_key (
   $certificate_source  = '',
   $certificate_content = '',
 ) {
-
   # Ensure the ssh::server class is included in the manifest
   include ssh::server
 
@@ -84,7 +83,7 @@ define ssh::server::host_key (
   }
 
   if $ensure == 'present' {
-    file {"${name}_pub":
+    file { "${name}_pub":
       ensure  => $ensure,
       owner   => 0,
       group   => 0,
@@ -95,7 +94,7 @@ define ssh::server::host_key (
       notify  => Class['ssh::server::service'],
     }
 
-    file {"${name}_priv":
+    file { "${name}_priv":
       ensure    => $ensure,
       owner     => 0,
       group     => $ssh::params::host_priv_key_group,
@@ -107,7 +106,7 @@ define ssh::server::host_key (
       notify    => Class['ssh::server::service'],
     }
   } else {
-    file {"${name}_pub":
+    file { "${name}_pub":
       ensure => $ensure,
       owner  => 0,
       group  => 0,
@@ -116,7 +115,7 @@ define ssh::server::host_key (
       notify => Class['ssh::server::service'],
     }
 
-    file {"${name}_priv":
+    file { "${name}_priv":
       ensure    => $ensure,
       owner     => 0,
       group     => $ssh::params::host_priv_key_group,
@@ -129,7 +128,7 @@ define ssh::server::host_key (
 
   if !empty($certificate_source) or !empty($certificate_content) {
     if $ensure == 'present' {
-      file {"${name}_cert":
+      file { "${name}_cert":
         ensure  => $ensure,
         owner   => 0,
         group   => 0,
@@ -140,7 +139,7 @@ define ssh::server::host_key (
         notify  => Class['ssh::server::service'],
       }
     } else {
-      file {"${name}_cert":
+      file { "${name}_cert":
         ensure => $ensure,
         owner  => 0,
         group  => 0,

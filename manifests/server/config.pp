@@ -38,7 +38,7 @@ class ssh::server::config (
 
   if $ssh::server::use_issue_net {
     file { $ssh::params::issue_net:
-      ensure  => present,
+      ensure  => file,
       owner   => 0,
       group   => 0,
       mode    => '0644',

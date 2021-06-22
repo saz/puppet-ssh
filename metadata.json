@@ -1,6 +1,6 @@
 {
   "name": "saz-ssh",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "author": "saz",
   "summary": "Manage SSH client and server via Puppet.",
   "description": "Manage SSH client and server via puppet",
@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.25.0 < 7.0.0"
+      "version_requirement": ">= 4.25.0 < 8.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 2.2.0 < 7.0.0"
+      "version_requirement": ">= 2.2.0 < 8.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -58,7 +58,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.10 < 7.0.0"
+      "version_requirement": ">= 6.1.0 < 8.0.0"
     }
   ]
 }
