@@ -77,7 +77,7 @@
 #   Add users options for ssh client config
 #
 # @param version
-#   Define package version (pacakge ressource)
+#   Define package version (package ressource)
 #
 # @param storeconfigs_enabled
 #   Default value for storeconfigs_enabled (client and server)
