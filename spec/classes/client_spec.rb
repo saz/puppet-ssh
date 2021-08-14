@@ -20,9 +20,7 @@ describe 'ssh::client', type: 'class' do
       }
     end
 
-    it do
-      is_expected.to contain_package('openssh-client').with(ensure: 'present')
-    end
+    it { is_expected.to contain_package('openssh-client').with_ensure('installed') }
   end
   context 'when on Debian with custom ensure' do
     let :facts do
@@ -48,8 +46,6 @@ describe 'ssh::client', type: 'class' do
       }
     end
 
-    it do
-      is_expected.to contain_package('openssh-client').with(ensure: 'latest')
-    end
+    it { is_expected.to contain_package('openssh-client').with_ensure('latest') }
   end
 end

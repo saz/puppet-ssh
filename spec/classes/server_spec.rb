@@ -96,7 +96,13 @@ X11Forwarding yes
 
         describe "on supported osfamily: #{osfamily}" do
           it { is_expected.to contain_class('ssh::params') }
-          it { is_expected.to contain_package('openssh-server').with_ensure(param_hash[:ensure]) }
+          it do
+            if param_hash[:ensure] == 'present'
+              is_expected.to contain_package('openssh-server').with_ensure('installed')
+            else
+              is_expected.to contain_package('openssh-server').with_ensure(param_hash[:ensure])
+            end
+          end
 
           it do
             is_expected.to contain_service('ssh').with(
@@ -144,10 +150,11 @@ X11Forwarding yes
 
           it { is_expected.to contain_class('ssh::params') }
           it do
-            is_expected.to contain_package('openssh').with(
-              ensure: param_hash[:ensure],
-              name: 'openssh'
-            )
+            if param_hash[:ensure] == 'present'
+              is_expected.to contain_package('openssh').with_ensure('installed').with(name: 'openssh')
+            else
+              is_expected.to contain_package('openssh').with_ensure(param_hash[:ensure]).with(name: 'openssh')
+            end
           end
 
           it do
