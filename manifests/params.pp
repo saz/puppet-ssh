@@ -158,7 +158,7 @@ class ssh::params {
           $ssh_config = '/etc/ssh/ssh_config'
           $ssh_known_hosts = '/etc/ssh/ssh_known_hosts'
           $service_name = 'sshd'
-          $sftp_server_path = '/usr/lib/misc/sftp-server'
+          $sftp_server_path = '/usr/lib64/misc/sftp-server'
           $host_priv_key_group = 0
         }
         'Amazon': {
