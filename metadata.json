@@ -1,6 +1,6 @@
 {
   "name": "saz-ssh",
-  "version": "7.0.2",
+  "version": "8.0.0",
   "author": "saz",
   "summary": "Manage SSH client and server via Puppet.",
   "description": "Manage SSH client and server via puppet",
