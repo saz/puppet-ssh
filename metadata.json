@@ -14,6 +14,10 @@
     {
       "name": "puppetlabs/concat",
       "version_requirement": ">= 2.2.0 < 8.0.0"
+    },
+    {
+      "name": "puppet/systemd",
+      "version_requirement": ">= 3.7.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
