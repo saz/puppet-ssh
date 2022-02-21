@@ -3,7 +3,6 @@
   "version": "8.0.0",
   "author": "saz",
   "summary": "Manage SSH client and server via Puppet.",
-  "description": "Manage SSH client and server via puppet",
   "license": "Apache-2.0",
   "source": "git://github.com/saz/puppet-ssh.git",
   "project_page": "https://github.com/saz/puppet-ssh",
@@ -15,41 +14,99 @@
     {
       "name": "puppetlabs/concat",
       "version_requirement": ">= 2.2.0 < 8.0.0"
+    },
+    {
+      "name": "puppet/systemd",
+      "version_requirement": ">= 3.7.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "RedHat"
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
     },
     {
-      "operatingsystem": "CentOS"
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
     },
     {
-      "operatingsystem": "OracleLinux"
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
     },
     {
-      "operatingsystem": "Scientific"
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
     },
     {
-      "operatingsystem": "Debian"
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "10",
+        "11"
+      ]
     },
     {
-      "operatingsystem": "Ubuntu"
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "18.04",
+        "20.04"
+      ]
     },
     {
-      "operatingsystem": "FreeBSD"
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12",
+        "15"
+      ]
     },
     {
-      "operatingsystem": "DragonFly"
+      "operatingsystem": "OpenSuSE",
+      "operatingsystemrelease": [
+        "42"
+      ]
     },
     {
-      "operatingsystem": "OpenBSD"
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "12",
+        "13"
+      ]
+    },
+    {
+      "operatingsystem": "DragonFly",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OpenBSD",
+      "operatingsystemrelease": [
+        "7"
+      ]
     },
     {
       "operatingsystem": "Gentoo"
     },
     {
-      "operatingsystem": "Solaris"
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "11"
+      ]
     },
     {
       "operatingsystem": "ArchLinux"

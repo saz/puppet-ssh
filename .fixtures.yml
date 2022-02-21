@@ -2,6 +2,7 @@ fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib"
     concat: "https://github.com/puppetlabs/puppetlabs-concat"
+    systemd: "https://github.com/voxpupuli/puppet-systemd"
     sshkeys_core:
       repo: "https://github.com/puppetlabs/puppetlabs-sshkeys_core"
       puppet_version: ">= 6.0.0"

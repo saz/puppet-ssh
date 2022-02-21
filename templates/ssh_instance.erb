@@ -1,0 +1,63 @@
+# File is managed by Puppet
+<%-
+  def bool2str(v)
+    case v
+    when true
+      'yes'
+    when false
+      'no'
+    else
+      v
+    end
+  end
+-%>
+<%- if addressfamily = @sshd_instance_config.delete('AddressFamily') -%>
+AddressFamily <%= addressfamily %>
+<%- end -%>
+<%- if port = @sshd_instance_config.delete('Port') -%>
+<%- if port.is_a?(Array) -%>
+<%- port.reject{ |x| x.to_s.strip.empty? }.each do |p| -%>
+Port <%= p %>
+<%- end -%>
+<%- elsif not port.to_s.strip.empty? -%>
+Port <%= port %>
+<%- end -%>
+<%- end -%>
+<%- if listen = @sshd_instance_config.delete('ListenAddress') -%>
+<%- if listen.is_a?(Array) -%>
+<%- listen.reject{ |x| x.strip.empty? }.each do |l| -%>
+ListenAddress <%= l %>
+<%- end -%>
+<%- elsif not listen.strip.empty? -%>
+ListenAddress <%= listen %>
+<%- end -%>
+<%- end -%>
+
+<%- @sshd_instance_config.keys.sort_by{ |sk| (sk.to_s.downcase.include? "match") ? 'zzz' + sk.to_s : sk.to_s }.each do |k| -%>
+<%- v = @sshd_instance_config[k] -%>
+<%- if v.is_a?(Hash) -%>
+<%= k %>
+<%- v.keys.sort.each do |key| -%>
+    <%- value = v[key] -%>
+    <%- if value.is_a?(Array) -%>
+    <%- value.each do |a| -%>
+    <%- if a != '' && a != nil -%>
+    <%= key %> <%= bool2str(a) %>
+    <%- end -%>
+    <%- end -%>
+    <%- elsif value != '' && value != nil -%>
+    <%= key %> <%= bool2str(value) %>
+    <%- end -%>
+<%- end -%>
+<%- else -%>
+<%- if v.is_a?(Array) -%>
+<%- v.each do |a| -%>
+<%- if a != '' && a != nil -%>
+<%= k %> <%= bool2str(a) %>
+<%- end -%>
+<%- end -%>
+<%- elsif v != nil and v != '' -%>
+<%= k %> <%= bool2str(v) %>
+<%- end -%>
+<%- end -%>
+<%- end -%>

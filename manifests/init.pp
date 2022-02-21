@@ -28,7 +28,34 @@
 #         },
 #       },
 #     },
-#   }
+#    'server_instances' => {
+#      'sftp_server_init' => {
+#        'ensure' => 'present',
+#        'options' => {
+#          'sshd_config' => {
+#            'Port' => 8022,
+#            'Protocol' => 2,
+#            'AddressFamily' => 'any',
+#            'HostKey' => '/etc/ssh/ssh_host_rsa_key',
+#            'SyslogFacility' => 'AUTH',
+#            'LogLevel' => 'INFO',
+#            'PermitRootLogin' => 'no',
+#          },
+#          'sshd_service_options' => '',
+#          'match_blocks' => {
+#            '*,!ssh_exempt_ldap_authkey,!sshlokey' => {
+#              'type' => 'group',
+#              'options' => {
+#                'AuthorizedKeysCommand' => '/usr/local/bin/getauthkey',
+#                'AuthorizedKeysCommandUser' => 'nobody',
+#                'AuthorizedKeysFile' => '/dev/null',
+#              },
+#            },
+#          },
+#        },
+#      },
+#    },
+#  }
 #
 # @example hiera usage
 #   ssh::storeconfigs_enabled: true
@@ -62,7 +89,30 @@
 #               'Host *.alice.fr':
 #                   'User': 'alice'
 #                   'PasswordAuthentication': 'no'
+#    ssh::server::server_instances:
+#       sftp_server_init:
+#         ensure: present
+#         options:
+#           sshd_config:
+#            Port: 8022
+#            Protocol: 2
+#            AddressFamily: 'any'
+#            HostKey: '/etc/ssh/ssh_host_rsa_key'
+#            SyslogFacility: 'AUTH'
+#            LogLevel: INFO
+#            PermitRootLogin: 'no'
+#         sshd_service_options: ''
+#         match_blocks:
+#           '*,!ssh_exempt_ldap_authkey,!sshlokey':
+#              type: group
+#              options:
+#                AuthorizedKeysCommand: '/usr/local/bin/getauthkey'
+#                AuthorizedKeysCommandUser: 'nobody'
+#                AuthorizedKeysFile: '/dev/null'
 #
+#
+# @server_instances
+#   Configure SSH instances
 #
 # @param server_options
 #   Add dynamic options for ssh server config
@@ -98,18 +148,22 @@
 #   Use issue_net header
 #
 class ssh (
-  Hash    $server_options          = {},
-  Hash    $server_match_block      = {},
-  Hash    $client_options          = {},
-  Hash    $users_client_options    = {},
-  String  $version                 = 'present',
-  Boolean $storeconfigs_enabled    = true,
-  Boolean $validate_sshd_file      = $ssh::params::validate_sshd_file,
-  Boolean $use_augeas              = false,
-  Array   $server_options_absent   = [],
-  Array   $client_options_absent   = [],
-  Boolean $use_issue_net           = false,
-  Boolean $purge_unmanaged_sshkeys = true,
+  Hash[String[1],Hash[String[1],NotUndef]] $server_instances = {},
+  Hash    $server_options                                    = {},
+  Hash    $server_match_block                                = {},
+  Hash    $client_options                                    = {},
+  Hash    $users_client_options                              = {},
+  String  $version                                           = 'present',
+  Boolean $storeconfigs_enabled                              = true,
+  Boolean $validate_sshd_file                                = $ssh::params::validate_sshd_file,
+  Boolean $use_augeas                                        = false,
+  Array   $server_options_absent                             = [],
+  Array   $client_options_absent                             = [],
+  Boolean $use_issue_net                                     = false,
+  Boolean $purge_unmanaged_sshkeys                           = true,
+  Stdlib::Absolutepath $sshd_dir                             = $ssh::params::sshd_dir,
+  Stdlib::Absolutepath $sshd_binary                          = $ssh::params::sshd_binary,
+  Optional[Stdlib::Absolutepath] $sshd_environments_file     = $ssh::params::sshd_environments_file,
 ) inherits ssh::params {
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'deep', {})
@@ -138,6 +192,12 @@ class ssh (
     options              => $fin_client_options,
     use_augeas           => $use_augeas,
     options_absent       => $client_options_absent,
+  }
+
+  $server_instances.each | String $instance_name, Hash $instance_settings | {
+    ssh::server::instances { $instance_name:
+      * => $instance_settings,
+    }
   }
 
   # If host keys are being managed, optionally purge unmanaged ones as well.
