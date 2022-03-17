@@ -5,7 +5,7 @@
   "summary": "Manage SSH client and server via Puppet.",
   "description": "Manage SSH client and server via puppet",
   "license": "Apache-2.0",
-  "source": "git://github.com/saz/puppet-ssh.git",
+  "source": "https://github.com/saz/puppet-ssh.git",
   "project_page": "https://github.com/saz/puppet-ssh",
   "dependencies": [
     {
