@@ -7,9 +7,9 @@
 #
 #   ssh::instances { 'namevar': }
 define ssh::server::instances (
-  String  $ensure                                        = present,
+  Enum[present, absent]  $ensure                         = present,
   Hash    $options                                       = {},
-  String  $service_ensure                                = 'running',
+  Stdlib::Ensure::Service  $service_ensure               = 'running',
   Boolean $service_enable                                = true,
   Boolean $validate_config_file                          = false,
   Stdlib::Absolutepath $sshd_instance_config_file        = "${ssh::sshd_dir}/sshd_config.${title}",

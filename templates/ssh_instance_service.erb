@@ -9,7 +9,6 @@ After=network.target sshd-keygen.service
 Wants=sshd-keygen.service
 
 [Service]
-Type=notify
 <% if @sshd_environments_file %>
 EnvironmentFile=<%= @sshd_environments_file -%>
 <% end %>
