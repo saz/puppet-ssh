@@ -30,7 +30,7 @@ describe 'ssh', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_concat('/etc/ssh/sshd_config_sftp_server_init') }
+        it { is_expected.to contain_concat('/etc/ssh/sshd_config.sftp_server_init') }
         it { is_expected.to contain_concat__fragment('sshd instance sftp_server_init config') }
         it { is_expected.to contain_systemd__unit_file('sftp_server_init.service') }
         it { is_expected.to contain_service('sftp_server_init.service') }
