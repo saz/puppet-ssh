@@ -1,0 +1,22 @@
+# <%= @sshd_instance_service_name %>
+# This file is managed by Puppet.
+# DO NOT EDIT
+
+[Unit]
+Description=SSHD Instance <%= @title %>
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target sshd-keygen.service
+Wants=sshd-keygen.service
+
+[Service]
+<% if @sshd_environments_file %>
+EnvironmentFile=<%= @sshd_environments_file -%>
+<% end %>
+ExecStart=<%= @sshd_binary %> -f <%= @sshd_instance_config_file %> -D $OPTIONS <%= @sshd_service_options %>
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=15s
+
+[Install]
+WantedBy=multi-user.target
