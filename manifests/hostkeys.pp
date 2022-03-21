@@ -1,8 +1,6 @@
 # @summary
 #   This class manages hostkeys
 #
-# @api private
-#
 class ssh::hostkeys (
   Boolean          $export_ipaddresses  = true,
   Optional[String] $storeconfigs_group  = undef,
