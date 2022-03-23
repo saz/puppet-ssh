@@ -11,7 +11,7 @@ define ssh::client::config::user (
   Hash $options                                       = {},
   String[1] $user                                     = $name,
 ) {
-  include ssh::params
+  include ssh
 
   # If a specific target file was specified,
   # it must have higher priority than any
@@ -33,7 +33,7 @@ define ssh::client::config::user (
         file { $user_ssh_dir:
           ensure => directory,
           owner  => $user,
-          mode   => $ssh::params::user_ssh_directory_default_mode,
+          mode   => $ssh::user_ssh_directory_default_mode,
           before => Concat_file[$_target],
         }
       }
@@ -44,7 +44,7 @@ define ssh::client::config::user (
     concat_file { $_target:
       ensure => $ensure,
       owner  => $user,
-      mode   => $ssh::params::user_ssh_config_default_mode,
+      mode   => $ssh::user_ssh_config_default_mode,
       tag    => $name,
     }
   }

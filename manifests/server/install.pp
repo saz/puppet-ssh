@@ -4,10 +4,10 @@
 # @api private
 #
 class ssh::server::install {
-  include ssh::params
-  if $ssh::params::server_package_name {
+  include ssh
+  if $ssh::server_package_name {
     ensure_packages ([
-        $ssh::params::server_package_name,
+        $ssh::server_package_name,
       ], {
         'ensure' => $ssh::server::ensure,
     })

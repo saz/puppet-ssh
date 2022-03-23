@@ -1,0 +1,26 @@
+---
+ssh::sshd_dir: '/etc/ssh'
+ssh::sshd_config: '/etc/ssh/sshd_config'
+ssh::ssh_config: '/etc/ssh/ssh_config'
+ssh::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
+ssh::service_name: 'svc:/network/ssh:default'
+ssh::sftp_server_path: 'internal-sftp'
+ssh::host_priv_key_group: 0
+ssh::validate_sshd_file             : false
+ssh::user_ssh_directory_default_mode: '0700'
+ssh::user_ssh_config_default_mode   : '0600'
+ssh::collect_enabled                : true   # Collect sshkey resources
+ssh::issue_net                      : '/etc/issue.net'
+
+ssh::sshd_default_options:
+  ChallengeResponseAuthentication: 'no'
+  X11Forwarding: 'yes'
+  PrintMotd: 'no'
+  AcceptEnv: 'LANG LC_*'
+  Subsystem: "sftp %{lookup('ssh::sftp_server_path')}"
+  UsePAM: 'yes'
+
+ssh::ssh_default_options:
+  'Host *':
+    SendEnv: 'LANG LC_*'
+    HashKnownHosts: 'yes'

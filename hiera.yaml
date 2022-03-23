@@ -1,0 +1,25 @@
+---
+version: 5
+
+defaults:
+  datadir: 'data'
+  data_hash: 'yaml_data'
+
+hierarchy:
+  - name: 'Operating System Family'
+    path: '%{facts.os.family}.yaml'
+
+  - name: 'Full Version'
+    path: '%{facts.os.name}-%{facts.os.release.full}.yaml'
+
+  - name: 'Distribution Name'
+    path: '%{facts.os.name}.yaml'
+
+  - name: 'Major Version'
+    path: '%{facts.os.name}-%{facts.os.release.major}.yaml'
+
+  - name: 'Major Version with architecture'
+    path: '%{facts.os.name}-%{facts.os.release.major}-%{facts.os.architecture}.yaml'
+
+  - name: 'common'
+    path: 'common.yaml'

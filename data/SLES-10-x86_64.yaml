@@ -1,0 +1,2 @@
+---
+ssh::sftp_server_path: '/usr/lib64/ssh/sftp-server'

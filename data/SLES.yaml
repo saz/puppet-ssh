@@ -1,0 +1,3 @@
+---
+ssh::service_name: 'sshd'
+ssh::sftp_server_path: '/usr/lib/ssh/sftp-server'

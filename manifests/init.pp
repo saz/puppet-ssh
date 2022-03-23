@@ -148,6 +148,21 @@
 #   Use issue_net header
 #
 class ssh (
+  Stdlib::Absolutepath $sshd_dir,
+  Stdlib::Absolutepath $sshd_binary,
+  Boolean $validate_sshd_file,
+  Hash $sshd_default_options,
+  Hash $ssh_default_options,
+  Stdlib::Absolutepath $sshd_config,
+  Stdlib::Absolutepath $ssh_config,
+  Stdlib::Filemode $user_ssh_directory_default_mode,
+  Stdlib::Filemode $user_ssh_config_default_mode,
+  Integer $host_priv_key_group,
+  String $service_name,
+  Boolean $collect_enabled,
+  Optional[Stdlib::Absolutepath] $sshd_environments_file     = undef,
+  Optional[String] $server_package_name                      = undef,
+  Optional[String] $client_package_name                      = undef,
   Hash[String[1],Hash[String[1],NotUndef]] $server_instances = {},
   Hash    $server_options                                    = {},
   Hash    $server_match_block                                = {},
@@ -155,16 +170,13 @@ class ssh (
   Hash    $users_client_options                              = {},
   String  $version                                           = 'present',
   Boolean $storeconfigs_enabled                              = true,
-  Boolean $validate_sshd_file                                = $ssh::params::validate_sshd_file,
   Boolean $use_augeas                                        = false,
   Array   $server_options_absent                             = [],
   Array   $client_options_absent                             = [],
   Boolean $use_issue_net                                     = false,
   Boolean $purge_unmanaged_sshkeys                           = true,
-  Stdlib::Absolutepath $sshd_dir                             = $ssh::params::sshd_dir,
-  Stdlib::Absolutepath $sshd_binary                          = $ssh::params::sshd_binary,
-  Optional[Stdlib::Absolutepath] $sshd_environments_file     = $ssh::params::sshd_environments_file,
-) inherits ssh::params {
+
+) {
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'deep', {})
   $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'deep', {})

@@ -1,0 +1,8 @@
+---
+ssh::sshd_dir: '/etc/ssh'
+ssh::sshd_config: '/etc/ssh/sshd_config'
+ssh::ssh_config: '/etc/ssh/ssh_config'
+ssh::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
+ssh::service_name: 'svc:/network/ssh:default'
+ssh::sftp_server_path: 'internal-sftp'
+ssh::host_priv_key_group: 0
