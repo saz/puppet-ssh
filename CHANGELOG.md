@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [9.0.0]
 ### Added
-- Support for multiple instances (#318, #319, #321) - Thanks! 
+- Support for multiple instances (#318, #319, #321) - Thanks!
 ### Changed
 - "hostkeys.pp" isn't marked private anymore (#317)
 
