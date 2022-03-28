@@ -7,7 +7,7 @@ define ssh::server::match_block (
   Hash $options  = {},
   String $type   = 'user',
   Integer $order = 50,
-  Stdlib::Absolutepath $target = $ssh::sshd_config,
+  Stdlib::Absolutepath $target = $ssh::params::sshd_config,
 ) {
   include ssh
   if $ssh::server::use_augeas {
