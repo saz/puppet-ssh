@@ -9,7 +9,8 @@ define ssh::server::match_block (
   Integer $order = 50,
   Stdlib::Absolutepath $target = $ssh::params::sshd_config,
 ) {
-  include ssh
+
+  include ssh::server
   if $ssh::server::use_augeas {
     fail('ssh::server::match_block() define not supported with use_augeas = true')
   } else {
