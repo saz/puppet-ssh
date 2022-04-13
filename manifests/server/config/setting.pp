@@ -8,7 +8,7 @@ define ssh::server::config::setting (
   $value,
   $order = '10'
 ) {
-  include ssh::params
+  include ssh
 
   if is_bool($value) {
     $real_value = $value ? {
@@ -25,7 +25,7 @@ define ssh::server::config::setting (
   }
 
   concat::fragment { "ssh_setting_${name}_${key}":
-    target  => $ssh::params::sshd_config,
+    target  => $ssh::sshd_config,
     content => "\n# added by Ssh::Server::Config::Setting[${name}]\n${key} ${real_value}\n",
     order   => $order,
   }

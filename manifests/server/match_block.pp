@@ -1,15 +1,12 @@
 # @summary
 #   Add match_block to ssh server config (concat needed)
 #
-# @api private
-#
 define ssh::server::match_block (
   Hash $options  = {},
   String $type   = 'user',
   Integer $order = 50,
   Stdlib::Absolutepath $target = $ssh::params::sshd_config,
 ) {
-  include ssh
   if $ssh::server::use_augeas {
     fail('ssh::server::match_block() define not supported with use_augeas = true')
   } else {

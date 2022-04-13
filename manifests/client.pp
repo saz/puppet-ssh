@@ -1,3 +1,4 @@
+# @api private
 # @summary
 #   This class add ssh client management
 #
@@ -26,16 +27,17 @@ class ssh::client (
   Hash    $options              = {},
   Boolean $use_augeas           = false,
   Array   $options_absent       = [],
-) inherits ssh::params {
+) {
+  assert_private()
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'deep', {})
 
   $fin_options = deep_merge($hiera_options, $options)
 
   if $use_augeas {
-    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $ssh::params::ssh_config })
+    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $ssh::ssh_config })
   } else {
-    $merged_options = merge($fin_options, delete($ssh::params::ssh_default_options, keys($fin_options)))
+    $merged_options = merge($fin_options, delete($ssh::ssh_default_options, keys($fin_options)))
   }
 
   include ssh::client::install

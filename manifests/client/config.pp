@@ -5,7 +5,7 @@ class ssh::client::config {
   if $use_augeas {
     create_resources('ssh_config', $options)
   } else {
-    file { $ssh::params::ssh_config:
+    file { $ssh::ssh_config:
       ensure  => file,
       owner   => '0',
       group   => '0',

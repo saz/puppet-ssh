@@ -1,0 +1,20 @@
+---
+ssh::sshd_dir: '/etc/ssh'
+ssh::sshd_config: '/etc/ssh/sshd_config'
+ssh::ssh_config: '/etc/ssh/ssh_config'
+ssh::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
+ssh::service_name: 'sshd'
+ssh::sftp_server_path: '/usr/libexec/sftp-server'
+ssh::host_priv_key_group: 0
+
+ssh::sshd_default_options:
+  ChallengeResponseAuthentication: 'no'
+  X11Forwarding                  : 'yes'
+  PrintMotd                      : 'no'
+  AcceptEnv                      : 'LANG LC_*'
+  Subsystem                      : "sftp %{lookup('ssh::sftp_server_path')}"
+
+ssh::ssh_default_options:
+  'Host *':
+    SendEnv: 'LANG LC_*'
+    HashKnownHosts: 'yes'

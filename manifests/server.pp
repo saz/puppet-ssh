@@ -1,3 +1,4 @@
+# @api private
 # @summary
 #   This class managed ssh server
 #
@@ -41,7 +42,8 @@ class ssh::server (
   Array   $options_absent       = [],
   Hash    $match_block          = {},
   Boolean $use_issue_net        = false
-) inherits ssh::params {
+) {
+  assert_private()
   # Merge hashes from multiple layer of hierarchy in hiera
   $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'deep', {})
   $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'deep', {})
@@ -50,9 +52,9 @@ class ssh::server (
   $fin_match_block = deep_merge($hiera_match_block, $match_block)
 
   if $use_augeas {
-    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $ssh::params::sshd_config })
+    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $ssh::sshd_config })
   } else {
-    $merged_options = deep_merge($ssh::params::sshd_default_options, $fin_options)
+    $merged_options = deep_merge($ssh::sshd_default_options, $fin_options)
   }
 
   include ssh::server::install

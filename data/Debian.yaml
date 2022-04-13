@@ -1,0 +1,12 @@
+---
+ssh::server_package_name: 'openssh-server'
+ssh::client_package_name: 'openssh-client'
+ssh::sshd_dir: '/etc/ssh'
+ssh::sshd_binary: '/usr/sbin/sshd'
+ssh::sshd_config: '/etc/ssh/sshd_config'
+ssh::sshd_environments_file: '/etc/default/ssh'
+ssh::ssh_config: '/etc/ssh/ssh_config'
+ssh::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
+ssh::service_name: 'ssh'
+ssh::sftp_server_path: '/usr/lib/openssh/sftp-server'
+ssh::host_priv_key_group: 0
