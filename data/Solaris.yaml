@@ -13,4 +13,4 @@ ssh:sshd_default_options:
     - "%{lookup('ssh::sshd_dir')}/ssh_host_rsa_key"
     - "%{lookup('ssh::sshd_dir')}/ssh_host_dsa_key"
 
-ssh::ssh_default_options: {}
+ssh::client_options: {}

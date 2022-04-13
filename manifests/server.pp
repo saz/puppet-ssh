@@ -44,17 +44,11 @@ class ssh::server (
   Boolean $use_issue_net        = false
 ) {
   assert_private()
-  # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = lookup("${module_name}::server::options", Optional[Hash], 'deep', {})
-  $hiera_match_block = lookup("${module_name}::server::match_block", Optional[Hash], 'deep', {})
-
-  $fin_options = deep_merge($hiera_options, $options)
-  $fin_match_block = deep_merge($hiera_match_block, $match_block)
 
   if $use_augeas {
-    $merged_options = sshserver_options_to_augeas_sshd_config($fin_options, $options_absent, { 'target' => $ssh::sshd_config })
+    $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::sshd_config })
   } else {
-    $merged_options = deep_merge($ssh::sshd_default_options, $fin_options)
+    $merged_options = $options
   }
 
   include ssh::server::install
@@ -78,5 +72,5 @@ class ssh::server (
     ~> Class['ssh::server::service']
   }
 
-  create_resources('ssh::server::match_block', $fin_match_block)
+  create_resources('ssh::server::match_block', $match_block)
 }
