@@ -151,8 +151,6 @@ class ssh (
   Stdlib::Absolutepath $sshd_dir,
   Stdlib::Absolutepath $sshd_binary,
   Boolean $validate_sshd_file,
-  Hash $sshd_default_options,
-  Hash $ssh_default_options,
   Stdlib::Absolutepath $sshd_config,
   Stdlib::Absolutepath $ssh_config,
   Stdlib::Filemode $user_ssh_directory_default_mode,
@@ -177,21 +175,10 @@ class ssh (
   Boolean $purge_unmanaged_sshkeys                           = true,
 
 ) {
-  # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_server_options = lookup("${module_name}::server_options", Optional[Hash], 'deep', {})
-  $hiera_server_match_block = lookup("${module_name}::server_match_block", Optional[Hash], 'deep', {})
-  $hiera_client_options = lookup("${module_name}::client_options", Optional[Hash], 'deep', {})
-  $hiera_users_client_options = lookup("${module_name}::users_client_options", Optional[Hash], 'deep', {})
-
-  $fin_server_options = deep_merge($hiera_server_options, $server_options)
-  $fin_server_match_block = deep_merge($hiera_server_match_block, $server_match_block)
-  $fin_client_options = deep_merge($hiera_client_options, $client_options)
-  $fin_users_client_options = deep_merge($hiera_users_client_options, $users_client_options)
-
   class { 'ssh::server':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
-    options              => $fin_server_options,
+    options              => $server_options,
     validate_sshd_file   => $validate_sshd_file,
     use_augeas           => $use_augeas,
     options_absent       => $server_options_absent,
@@ -201,7 +188,7 @@ class ssh (
   class { 'ssh::client':
     ensure               => $version,
     storeconfigs_enabled => $storeconfigs_enabled,
-    options              => $fin_client_options,
+    options              => $client_options,
     use_augeas           => $use_augeas,
     options_absent       => $client_options_absent,
   }
@@ -219,6 +206,6 @@ class ssh (
     }
   }
 
-  create_resources('ssh::client::config::user', $fin_users_client_options)
-  create_resources('ssh::server::match_block', $fin_server_match_block)
+  create_resources('ssh::client::config::user', $users_client_options)
+  create_resources('ssh::server::match_block', $server_match_block)
 }

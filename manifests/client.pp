@@ -29,15 +29,11 @@ class ssh::client (
   Array   $options_absent       = [],
 ) {
   assert_private()
-  # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = lookup("${module_name}::client::options", Optional[Hash], 'deep', {})
-
-  $fin_options = deep_merge($hiera_options, $options)
 
   if $use_augeas {
-    $merged_options = sshclient_options_to_augeas_ssh_config($fin_options, $options_absent, { 'target' => $ssh::ssh_config })
+    $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh::ssh_config })
   } else {
-    $merged_options = merge($fin_options, delete($ssh::ssh_default_options, keys($fin_options)))
+    $merged_options = $options
   }
 
   include ssh::client::install

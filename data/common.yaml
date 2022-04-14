@@ -1,4 +1,14 @@
 ---
+lookup_options:
+  ssh::server_options:
+    merge: deep
+  ssh::server_match_block:
+    merge: deep
+  ssh::client_options:
+    merge: deep
+  ssh::users_client_options:
+    merge: deep
+
 ssh::sshd_dir: '/etc/ssh'
 ssh::sshd_config: '/etc/ssh/sshd_config'
 ssh::ssh_config: '/etc/ssh/ssh_config'
@@ -12,7 +22,7 @@ ssh::user_ssh_config_default_mode   : '0600'
 ssh::collect_enabled                : true   # Collect sshkey resources
 ssh::issue_net                      : '/etc/issue.net'
 
-ssh::sshd_default_options:
+ssh::server_options:
   ChallengeResponseAuthentication: 'no'
   X11Forwarding: 'yes'
   PrintMotd: 'no'
@@ -20,7 +30,7 @@ ssh::sshd_default_options:
   Subsystem: "sftp %{lookup('ssh::sftp_server_path')}"
   UsePAM: 'yes'
 
-ssh::ssh_default_options:
+ssh::client_options:
   'Host *':
     SendEnv: 'LANG LC_*'
     HashKnownHosts: 'yes'
