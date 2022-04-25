@@ -138,7 +138,7 @@ describe 'ssh', type: 'class' do
         it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd(nil) }
         it { is_expected.to contain_resources('sshkey').with_purge(true) }
         it { is_expected.to contain_concat__fragment('global config').with_content(sshd_config_default) }
-
+        it { is_expected.to contain_concat__fragment('ssh_config global config').with_content(ssh_config_expected_default) }
         it { is_expected.to contain_package(client_package).with_ensure('installed') } if client_package
         it { is_expected.to contain_package(server_package).with_ensure('installed') } if server_package
       end
