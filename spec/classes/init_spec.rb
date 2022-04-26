@@ -134,11 +134,12 @@ describe 'ssh', type: 'class' do
       context 'with no other parameters' do
         it { is_expected.to contain_class('ssh::client') }
         it { is_expected.to contain_class('ssh::server') }
-        it { is_expected.to contain_file('/etc/ssh/ssh_config').with_content(ssh_config_expected_default) }
+        it { is_expected.to contain_concat('/etc/ssh/ssh_config') }
         it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd(nil) }
         it { is_expected.to contain_resources('sshkey').with_purge(true) }
         it { is_expected.to contain_concat__fragment('global config').with_content(sshd_config_default) }
         it { is_expected.to contain_concat__fragment('ssh_config global config').with_content(ssh_config_expected_default) }
+
         it { is_expected.to contain_package(client_package).with_ensure('installed') } if client_package
         it { is_expected.to contain_package(server_package).with_ensure('installed') } if server_package
       end
@@ -169,7 +170,7 @@ describe 'ssh', type: 'class' do
           }
         end
 
-        it { is_expected.to contain_file('/etc/ssh/ssh_config').with_content(ssh_config_expected_custom) }
+        it { is_expected.to contain_concat__fragment('ssh_config global config').with_content(ssh_config_expected_custom) }
       end
 
       context 'with storeconfigs_enabled set to false' do
@@ -180,6 +181,51 @@ describe 'ssh', type: 'class' do
         end
 
         it { is_expected.not_to contain_class('ssh::knownhosts') }
+      end
+
+      context 'with client_match_block' do
+        let :params do
+          {
+            client_match_block: {
+              '!foo' => {
+                'type' => 'user',
+                'options' => {
+                  'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
+                },
+              },
+              'bar' => {
+                'type' => 'host',
+                'options' => {
+                  'ForwardX11' => 'no',
+                  'PasswordAuthentication' => 'yes',
+                },
+              },
+            },
+          }
+        end
+
+        it do
+          is_expected.not_to contain_ssh__client__matchblock('!foo').with(
+            type: 'user',
+            options: {
+              'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
+            },
+            target: '/etc/ssh/ssh_config_foo'
+          )
+        end
+
+        it do
+          is_expected.not_to contain_ssh__client__matchblock('bar').with(
+            type: 'host',
+            options: {
+              'FowardX11' => 'no',
+              'PasswordAuthentication' => 'yes',
+            },
+            target: '/etc/ssh/ssh_config_foo'
+          )
+        end
+
+        it { is_expected.not_to have_ssh__client__matchblock_resource_count(2) }
       end
     end
   end

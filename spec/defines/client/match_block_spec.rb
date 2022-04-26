@@ -23,14 +23,15 @@ describe 'ssh::client::match_block' do
         end
 
         it { is_expected.to compile.with_all_deps }
+
         it do
           is_expected.to contain_concat__fragment('match_block !foo').with(
             target: '/etc/ssh/ssh_config_foo',
             content: <<~SSH,
-            Match user !foo
-                ProxyCommand /usr/bin/sss_ssh_knownhostsproxy -p %p %h
+              Match user !foo
+                  ProxyCommand /usr/bin/sss_ssh_knownhostsproxy -p %p %h
             SSH
-            order: 250,
+            order: 250
           )
         end
       end
