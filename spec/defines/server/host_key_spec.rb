@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'ssh::server::host_key', type: :define do
   on_supported_os.each do |os, os_facts|
-    let(:facts) { os_facts }
-
     context "on #{os}" do
+      let(:facts) { os_facts }
       let(:title) { 'something' }
       let(:pre_condition) { 'include ssh' }
 
       context 'with all defaults' do
         it { is_expected.to compile.and_raise_error(%r{You must provide either public_key_source or public_key_content parameter}) }
       end
+
       describe 'with public_key_content, private_key_content and certificate_content' do
         let :params do
           {
@@ -21,6 +23,7 @@ describe 'ssh::server::host_key', type: :define do
         end
 
         it { is_expected.to compile.with_all_deps }
+
         it {
           is_expected.to contain_file('something_pub').
             with_content('abc').

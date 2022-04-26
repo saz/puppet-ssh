@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Puppet::Parser::Functions
   newfunction(:sshserver_options_to_augeas_sshd_config, type: :rvalue, doc: <<-'DOC') do |args|
   This function will convert a key-value hash to a format understandable by the augeas sshd_config provider
@@ -76,27 +78,15 @@ module Puppet::Parser::Functions
 
   DOC
 
-    if args.empty?
-      raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: expects at least one argument'
-    end
+    raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: expects at least one argument' if args.empty?
 
     options = args[0]
-    unless options.is_a?(Hash)
-      raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: first argument must be a hash'
-    end
+    raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: first argument must be a hash' unless options.is_a?(Hash)
 
     options_absent = args[1] if args[1]
     other_parameters = args[2] if args[2]
-    if options_absent
-      unless options_absent.is_a?(Array) || options_absent.is_a?(String)
-        raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: second argument, if supplied, must be an array or a string'
-      end
-    end
-    if other_parameters
-      unless other_parameters.is_a?(Hash)
-        raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: third argument, if supplied, must be a hash'
-      end
-    end
+    raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: second argument, if supplied, must be an array or a string' if options_absent && !(options_absent.is_a?(Array) || options_absent.is_a?(String))
+    raise Puppet::ParseError, 'sshserver_options_to_augeas_sshd_config: third argument, if supplied, must be a hash' if other_parameters && !other_parameters.is_a?(Hash)
 
     options_final_augeas = {}
     options.each do |key1, value1|

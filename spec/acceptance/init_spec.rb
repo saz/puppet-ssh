@@ -18,15 +18,18 @@ describe 'ssh' do
       describe package(package_name) do
         it { is_expected.to be_installed }
       end
+
       describe port(22) do
         it { is_expected.to be_listening }
       end
+
       describe service('sshd') do
         it { is_expected.to be_enabled }
         it { is_expected.to be_running }
       end
     end
   end
+
   context 'Server with a seperate sftp_server_init instance on Port 8022' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
@@ -57,9 +60,11 @@ describe 'ssh' do
       describe package(package_name) do
         it { is_expected.to be_installed }
       end
+
       describe port(8022) do
         it { is_expected.to be_listening }
       end
+
       describe service('sftp_server_init') do
         it { is_expected.to be_enabled }
         it { is_expected.to be_running }

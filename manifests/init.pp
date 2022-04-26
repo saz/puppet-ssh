@@ -111,9 +111,6 @@
 #                AuthorizedKeysFile: '/dev/null'
 #
 #
-# @server_instances
-#   Configure SSH instances
-#
 # @param server_options
 #   Add dynamic options for ssh server config
 #
@@ -147,33 +144,26 @@
 # @param use_issue_net
 #   Use issue_net header
 #
+# @param purge_unmanaged_sshkeys
+#   Purge unmanaged sshkeys
+#
+# @param server_instances
+#   Configure SSH instances
+#
 class ssh (
-  Stdlib::Absolutepath $sshd_dir,
-  Stdlib::Absolutepath $sshd_binary,
-  Boolean $validate_sshd_file,
-  Stdlib::Absolutepath $sshd_config,
-  Stdlib::Absolutepath $ssh_config,
-  Stdlib::Filemode $user_ssh_directory_default_mode,
-  Stdlib::Filemode $user_ssh_config_default_mode,
-  Integer $host_priv_key_group,
-  String $service_name,
-  Boolean $collect_enabled,
-  Optional[Stdlib::Absolutepath] $sshd_environments_file     = undef,
-  Optional[String] $server_package_name                      = undef,
-  Optional[String] $client_package_name                      = undef,
-  Hash[String[1],Hash[String[1],NotUndef]] $server_instances = {},
-  Hash    $server_options                                    = {},
-  Hash    $server_match_block                                = {},
-  Hash    $client_options                                    = {},
-  Hash    $users_client_options                              = {},
-  String  $version                                           = 'present',
-  Boolean $storeconfigs_enabled                              = true,
-  Boolean $use_augeas                                        = false,
-  Array   $server_options_absent                             = [],
-  Array   $client_options_absent                             = [],
-  Boolean $use_issue_net                                     = false,
-  Boolean $purge_unmanaged_sshkeys                           = true,
-
+  Optional[Hash]                           $server_options          = undef,
+  Hash                                     $server_match_block      = {},
+  Optional[Hash]                           $client_options          = undef,
+  Hash                                     $users_client_options    = {},
+  String                                   $version                 = 'present',
+  Boolean                                  $storeconfigs_enabled    = true,
+  Boolean                                  $validate_sshd_file      = false,
+  Boolean                                  $use_augeas              = false,
+  Array                                    $server_options_absent   = [],
+  Array                                    $client_options_absent   = [],
+  Boolean                                  $use_issue_net           = false,
+  Boolean                                  $purge_unmanaged_sshkeys = true,
+  Hash[String[1],Hash[String[1],NotUndef]] $server_instances        = {},
 ) {
   class { 'ssh::server':
     ensure               => $version,

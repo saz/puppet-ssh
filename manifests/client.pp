@@ -1,4 +1,3 @@
-# @api private
 # @summary
 #   This class add ssh client management
 #
@@ -9,6 +8,12 @@
 #     use_augeas           => false,
 #   }
 #
+# @param ssh_config
+#   Path to ssh client config file
+#
+# @param client_package_name
+#   Name of the client package
+#
 # @param ensure
 #   Ensurable param to ssh client
 #
@@ -16,24 +21,31 @@
 #   Collected host keys from servers will be written to known_hosts unless storeconfigs_enabled is false
 #
 # @param options
-#   Dynamic hash for openssh client options
+#   SSH client options, will be deep_merged with default_options. This parameter takes precedence over default_options
+#
+# @param use_augeas
+#   Use augeas to configure ssh client
 #
 # @param options_absent
 #   Remove options (with augeas style)
 #
+# @param default_options
+#   Default options to set, will be merged with options parameter
+#
 class ssh::client (
-  String  $ensure               = present,
-  Boolean $storeconfigs_enabled = true,
-  Hash    $options              = {},
-  Boolean $use_augeas           = false,
-  Array   $options_absent       = [],
+  Stdlib::Absolutepath $ssh_config,
+  Hash                 $default_options,
+  Optional[String[1]]  $client_package_name  = undef,
+  String               $ensure               = present,
+  Boolean              $storeconfigs_enabled = true,
+  Hash                 $options              = {},
+  Boolean              $use_augeas           = false,
+  Array                $options_absent       = [],
 ) {
-  assert_private()
-
   if $use_augeas {
-    $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh::ssh_config })
+    $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
   } else {
-    $merged_options = $options
+    $merged_options = deep_merge($options, delete($default_options, keys($options)))
   }
 
   include ssh::client::install

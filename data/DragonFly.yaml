@@ -1,9 +1,8 @@
 ---
-ssh::sshd_dir: '/etc/ssh'
-ssh::sshd_binary: '/usr/local/sbin/sshd'
-ssh::sshd_config: '/etc/ssh/sshd_config'
-ssh::ssh_config: '/etc/ssh/ssh_config'
-ssh::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
-ssh::service_name: 'sshd'
+ssh::server::sshd_dir: '/etc/ssh'
+ssh::server::sshd_binary: '/usr/local/sbin/sshd'
+ssh::server::sshd_config: '/etc/ssh/sshd_config'
+ssh::client::ssh_config: '/etc/ssh/ssh_config'
+ssh::server::service_name: 'sshd'
 ssh::sftp_server_path: '/usr/libexec/sftp-server'
-ssh::host_priv_key_group: 0
+ssh::server::host_priv_key_group: 0

@@ -1,2 +1,2 @@
 ---
-ssh::host_priv_key_group: 'ssh_keys'
+ssh::server::host_priv_key_group: 'ssh_keys'

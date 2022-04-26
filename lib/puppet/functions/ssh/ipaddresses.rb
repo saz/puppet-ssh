@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @summary Returns ip addresses of network interfaces (except lo) found by facter.
 # @api private
 #
@@ -23,13 +25,10 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
       interfaces = {}
       facts['interfaces'].split(',').each do |iface|
         next if facts["ipaddress_#{iface}"].nil? && facts["ipaddress6_#{iface}"].nil?
+
         interfaces[iface] = {}
-        if !facts["ipaddress_#{iface}"].nil? && !facts["ipaddress_#{iface}"].empty?
-          interfaces[iface]['bindings'] = [{ 'address' => facts["ipaddress_#{iface}"] }]
-        end
-        if !facts["ipaddress6_#{iface}"].nil? && !facts["ipaddress6_#{iface}"].empty?
-          interfaces[iface]['bindings6'] = [{ 'address' => facts["ipaddress6_#{iface}"] }]
-        end
+        interfaces[iface]['bindings'] = [{ 'address' => facts["ipaddress_#{iface}"] }] if !facts["ipaddress_#{iface}"].nil? && !facts["ipaddress_#{iface}"].empty?
+        interfaces[iface]['bindings6'] = [{ 'address' => facts["ipaddress6_#{iface}"] }] if !facts["ipaddress6_#{iface}"].nil? && !facts["ipaddress6_#{iface}"].empty?
       end
     end
 
@@ -40,8 +39,10 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
 
       %w[bindings bindings6].each do |binding_type|
         next unless data.key?(binding_type)
+
         data[binding_type].each do |binding|
           next unless binding.key?('address')
+
           result << binding['address']
         end
       end
