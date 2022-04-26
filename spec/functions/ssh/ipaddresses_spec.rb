@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'ssh::ipaddresses', type: :puppet_function do
@@ -21,6 +23,7 @@ describe 'ssh::ipaddresses', type: :puppet_function do
         is_expected.to run.with_params(['docker0']).and_return(['10.13.42.61', '10.0.0.110', '10.0.0.104', '10.0.0.109'])
       end
     end
+
     describe 'with excluded interfaces' do
       it 'doesn\'t return the IPs of those interfaces' do
         is_expected.to run.with_params(%w[docker0 eno1]).and_return([])
@@ -50,6 +53,7 @@ describe 'ssh::ipaddresses', type: :puppet_function do
         is_expected.to run.with_params(['docker0']).and_return(['10.13.42.61'])
       end
     end
+
     describe 'with excluded interfaces' do
       it 'doesn\'t return the IPs of those interfaces' do
         is_expected.to run.with_params(%w[docker0 eno1]).and_return([])

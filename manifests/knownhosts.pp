@@ -8,8 +8,8 @@
 #   Define the hostkeys group storage
 #
 class ssh::knownhosts (
-  Boolean          $collect_enabled    = $ssh::collect_enabled,
-  Optional[String] $storeconfigs_group = undef,
+  Boolean             $collect_enabled    = $ssh::knownhosts::collect_enabled,
+  Optional[String[1]] $storeconfigs_group = undef,
 ) {
   if ($collect_enabled) {
     if $storeconfigs_group {

@@ -1,13 +1,31 @@
 # @summary
 #   This class manages hostkeys
 #
+# @param export_ipaddresses
+#   Whether ip addresses should be added as aliases
+#
+# @param storeconfigs_group
+#   Tag hostkeys with this group to allow segregation
+#
+# @param extra_aliases
+#   Additional aliases to set for host keys
+#
+# @param exclude_interfaces
+#   List of interfaces to exclude
+#
+# @param exclude_ipaddresses
+#   List of ip addresses to exclude
+#
+# @param use_trusted_facts
+#   Whether to use trusted or normal facts
+#
 class ssh::hostkeys (
-  Boolean          $export_ipaddresses  = true,
-  Optional[String] $storeconfigs_group  = undef,
-  Array            $extra_aliases       = [],
-  Array            $exclude_interfaces  = [],
-  Array            $exclude_ipaddresses = [],
-  Boolean          $use_trusted_facts   = false,
+  Boolean             $export_ipaddresses  = true,
+  Optional[String[1]] $storeconfigs_group  = undef,
+  Array               $extra_aliases       = [],
+  Array               $exclude_interfaces  = [],
+  Array               $exclude_ipaddresses = [],
+  Boolean             $use_trusted_facts   = false,
 ) {
   if $use_trusted_facts {
     $fqdn_real = $trusted['certname']

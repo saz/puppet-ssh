@@ -1,14 +1,21 @@
 # @summary
 #   Internal define to managed ssh server param
 #
-# @api private
+# @param key
+#   Key of the value which should be set
+#
+# @param value
+#   Value which should be set
+#
+# @param order
+#   Orders your setting within the config file
 #
 define ssh::server::config::setting (
-  $key,
-  $value,
-  $order = '10'
+  String[1]                             $key,
+  Variant[Boolean, Array, Hash, String] $value,
+  Variant[String[1], Integer]           $order = '10'
 ) {
-  include ssh
+  include ssh::server
 
   if is_bool($value) {
     $real_value = $value ? {
@@ -25,7 +32,7 @@ define ssh::server::config::setting (
   }
 
   concat::fragment { "ssh_setting_${name}_${key}":
-    target  => $ssh::sshd_config,
+    target  => $ssh::server::sshd_config,
     content => "\n# added by Ssh::Server::Config::Setting[${name}]\n${key} ${real_value}\n",
     order   => $order,
   }

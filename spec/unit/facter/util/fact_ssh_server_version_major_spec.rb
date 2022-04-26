@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Facter::Util::Fact do
@@ -12,6 +14,7 @@ describe Facter::Util::Fact do
         before do
           allow(Facter.fact(:ssh_server_version_full)).to receive(:value).and_return('6.6.1p1')
         end
+
         it do
           expect(Facter.fact(:ssh_server_version_major).value).to eq('6')
         end
@@ -23,6 +26,7 @@ describe Facter::Util::Fact do
         before do
           allow(Facter.fact(:ssh_server_version_full)).to receive(:value).and_return('7.2p2')
         end
+
         it do
           expect(Facter.fact(:ssh_server_version_major).value).to eq('7')
         end
@@ -33,6 +37,7 @@ describe Facter::Util::Fact do
       before do
         allow(Facter.fact(:ssh_server_version_full)).to receive(:value).and_return(nil)
       end
+
       it do
         expect(Facter.fact(:ssh_server_version_major).value).to be_nil
       end

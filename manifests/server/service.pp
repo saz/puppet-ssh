@@ -1,6 +1,8 @@
 # @summary
 #   This class managed ssh server service
 #
+# @api private
+#
 # @param ensure
 #   Ensurable service param
 #
@@ -8,13 +10,12 @@
 #   Define if service is enable
 #
 class ssh::server::service (
-  String  $ensure = 'running',
-  Boolean $enable = true
+  Stdlib::Ensure::Service $ensure = 'running',
+  Boolean                 $enable = true,
 ) {
-  include ssh
-  include ssh::server
+  assert_private()
 
-  service { $ssh::service_name:
+  service { $ssh::server::service_name:
     ensure     => $ssh::server::service::ensure,
     hasstatus  => true,
     hasrestart => true,

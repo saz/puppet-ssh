@@ -1,22 +1,41 @@
-# @summary A short summary of the purpose of this defined type.
+# @summary 
+#   Configure separate ssh server instances
 #
-# A description of what this defined type does
+# @param ensure
+#   Specifies whether the instance should be added or removed
 #
-# @options
-#   Structure see main class
+# @param options
+#   Set options for the instance
 #
-#   ssh::instances { 'namevar': }
+# @param service_ensure
+#   Whether this instance service should be running or stopped
+#
+# @param service_enable
+#   Whether this instance service should be started at boot
+#
+# @param validate_config_file
+#   Validate config file before applying
+#
+# @param sshd_instance_config_file
+#   Path of the instance sshd config
+#
+# @param sshd_binary
+#   Path to sshd binary
+#
+# @param sshd_environments_file
+#   Path to environments file, if any
+#
 define ssh::server::instances (
-  Enum[present, absent]  $ensure                         = present,
-  Hash    $options                                       = {},
-  Stdlib::Ensure::Service  $service_ensure               = 'running',
-  Boolean $service_enable                                = true,
-  Boolean $validate_config_file                          = false,
-  Stdlib::Absolutepath $sshd_instance_config_file        = "${ssh::sshd_dir}/sshd_config.${title}",
-  Stdlib::Absolutepath $sshd_binary                      = $ssh::sshd_binary,
-  Optional[Stdlib::Absolutepath] $sshd_environments_file = $ssh::sshd_environments_file,
+  Enum[present, absent]          $ensure                    = present,
+  Hash                           $options                   = {},
+  Stdlib::Ensure::Service        $service_ensure            = 'running',
+  Boolean                        $service_enable            = true,
+  Boolean                        $validate_config_file      = false,
+  Stdlib::Absolutepath           $sshd_instance_config_file = "${ssh::server::sshd_dir}/sshd_config.${title}",
+  Stdlib::Absolutepath           $sshd_binary               = $ssh::server::sshd_binary,
+  Optional[Stdlib::Absolutepath] $sshd_environments_file    = $ssh::server::sshd_environments_file,
 ) {
-  include ssh
+  include ssh::server
 
   $sshd_instance_config       = assert_type(Hash, pick($options['sshd_config'], {}))
   $sshd_instance_matchblocks  = assert_type(Hash, pick($options['match_blocks'], {}))

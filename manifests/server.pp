@@ -1,4 +1,3 @@
-# @api private
 # @summary
 #   This class managed ssh server
 #
@@ -8,6 +7,24 @@
 #     storeconfigs_enabled => true,
 #     use_issue_net        => false,
 #   }
+#
+# @param service_name
+#   Name of the sshd service
+#
+# @param sshd_config
+#   Path to the sshd_config file
+#
+# @param sshd_dir
+#   Path to the sshd dir (e.g. /etc/ssh)
+#
+# @param sshd_binary
+#   Path to the sshd binary
+#
+# @param host_priv_key_group
+#   Name of the group for the private host key
+#
+# @param default_options
+#   Default options to set, will be merged with options parameter
 #
 # @param ensure
 #   Ensurable param to ssh server
@@ -30,25 +47,37 @@
 # @param match_block
 #   Add sshd match_block (with concat)
 #
-# @use_issue_net
+# @param use_issue_net
 #   Add issue_net banner
 #
+# @param sshd_environments_file
+#   Path to a sshd environments file (e.g. /etc/defaults/ssh on Debian)
+#
+# @param server_package_name
+#   Name of the server package to install
+#
 class ssh::server (
-  String  $ensure               = present,
-  Boolean $storeconfigs_enabled = true,
-  Hash    $options              = {},
-  Boolean $validate_sshd_file   = false,
-  Boolean $use_augeas           = false,
-  Array   $options_absent       = [],
-  Hash    $match_block          = {},
-  Boolean $use_issue_net        = false
+  String[1]                      $service_name,
+  Stdlib::Absolutepath           $sshd_config,
+  Stdlib::Absolutepath           $sshd_dir,
+  Stdlib::Absolutepath           $sshd_binary,
+  Integer                        $host_priv_key_group,
+  Hash                           $default_options,
+  Enum[present,absent]           $ensure                 = present,
+  Boolean                        $storeconfigs_enabled   = true,
+  Hash                           $options                = {},
+  Boolean                        $validate_sshd_file     = false,
+  Boolean                        $use_augeas             = false,
+  Array                          $options_absent         = [],
+  Hash                           $match_block            = {},
+  Boolean                        $use_issue_net          = false,
+  Optional[Stdlib::Absolutepath] $sshd_environments_file = undef,
+  Optional[String[1]]            $server_package_name    = undef,
 ) {
-  assert_private()
-
   if $use_augeas {
-    $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::sshd_config })
+    $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::server::sshd_config })
   } else {
-    $merged_options = $options
+    $merged_options = deep_merge($default_options, $options)
   }
 
   include ssh::server::install

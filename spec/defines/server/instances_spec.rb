@@ -77,9 +77,7 @@ describe 'ssh::server::instances' do
       context "on #{os}" do
         let(:facts) { os_facts }
 
-        if os_facts[:kernel] != 'Linux'
-          it { is_expected.to compile.and_raise_error(%r{not supported, because Systemd is not available}) }
-        else
+        if os_facts[:kernel] == 'Linux'
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_concat('/etc/ssh/sshd_config.sftp_server') }
           it { is_expected.to contain_concat__fragment('sshd instance sftp_server config') }
@@ -87,10 +85,13 @@ describe 'ssh::server::instances' do
           it { is_expected.to contain_ssh__server__match_block('*,!ssh_exempt_ldap_authkey,!sshlokey') }
           it { is_expected.to contain_systemd__unit_file('sftp_server.service') }
           it { is_expected.to contain_service('sftp_server.service') }
+        else
+          it { is_expected.to compile.and_raise_error(%r{not supported, because Systemd is not available}) }
         end
       end
     end
   end
+
   context 'minimal setup' do
     let(:title) { 'sftp_server' }
     let :pre_condition do
@@ -119,13 +120,13 @@ describe 'ssh::server::instances' do
       context "on #{os}" do
         let(:facts) { os_facts }
 
-        if os_facts[:kernel] != 'Linux'
-          it { is_expected.to compile.and_raise_error(%r{not supported, because Systemd is not available}) }
-        else
+        if os_facts[:kernel] == 'Linux'
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_concat__fragment('sshd instance sftp_server config') }
           it { is_expected.to contain_systemd__unit_file('sftp_server.service') }
           it { is_expected.to contain_service('sftp_server.service') }
+        else
+          it { is_expected.to compile.and_raise_error(%r{not supported, because Systemd is not available}) }
         end
       end
     end

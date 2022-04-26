@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'ssh::server::config::setting' do
@@ -10,6 +12,7 @@ describe 'ssh::server::config::setting' do
       context 'with all defaults' do
         it { is_expected.not_to compile }
       end
+
       describe 'with key => "AllowGroups", value => "group1 group2"' do
         let :params do
           {
