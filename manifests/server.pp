@@ -101,5 +101,9 @@ class ssh::server (
     ~> Class['ssh::server::service']
   }
 
-  create_resources('ssh::server::match_block', $match_block)
+  $match_block.each |String $k, Hash $v| {
+    ssh::server::match_block { $k:
+      * => $v,
+    }
+  }
 }

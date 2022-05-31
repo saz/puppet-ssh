@@ -10,7 +10,11 @@ class ssh::client::config {
   $use_augeas = $ssh::client::use_augeas
 
   if $use_augeas {
-    create_resources('ssh_config', $options)
+    $options.each |String $k, Hash $v| {
+      ssh_config { $k:
+        * => $v,
+      }
+    }
   } else {
     concat { $ssh::client::ssh_config:
       ensure => present,

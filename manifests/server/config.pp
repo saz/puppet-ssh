@@ -18,7 +18,11 @@ class ssh::server::config {
   }
 
   if $ssh::server::use_augeas {
-    create_resources('sshd_config', $options)
+    $options.each |String $k, Hash $v| {
+      sshd_config { $k:
+        * => $v,
+      }
+    }
   } else {
     concat { $ssh::server::sshd_config:
       ensure       => present,

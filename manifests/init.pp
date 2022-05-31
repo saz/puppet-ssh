@@ -200,7 +200,21 @@ class ssh (
     }
   }
 
-  create_resources('ssh::client::config::user', $users_client_options)
-  create_resources('ssh::server::match_block', $server_match_block)
-  create_resources('ssh::client::match_block', $client_match_block)
+  $users_client_options.each |String $k, Hash $v| {
+    ssh::client::config::user { $k:
+      * => $v,
+    }
+  }
+
+  $server_match_block.each |String $k, Hash $v| {
+    ssh::server::match_block { $k:
+      * => $v,
+    }
+  }
+
+  $client_match_block.each |String $k, Hash $v| {
+    ssh::client::match_block { $k:
+      * => $v,
+    }
+  }
 }

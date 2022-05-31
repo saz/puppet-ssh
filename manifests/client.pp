@@ -68,5 +68,9 @@ class ssh::client (
     -> Class['ssh::client::config']
   }
 
-  create_resources('ssh::client::match_block', $match_block)
+  $match_block.each |String $k, Hash $v| {
+    ssh::client::match_block { $k:
+      * => $v,
+    }
+  }
 }
