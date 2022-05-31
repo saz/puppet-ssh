@@ -32,6 +32,9 @@
 # @param default_options
 #   Default options to set, will be merged with options parameter
 #
+# @param match_block
+#   Add ssh match_block (with concat)
+#
 class ssh::client (
   Stdlib::Absolutepath $ssh_config,
   Hash                 $default_options,
@@ -41,6 +44,7 @@ class ssh::client (
   Hash                 $options              = {},
   Boolean              $use_augeas           = false,
   Array                $options_absent       = [],
+  Hash                 $match_block          = {},
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
@@ -63,4 +67,6 @@ class ssh::client (
     Class['ssh::client::install']
     -> Class['ssh::client::config']
   }
+
+  create_resources('ssh::client::match_block', $match_block)
 }

@@ -120,6 +120,9 @@
 # @param client_options
 #   Add dynamic options for ssh client config
 #
+# @param client_match_block
+#   Add match block for ssh client config
+#
 # @param users_client_options
 #   Add users options for ssh client config
 #
@@ -154,6 +157,7 @@ class ssh (
   Optional[Hash]                           $server_options          = undef,
   Hash                                     $server_match_block      = {},
   Optional[Hash]                           $client_options          = undef,
+  Hash                                     $client_match_block      = {},
   Hash                                     $users_client_options    = {},
   String                                   $version                 = 'present',
   Boolean                                  $storeconfigs_enabled    = true,
@@ -198,4 +202,5 @@ class ssh (
 
   create_resources('ssh::client::config::user', $users_client_options)
   create_resources('ssh::server::match_block', $server_match_block)
+  create_resources('ssh::client::match_block', $client_match_block)
 }

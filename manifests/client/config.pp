@@ -12,13 +12,17 @@ class ssh::client::config {
   if $use_augeas {
     create_resources('ssh_config', $options)
   } else {
-    file { $ssh::client::ssh_config:
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
+    concat { $ssh::client::ssh_config:
+      ensure => present,
+      owner  => 0,
+      group  => 0,
+      mode   => '0644',
+    }
+
+    concat::fragment { 'ssh_config global config':
+      target  => $ssh::client::ssh_config,
       content => template("${module_name}/ssh_config.erb"),
-      require => Class['ssh::client::install'],
+      order   => '00',
     }
   }
 }
