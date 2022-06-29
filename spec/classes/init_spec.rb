@@ -187,8 +187,8 @@ describe 'ssh', type: 'class' do
         let :params do
           {
             client_match_block: {
-              '!foo' => {
-                'type' => 'user',
+              'foo' => {
+                'type' => '!localuser',
                 'options' => {
                   'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
                 },
@@ -205,8 +205,8 @@ describe 'ssh', type: 'class' do
         end
 
         it do
-          is_expected.not_to contain_ssh__client__matchblock('!foo').with(
-            type: 'user',
+          is_expected.not_to contain_ssh__client__matchblock('foo').with(
+            type: '!localuser',
             options: {
               'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
             },
