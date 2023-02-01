@@ -56,7 +56,7 @@ jobs:
         run: bundle exec rake parallel_spec
   acceptance:
     needs: setup_matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       BUNDLE_WITHOUT: development:test:release
     strategy:
