@@ -19,13 +19,17 @@
 # @param use_trusted_facts
 #   Whether to use trusted or normal facts
 #
+# @param tags
+#   Array of custom tags
+#
 class ssh::hostkeys (
-  Boolean             $export_ipaddresses  = true,
-  Optional[String[1]] $storeconfigs_group  = undef,
-  Array               $extra_aliases       = [],
-  Array               $exclude_interfaces  = [],
-  Array               $exclude_ipaddresses = [],
-  Boolean             $use_trusted_facts   = false,
+  Boolean                    $export_ipaddresses  = true,
+  Optional[String[1]]        $storeconfigs_group  = undef,
+  Array                      $extra_aliases       = [],
+  Array                      $exclude_interfaces  = [],
+  Array                      $exclude_ipaddresses = [],
+  Boolean                    $use_trusted_facts   = false,
+  Optional[Array[String[1]]] $tags                = undef,
 ) {
   if $use_trusted_facts {
     $fqdn_real = $trusted['certname']
@@ -44,8 +48,14 @@ class ssh::hostkeys (
     $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases])))
   }
 
-  if $storeconfigs_group {
-    tag 'hostkey_all', "hostkey_${storeconfigs_group}"
+  $storeconfigs_groups = $storeconfigs_group ? {
+    undef   => [],
+    default => ['hostkey_all', "hostkey_${storeconfigs_group}"],
+  }
+
+  $_tags = $tags ? {
+    undef   => $storeconfigs_groups,
+    default => $storeconfigs_groups + $tags,
   }
 
   ['dsa', 'rsa', 'ecdsa', 'ed25519'].each |String $key_type| {
@@ -63,6 +73,7 @@ class ssh::hostkeys (
         host_aliases => $host_aliases,
         type         => $key_type_real,
         key          => $facts['ssh'][$key_type]['key'],
+        tag          => $_tags,
       }
     } else {
       @@sshkey { "${fqdn_real}_${key_type}":
