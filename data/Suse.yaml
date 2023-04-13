@@ -5,5 +5,6 @@ ssh::server::sshd_dir: '/etc/ssh'
 ssh::server::sshd_binary: '/usr/sbin/sshd'
 ssh::server::sshd_config: '/etc/ssh/sshd_config'
 ssh::server::sshd_environments_file: '/etc/sysconfig/ssh'
+ssh::server::service_name: 'sshd'
 ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::host_priv_key_group: 0

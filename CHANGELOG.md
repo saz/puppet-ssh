@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.0.0]
+### Added
+- Add support for client "match blocks" (#332, #333)
+- Add data file for OpenBSD (#339)
+- Add support for service_ensure/service_enable in `ssh::server::instances` (#338)
+### Changed
+- Use hiera instead of params.pp (#325, #328)
+### Fixed
+- Fix parameter lookup for `ssh::server` and `ssh::client` (#331)
+
 ## [9.0.0]
 ### Added
 - Support for multiple instances (#318, #319, #321) - Thanks!

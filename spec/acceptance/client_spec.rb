@@ -15,10 +15,17 @@ describe 'ssh' do
               'GSSAPIDelegateCredentials' => "yes",
             },
             client_match_block => {
-              '!foo' => {
-                'type'    => 'user',
+              'foo' => {
+                'type'    => '!localuser',
                 'options' => {
                   'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
+                },
+              },
+              'bar' => {
+                'type' => 'host',
+                'options' => {
+                  'ForwardX11' => 'no',
+                  'PasswordAuthentication' => 'yes',
                 },
               },
             },
@@ -43,7 +50,10 @@ describe 'ssh' do
             Host *
                 HashKnownHosts yes
                 SendEnv LANG LC_*
-            Match user !foo
+            Match host bar
+                ForwardX11 no
+                PasswordAuthentication yes
+            Match !localuser foo
                 ProxyCommand /usr/bin/sss_ssh_knownhostsproxy -p %p %h
           SSH
         end

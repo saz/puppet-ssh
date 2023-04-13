@@ -2,13 +2,15 @@
 ssh::server::sshd_dir: '/etc/ssh'
 ssh::server::sshd_binary: '/usr/sbin/sshd'
 ssh::server::sshd_config: '/etc/ssh/sshd_config'
-ssh::client::ssh_config: '/etc/ssh/ssh_config'
+ssh::server::ssh_config: '/etc/ssh/ssh_config'
+ssh::server::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
 ssh::server::service_name: 'sshd'
-ssh::sftp_server_path: '/usr/libexec/sftp-server'
+ssh::sftp_server_path: '/usr/sbin/sftp-server'
 ssh::server::host_priv_key_group: 0
 ssh::server::default_options:
-  ChallengeResponseAuthentication: 'no'
-  X11Forwarding: 'yes'
-  PrintMotd: 'no'
   AcceptEnv: 'LANG LC_*'
+  ChallengeResponseAuthentication: 'no'
+  PrintMotd: 'no'
   Subsystem: "sftp %{lookup('ssh::sftp_server_path')}"
+  UsePAM: 'no'
+  X11Forwarding: 'yes'
