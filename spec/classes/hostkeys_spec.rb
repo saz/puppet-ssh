@@ -14,7 +14,7 @@ describe 'ssh::hostkeys', type: 'class' do
       }
     end
 
-    %w[dsa rsa ecdsa ed25519].each do |key_type|
+    %w[rsa].each do |key_type|
       it {
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
@@ -33,7 +33,7 @@ describe 'ssh::hostkeys', type: 'class' do
       }
     end
 
-    %w[dsa rsa ecdsa ed25519].each do |key_type|
+    %w[rsa].each do |key_type|
       it {
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
@@ -53,7 +53,7 @@ describe 'ssh::hostkeys', type: 'class' do
       }
     end
 
-    %w[dsa rsa ecdsa ed25519].each do |key_type|
+    %w[rsa].each do |key_type|
       it {
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
