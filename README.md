@@ -348,6 +348,22 @@ class YOURCUSTOMCLASS {
 }
 ```
 
+## Tag hostkey
+
+Assign tags to exported `sshkey` resources (when `ssh::storeconfigs_enabled` is set to `true`).
+
+```yaml
+ssh::hostkeys::tags:
+  - hostkey_group1
+  - hostkey_group2
+```
+
+Host keys then can be imported using:
+
+```puppet
+Sshkey <<| tag == "hostkey_group1" |>>
+```
+
 ## Excluding network interfaces or ipaddresses
 
 Use hiera to exclude interfaces or ipaddresses from hostkey inclusion
