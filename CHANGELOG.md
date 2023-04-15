@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.1.0]
+### Added
+- Support assigning multiple tags to a hostkey (#345)
+- Add AIX support (#341)
+### Changed
+- bump puppet/systemd to < 5.0.0 (#344)
+### Fixed
+- Fix for service name on latest versions of opensuse. (#343)
+
 ## [10.0.0]
 ### Added
 - Add support for client "match blocks" (#332, #333)
