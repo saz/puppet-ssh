@@ -17,18 +17,15 @@ define ssh::server::config::setting (
 ) {
   include ssh::server
 
-  if is_bool($value) {
-    $real_value = $value ? {
+  $real_value = $value ? {
+    Boolean => $value ? {
       true    => 'yes',
       false   => 'no',
       default => undef
-    }
-  } elsif is_array($value) {
-    $real_value = join($value, ' ')
-  } elsif is_hash($value) {
-    fail('Hash values are not supported')
-  } else {
-    $real_value = $value
+    },
+    Array   => join($value, ' '),
+    Hash    => fail('Hash values are not supported'),
+    default => $value,
   }
 
   concat::fragment { "ssh_setting_${name}_${key}":
