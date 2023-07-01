@@ -7,7 +7,7 @@ class ssh::client::install {
   assert_private()
 
   if $ssh::client::client_package_name {
-    ensure_packages([
+    stdlib::ensure_packages([
         $ssh::client::client_package_name,
       ], {
         'ensure' => $ssh::client::ensure,
