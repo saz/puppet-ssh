@@ -7,10 +7,6 @@ class ssh::server::install {
   assert_private()
 
   if $ssh::server::server_package_name {
-    stdlib::ensure_packages ([
-        $ssh::server::server_package_name,
-      ], {
-        'ensure' => $ssh::server::ensure,
-    })
+    package($ssh::server::server_package_name, { ensure => $ssh::server::ensure })
   }
 }
