@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.1.0]
+### Fixed
+- write ciphers,macs and kex as comma-separated string (#362)
+- Fix "No ssh_server_version_major created with OpenSSH 9.2" (#359)
+
 ## [11.0.0]
 ### Removed
 - BREAKING CHANGE: drop support for puppet 6
