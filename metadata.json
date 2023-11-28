@@ -1,6 +1,6 @@
 {
   "name": "saz-ssh",
-  "version": "11.1.0",
+  "version": "11.2.0",
   "author": "saz",
   "summary": "Manage SSH client and server via Puppet.",
   "license": "Apache-2.0",
