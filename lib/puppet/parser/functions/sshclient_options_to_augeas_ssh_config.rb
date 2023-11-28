@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Puppet::Parser::Functions
-  newfunction(:sshclient_options_to_augeas_ssh_config, type: :rvalue, doc: <<-'DOC') do |args|
+  newfunction(:sshclient_options_to_augeas_ssh_config, type: :rvalue, doc: <<-DOC) do |args|
   This function will convert a key-value hash to a format understandable by the augeas sshd_config provider
   It will also optionally deal with keys that should be absent, and inject static parameters if supplied.
 
