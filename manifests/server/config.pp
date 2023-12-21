@@ -28,7 +28,7 @@ class ssh::server::config {
       ensure       => present,
       owner        => 0,
       group        => 0,
-      mode         => '0600',
+      mode         => '0644',
       validate_cmd => $sshd_validate_cmd,
       notify       => Service[$ssh::server::service_name],
     }
