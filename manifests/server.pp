@@ -63,7 +63,7 @@ class ssh::server (
   Stdlib::Absolutepath           $sshd_binary,
   Integer                        $host_priv_key_group,
   Hash                           $default_options,
-  Enum[present,absent]           $ensure                 = present,
+  String                         $ensure                 = present,
   Boolean                        $storeconfigs_enabled   = true,
   Hash                           $options                = {},
   Boolean                        $validate_sshd_file     = false,
