@@ -37,9 +37,11 @@ define ssh::server::instances (
 ) {
   include ssh::server
 
-  $sshd_instance_config       = assert_type(Hash, pick($options['sshd_config'], {}))
-  $sshd_instance_matchblocks  = assert_type(Hash, pick($options['match_blocks'], {}))
-  $sshd_service_options       = $options['sshd_service_options']
+  $sshd_instance_config             = assert_type(Hash, pick($options['sshd_config'], {}))
+  $sshd_instance_matchblocks        = assert_type(Hash, pick($options['match_blocks'], {}))
+  $sshd_service_options             = $options['sshd_service_options']
+  $sshd_additional_service_options  = $options['sshd_additional_service_options']
+
   #check if server is a linux
   if $facts['kernel'] == 'Linux' {
     case $validate_config_file {
