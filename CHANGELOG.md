@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [11.2.0]
+## [12.0.0]
+### Added
+- add parameter to exclude interfaces with a regex (#378)
+- Allow User to add additonal systemd options to instances (#374)
 ### Changed
 - puppet/systemd: Allow 6.x (#364)
+### Fixed
+- allow ssh::server::ensure = latest, fixes #370 (#377)
 
 ## [11.1.0]
 ### Fixed
