@@ -9,6 +9,19 @@ After=network.target sshd-keygen.service
 Wants=sshd-keygen.service
 
 [Service]
+<%- if @sshd_additional_service_options -%>
+<%- @sshd_additional_service_options.each do |k,v| -%>
+<%- if v.is_a?(Array) -%>
+<%- v.each do |a| -%>
+<%- if a != '' && a != nil -%>
+<%= k %>=<%= bool2str(a) %>
+<%- end -%>
+<%- end -%>
+<%- elsif v != '' && v != nil -%>
+<%= k %>=<%= bool2str(v) %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
 <% if @sshd_environments_file %>
 EnvironmentFile=<%= @sshd_environments_file -%>
 <% end %>
