@@ -13,6 +13,9 @@
 # @param exclude_interfaces
 #   List of interfaces to exclude
 #
+# @param exclude_interfaces_re
+#   List of regular expressions to exclude interfaces
+#
 # @param exclude_ipaddresses
 #   List of ip addresses to exclude
 #
@@ -27,7 +30,7 @@ class ssh::hostkeys (
   Optional[String[1]]        $storeconfigs_group    = undef,
   Array                      $extra_aliases         = [],
   Array                      $exclude_interfaces    = [],
-  Array[Regexp]              $exclude_interfaces_re = [],
+  Array                      $exclude_interfaces_re = [],
   Array                      $exclude_ipaddresses   = [],
   Boolean                    $use_trusted_facts     = false,
   Optional[Array[String[1]]] $tags                  = undef,
