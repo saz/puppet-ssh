@@ -10,7 +10,7 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     # @param excluded_interfaces An array of interface names to be excluded.
     param 'Array[String[1]]', :excluded_interfaces
     # @param excluded_interfaces_re An array of regexp matching interface names to be excluded.
-    param 'Array[Regexp]', :excluded_interfaces_re
+    param 'Array', :excluded_interfaces_re
     # @return The IP addresses found.
     return_type 'Array[Stdlib::IP::Address]'
   end
@@ -38,7 +38,7 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     interfaces.each do |iface, data|
       # skip excluded interfaces
       next if excluded_interfaces.include?(iface)
-      next if excluded_interfaces_re.any? { |pattern| pattern.match?(iface) }
+      next if excluded_interfaces_re.any? { |pattern| Regexp.new(pattern).match?(iface) }
 
       %w[bindings bindings6].each do |binding_type|
         next unless data.key?(binding_type)
