@@ -8,12 +8,14 @@
 Puppet::Functions.create_function(:'ssh::ipaddresses') do
   dispatch :ipaddresses do
     # @param excluded_interfaces An array of interface names to be excluded.
+    param 'Array[String[1]]', :excluded_interfaces
+    # @param excluded_interfaces_re An array of regexp matching interface names to be excluded.
+    param 'Array[Regexp]', :excluded_interfaces_re
     # @return The IP addresses found.
-    optional_param 'Array[String[1]]', :excluded_interfaces
     return_type 'Array[Stdlib::IP::Address]'
   end
 
-  def ipaddresses(excluded_interfaces = [])
+  def ipaddresses(excluded_interfaces, excluded_interfaces_re)
     facts = closure_scope['facts']
 
     # always exclude loopback interface
@@ -36,6 +38,7 @@ Puppet::Functions.create_function(:'ssh::ipaddresses') do
     interfaces.each do |iface, data|
       # skip excluded interfaces
       next if excluded_interfaces.include?(iface)
+      next if excluded_interfaces_re.any? { |pattern| pattern.match?(iface) }
 
       %w[bindings bindings6].each do |binding_type|
         next unless data.key?(binding_type)

@@ -23,13 +23,14 @@
 #   Array of custom tags
 #
 class ssh::hostkeys (
-  Boolean                    $export_ipaddresses  = true,
-  Optional[String[1]]        $storeconfigs_group  = undef,
-  Array                      $extra_aliases       = [],
-  Array                      $exclude_interfaces  = [],
-  Array                      $exclude_ipaddresses = [],
-  Boolean                    $use_trusted_facts   = false,
-  Optional[Array[String[1]]] $tags                = undef,
+  Boolean                    $export_ipaddresses    = true,
+  Optional[String[1]]        $storeconfigs_group    = undef,
+  Array                      $extra_aliases         = [],
+  Array                      $exclude_interfaces    = [],
+  Array[Regexp]              $exclude_interfaces_re = [],
+  Array                      $exclude_ipaddresses   = [],
+  Boolean                    $use_trusted_facts     = false,
+  Optional[Array[String[1]]] $tags                  = undef,
 ) {
   if $use_trusted_facts {
     $fqdn_real = $trusted['certname']
@@ -41,7 +42,7 @@ class ssh::hostkeys (
   }
 
   if $export_ipaddresses == true {
-    $ipaddresses = ssh::ipaddresses($exclude_interfaces)
+    $ipaddresses = ssh::ipaddresses($exclude_interfaces, $exclude_interfaces_re)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
     $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real])))
   } else {
