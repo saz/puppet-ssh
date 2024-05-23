@@ -57,8 +57,8 @@ describe 'ssh::client::config::user' do
           end
 
           it {
-            is_expected.to contain_concat_file(target).with(ensure: 'present', tag: title)
-            is_expected.to contain_concat_fragment(title).with(tag: title, target: target)
+            is_expected.to contain_concat_file(target).with(ensure: 'present')
+            is_expected.to contain_concat_fragment(title).with(target: target)
           }
         end
         # describe 'with a user provided target'
