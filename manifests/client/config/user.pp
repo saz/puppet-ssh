@@ -74,11 +74,9 @@ define ssh::client::config::user (
       ensure => $ensure,
       owner  => $user,
       mode   => $ssh_config_default_mode,
-      tag    => $name,
     }
   }
   concat_fragment { $name:
-    tag     => $name,
     content => template("${module_name}/ssh_config.erb"),
     target  => $_target,
   }
