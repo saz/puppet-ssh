@@ -2,6 +2,7 @@
 ssh::server::sshd_dir: '/etc/ssh'
 ssh::server::sshd_binary: '/usr/sbin/sshd'
 ssh::server::sshd_config: '/etc/ssh/sshd_config'
+ssh::server::sshd_config_mode: '0644'
 ssh::server::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::ssh_known_hosts: '/etc/ssh/ssh_known_hosts'
 ssh::server::service_name: 'sshd'

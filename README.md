@@ -1,4 +1,4 @@
-# Puppet SSH [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/~saz/)
+# Puppet SSH
 
 [![Puppet Forge modules by saz](https://img.shields.io/puppetforge/mc/saz.svg)](https://forge.puppetlabs.com/saz)
 [![Puppet Forge](http://img.shields.io/puppetforge/v/saz/ssh.svg)](https://forge.puppetlabs.com/saz/ssh)
