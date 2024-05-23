@@ -62,6 +62,11 @@ describe 'ssh', type: 'class' do
         ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\n"
         sshd_config_default = "# File is managed by Puppet\n\nChallengeResponseAuthentication no\nHostKey /etc/ssh/ssh_host_rsa_key\nHostKey /etc/ssh/ssh_host_dsa_key\nPrintMotd no\nSubsystem sftp #{sftp_server_path}\nX11Forwarding yes\n"
         sshd_config_custom = "# File is managed by Puppet\n\nChallengeResponseAuthentication no\nHostKey /etc/ssh/ssh_host_rsa_key\nHostKey /etc/ssh/ssh_host_dsa_key\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp #{sftp_server_path}\nUsePAM no\nX11Forwarding no\n"
+      when 'OpenBSD'
+        ssh_config_expected_default = "# File managed by Puppet\n\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
+        ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
+        sshd_config_default = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSubsystem sftp #{sftp_server_path}\nX11Forwarding yes\n"
+        sshd_config_custom = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp #{sftp_server_path}\nUsePAM no\nX11Forwarding no\n"
       else
         ssh_config_expected_default = "# File managed by Puppet\n\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
         ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
