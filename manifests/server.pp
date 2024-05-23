@@ -20,6 +20,9 @@
 # @param sshd_binary
 #   Path to the sshd binary
 #
+# @param sshd_config_mode
+#   Mode to set on the sshd config file
+#
 # @param host_priv_key_group
 #   Name of the group for the private host key
 #
@@ -61,6 +64,7 @@ class ssh::server (
   Stdlib::Absolutepath           $sshd_config,
   Stdlib::Absolutepath           $sshd_dir,
   Stdlib::Absolutepath           $sshd_binary,
+  Stdlib::Filemode               $sshd_config_mode,
   Integer                        $host_priv_key_group,
   Hash                           $default_options,
   Enum[present,absent,latest]    $ensure                 = present,

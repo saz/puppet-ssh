@@ -15,6 +15,7 @@ lookup_options:
 
 ssh::server::sshd_dir: '/etc/ssh'
 ssh::server::sshd_config: '/etc/ssh/sshd_config'
+ssh::server::sshd_config_mode: '0600'
 ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::service_name: 'svc:/network/ssh:default'
 ssh::sftp_server_path: 'internal-sftp'
