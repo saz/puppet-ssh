@@ -19,8 +19,15 @@ class ssh::server::config {
 
   if $ssh::server::use_augeas {
     $options.each |String $k, Hash $v| {
-      sshd_config { $k:
-        * => $v,
+      if $k.downcase == 'subsystem' {
+        $_v = $v.match(/(^(\w+)\s+(.*)$)/)
+        sshd_config_subsystem { $v[2]:
+          command => $v[3],
+        }
+      } else {
+        sshd_config { $k:
+          * => $v,
+        }
       }
     }
   } else {
