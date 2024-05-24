@@ -35,7 +35,7 @@ define ssh::server::instances (
   Stdlib::Absolutepath           $sshd_binary               = $ssh::server::sshd_binary,
   Optional[Stdlib::Absolutepath] $sshd_environments_file    = $ssh::server::sshd_environments_file,
 ) {
-  include ssh::server
+  contain ssh::server
 
   $sshd_instance_config             = assert_type(Hash, pick($options['sshd_config'], {}))
   $sshd_instance_matchblocks        = assert_type(Hash, pick($options['match_blocks'], {}))
