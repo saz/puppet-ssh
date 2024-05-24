@@ -40,7 +40,7 @@ define ssh::client::config::user (
   String[1]                      $ssh_directory_default_mode = '0700',
   String[1]                      $ssh_config_default_mode    = '0600',
 ) {
-  include ssh::client
+  contain ssh::client
 
   # If a specific target file was specified,
   # it must have higher priority than any

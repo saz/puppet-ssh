@@ -45,7 +45,7 @@ define ssh::server::host_key (
   Optional[String[1]]   $certificate_content = undef,
 ) {
   # Ensure the ssh::server class is included in the manifest
-  include ssh::server
+  contain ssh::server
 
   if $ensure == 'present' {
     if ! $public_key_source and ! $public_key_content {

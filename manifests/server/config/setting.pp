@@ -15,7 +15,7 @@ define ssh::server::config::setting (
   Variant[Boolean, Array, Hash, String] $value,
   Variant[String[1], Integer]           $order = '10'
 ) {
-  include ssh::server
+  contain ssh::server
 
   $real_value = $value ? {
     Boolean => $value ? {

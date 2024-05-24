@@ -84,15 +84,15 @@ class ssh::server (
     $merged_options = deep_merge($default_options, $options)
   }
 
-  include ssh::server::install
-  include ssh::server::config
-  include ssh::server::service
+  contain ssh::server::install
+  contain ssh::server::config
+  contain ssh::server::service
 
   # Provide option to *not* use storeconfigs/puppetdb, which means not managing
   #  hostkeys and knownhosts
   if ($storeconfigs_enabled) {
-    include ssh::hostkeys
-    include ssh::knownhosts
+    contain ssh::hostkeys
+    contain ssh::knownhosts
 
     Class['ssh::server::install']
     -> Class['ssh::server::config']
