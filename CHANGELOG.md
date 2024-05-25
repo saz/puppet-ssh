@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.1.0]
+### Added
+- allow puppet/systemd < 8, fixes #382
+### Changed
+- set sshd config mode to 0644 on AIX, fixes #371 (#383)
+- use `contain` instead of `include`, fixes #367 (#387)
+### Fixed
+- fix tests on OpenBSD (#384)
+- drop tag from concat_{file,fragment}, fixes #304 (#385)
+- fix subsystem option if use_augeas = true, fixes #376 (#386)
+
 ## [12.0.1]
 ### Fixed
 - make ssh::hostkeys::exclude_interfaces_re parameter work properly (#380)
