@@ -11,6 +11,12 @@
     end
   end
 -%>
+<%- if @include_dir -%>
+Include <%= @include_dir %>/*.conf
+<%- end -%>
+<%- if @include -%>
+Include <%= @include %>
+<%- end -%>
 <%- if addressfamily = @options.delete('AddressFamily') -%>
 AddressFamily <%= addressfamily %>
 <%- end -%>

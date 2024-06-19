@@ -1,0 +1,5 @@
+---
+ssh::server::include_dir: '/etc/ssh/sshd_config.d'
+ssh::server::config_files:
+  50-redhat:
+    include: '/etc/crypto-policies/back-ends/opensshserver.config'

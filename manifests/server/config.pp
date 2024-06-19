@@ -7,6 +7,7 @@ class ssh::server::config {
   assert_private()
 
   $options = $ssh::server::merged_options
+  $include_dir = $ssh::server::include_dir
 
   case $ssh::server::validate_sshd_file {
     true: {
@@ -44,6 +45,23 @@ class ssh::server::config {
       target  => $ssh::server::sshd_config,
       content => template("${module_name}/sshd_config.erb"),
       order   => '00',
+    }
+  }
+
+  if $ssh::server::include_dir {
+    file { $ssh::server::include_dir:
+      ensure  => directory,
+      owner   => 0,
+      group   => 0,
+      mode    => $ssh::server::include_dir_mode,
+      purge   => $ssh::server::include_dir_purge,
+      recurse => true,
+    }
+
+    $ssh::server::config_files.each |$file, $params| {
+      ssh::server::config_file { $file:
+        * => $params,
+      }
     }
   }
 
