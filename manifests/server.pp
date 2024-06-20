@@ -32,6 +32,18 @@
 # @param ensure
 #   Ensurable param to ssh server
 #
+# @param include_dir
+#   Path to sshd include directory.
+#
+# @param include_dir_mode
+#   Mode to set on the sshd include directory.
+#
+# @param include_dir_purge
+#   Purge the include directory if true.
+#
+# @param config_files
+#   Hash of config files to add to the ssh include directory.
+#
 # @param storeconfigs_enabled
 #   Host keys will be collected and distributed unless storeconfigs_enabled is false.
 #
@@ -68,6 +80,10 @@ class ssh::server (
   Integer                        $host_priv_key_group,
   Hash                           $default_options,
   Enum[present,absent,latest]    $ensure                 = present,
+  Optional[Stdlib::Absolutepath] $include_dir            = undef,
+  Stdlib::Filemode               $include_dir_mode       = '0700',
+  Boolean                        $include_dir_purge      = true,
+  Hash[String, Hash]             $config_files           = {},
   Boolean                        $storeconfigs_enabled   = true,
   Hash                           $options                = {},
   Boolean                        $validate_sshd_file     = false,
