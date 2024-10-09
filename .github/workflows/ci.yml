@@ -4,7 +4,13 @@
 
 name: CI
 
-on: pull_request
+# yamllint disable-line rule:truthy
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+      - master
 
 concurrency:
   group: ${{ github.ref_name }}
@@ -13,6 +19,4 @@ concurrency:
 jobs:
   puppet:
     name: Puppet
-    uses: voxpupuli/gha-puppet/.github/workflows/beaker.yml@v2
-    with:
-      pidfile_workaround: 'false'
+    uses: voxpupuli/gha-puppet/.github/workflows/beaker.yml@v3
