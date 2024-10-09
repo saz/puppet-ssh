@@ -24,7 +24,6 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
       ]
@@ -32,15 +31,12 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7",
-        "8",
         "9"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
       ]
@@ -56,7 +52,6 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "10",
         "11",
 	"12"
       ]
@@ -85,7 +80,6 @@
     {
       "operatingsystem": "FreeBSD",
       "operatingsystemrelease": [
-        "12",
         "13"
       ]
     },
