@@ -27,6 +27,7 @@
 * [`ssh::client::config::user`](#ssh--client--config--user): This defined type manages a users ssh config
 * [`ssh::client::match_block`](#ssh--client--match_block): Add match_block to ssh client config (concat needed)
 * [`ssh::server::config::setting`](#ssh--server--config--setting): Internal define to managed ssh server param
+* [`ssh::server::config_file`](#ssh--server--config_file): Resource type for managing a config file in the include dir.
 * [`ssh::server::host_key`](#ssh--server--host_key): Manage a ssh host key
 
 This module install a ssh host key in the server (basically, it is
@@ -541,6 +542,10 @@ The following parameters are available in the `ssh::server` class:
 * [`host_priv_key_group`](#-ssh--server--host_priv_key_group)
 * [`default_options`](#-ssh--server--default_options)
 * [`ensure`](#-ssh--server--ensure)
+* [`include_dir`](#-ssh--server--include_dir)
+* [`include_dir_mode`](#-ssh--server--include_dir_mode)
+* [`include_dir_purge`](#-ssh--server--include_dir_purge)
+* [`config_files`](#-ssh--server--config_files)
 * [`storeconfigs_enabled`](#-ssh--server--storeconfigs_enabled)
 * [`options`](#-ssh--server--options)
 * [`validate_sshd_file`](#-ssh--server--validate_sshd_file)
@@ -600,6 +605,38 @@ Data type: `Enum[present,absent,latest]`
 Ensurable param to ssh server
 
 Default value: `present`
+
+##### <a name="-ssh--server--include_dir"></a>`include_dir`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Path to sshd include directory.
+
+Default value: `undef`
+
+##### <a name="-ssh--server--include_dir_mode"></a>`include_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+Mode to set on the sshd include directory.
+
+Default value: `'0700'`
+
+##### <a name="-ssh--server--include_dir_purge"></a>`include_dir_purge`
+
+Data type: `Boolean`
+
+Purge the include directory if true.
+
+Default value: `true`
+
+##### <a name="-ssh--server--config_files"></a>`config_files`
+
+Data type: `Hash[String, Hash]`
+
+Hash of config files to add to the ssh include directory.
+
+Default value: `{}`
 
 ##### <a name="-ssh--server--storeconfigs_enabled"></a>`storeconfigs_enabled`
 
@@ -834,6 +871,52 @@ Data type: `Variant[String[1], Integer]`
 Orders your setting within the config file
 
 Default value: `'10'`
+
+### <a name="ssh--server--config_file"></a>`ssh::server::config_file`
+
+Resource type for managing a config file in the include dir.
+
+#### Parameters
+
+The following parameters are available in the `ssh::server::config_file` defined type:
+
+* [`mode`](#-ssh--server--config_file--mode)
+* [`include`](#-ssh--server--config_file--include)
+* [`options`](#-ssh--server--config_file--options)
+* [`path`](#-ssh--server--config_file--path)
+
+##### <a name="-ssh--server--config_file--mode"></a>`mode`
+
+Data type: `Stdlib::Filemode`
+
+File mode for the config file.
+
+Default value: `$ssh::server::sshd_config_mode`
+
+##### <a name="-ssh--server--config_file--include"></a>`include`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Absolute path to config file to include at the top of the config file. This
+is intended for including files not managed by this module (crypto policies).
+
+Default value: `undef`
+
+##### <a name="-ssh--server--config_file--options"></a>`options`
+
+Data type: `Hash`
+
+Dynamic hash for openssh server option
+
+Default value: `{}`
+
+##### <a name="-ssh--server--config_file--path"></a>`path`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `"${ssh::server::include_dir}/${name}.conf"`
 
 ### <a name="ssh--server--host_key"></a>`ssh::server::host_key`
 
