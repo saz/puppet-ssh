@@ -12,6 +12,8 @@ lookup_options:
     merge: deep
   ssh::client::options:
     merge: deep
+  ssh::server_instances:
+    merge: deep
 
 ssh::server::sshd_dir: '/etc/ssh'
 ssh::server::sshd_config: '/etc/ssh/sshd_config'
