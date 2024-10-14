@@ -16,7 +16,9 @@ hierarchy:
     path: '%{facts.os.name}.yaml'
 
   - name: 'Major Version'
-    path: '%{facts.os.name}-%{facts.os.release.major}.yaml'
+    paths:
+      - '%{facts.os.name}-%{facts.os.release.major}.yaml'
+      - '%{facts.os.family}-%{facts.os.release.major}.yaml'
 
   - name: 'Major Version with architecture'
     path: '%{facts.os.name}-%{facts.os.release.major}-%{facts.os.architecture}.yaml'
