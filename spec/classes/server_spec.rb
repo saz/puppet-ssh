@@ -23,6 +23,12 @@ describe 'ssh::server', type: 'class' do
       sshd_config_custom = case os_facts[:os]['family']
                            when 'Solaris'
                              "# File is managed by Puppet\n\nChallengeResponseAuthentication no\nHostKey /etc/ssh/ssh_host_rsa_key\nHostKey /etc/ssh/ssh_host_dsa_key\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp /some/path\nUsePAM no\nX11Forwarding no\n"
+                           when 'RedHat'
+                             if os_facts[:os]['release']['major'] == '8'
+                               "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp /some/path\nUsePAM no\nX11Forwarding no\n"
+                             else
+                               "# File is managed by Puppet\nInclude /etc/ssh/sshd_config.d/*.conf\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp /some/path\nUsePAM no\nX11Forwarding no\n"
+                             end
                            else
                              "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp /some/path\nUsePAM no\nX11Forwarding no\n"
                            end
