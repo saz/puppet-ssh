@@ -67,6 +67,17 @@ describe 'ssh', type: 'class' do
         ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
         sshd_config_default = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSubsystem sftp #{sftp_server_path}\nX11Forwarding yes\n"
         sshd_config_custom = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp #{sftp_server_path}\nUsePAM no\nX11Forwarding no\n"
+      when 'RedHat'
+        ssh_config_expected_default = "# File managed by Puppet\n\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
+        ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
+
+        if os_facts[:os]['release']['major'] == '8'
+          sshd_config_default = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSubsystem sftp #{sftp_server_path}\nUsePAM yes\nX11Forwarding yes\n"
+          sshd_config_custom = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp #{sftp_server_path}\nUsePAM no\nX11Forwarding no\n"
+        else
+          sshd_config_default = "# File is managed by Puppet\nInclude /etc/ssh/sshd_config.d/*.conf\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSubsystem sftp #{sftp_server_path}\nUsePAM yes\nX11Forwarding yes\n"
+          sshd_config_custom = "# File is managed by Puppet\nInclude /etc/ssh/sshd_config.d/*.conf\n\nAcceptEnv LANG LC_*\nChallengeResponseAuthentication no\nPrintMotd no\nSomeOtherKey someValue\nSubsystem sftp #{sftp_server_path}\nUsePAM no\nX11Forwarding no\n"
+        end
       else
         ssh_config_expected_default = "# File managed by Puppet\n\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
         ssh_config_expected_custom = "# File managed by Puppet\n\nHostFoo\n    HostName bar\nSomeOtherKey someValue\nHost *\n    HashKnownHosts yes\n    SendEnv LANG LC_*\n"
