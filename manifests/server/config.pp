@@ -55,7 +55,7 @@ class ssh::server::config {
       group   => 0,
       mode    => $ssh::server::include_dir_mode,
       purge   => $ssh::server::include_dir_purge,
-      recurse => true,
+      recurse => $ssh::server::include_dir_purge,
     }
 
     $ssh::server::config_files.each |$file, $params| {
