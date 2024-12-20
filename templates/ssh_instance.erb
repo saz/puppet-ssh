@@ -40,9 +40,13 @@ ListenAddress <%= listen %>
 <%- v.keys.sort.each do |key| -%>
     <%- value = v[key] -%>
     <%- if value.is_a?(Array) -%>
+    <%- if ['ciphers', 'macs', 'kexalgorithms'].include?(key.downcase) -%>
+    <%= key %> <%= value.join(',') %>
+    <%- else -%>
     <%- value.each do |a| -%>
     <%- if a != '' && a != nil -%>
     <%= key %> <%= bool2str(a) %>
+    <%- end -%>
     <%- end -%>
     <%- end -%>
     <%- elsif value != '' && value != nil -%>
@@ -51,9 +55,13 @@ ListenAddress <%= listen %>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
+<%- if ['ciphers', 'macs', 'kexalgorithms'].include?(k.downcase) -%>
+<%= k %> <%= v.join(',') %>
+<%- else -%>
 <%- v.each do |a| -%>
 <%- if a != '' && a != nil -%>
 <%= k %> <%= bool2str(a) %>
+<%- end -%>
 <%- end -%>
 <%- end -%>
 <%- elsif v != nil and v != '' -%>
