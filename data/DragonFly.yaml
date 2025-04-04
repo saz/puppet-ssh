@@ -6,3 +6,5 @@ ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::service_name: 'sshd'
 ssh::sftp_server_path: '/usr/libexec/sftp-server'
 ssh::server::host_priv_key_group: 0
+ssh::server::default_options:
+  ChallengeResponseAuthentication: 'no'

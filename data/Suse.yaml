@@ -8,3 +8,5 @@ ssh::server::sshd_environments_file: '/etc/sysconfig/ssh'
 ssh::server::service_name: 'sshd'
 ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::host_priv_key_group: 0
+ssh::server::default_options:
+  ChallengeResponseAuthentication: 'no'
