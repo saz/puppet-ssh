@@ -52,7 +52,7 @@ class ssh::client (
   Boolean              $use_augeas           = false,
   Array                $options_absent       = [],
   Hash                 $match_block          = {},
-  Optional[String[1]] $storeconfigs_group    = undef,
+  String[1]            $storeconfigs_group   = 'none', # use a keyword
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
@@ -67,7 +67,7 @@ class ssh::client (
   if ($storeconfigs_enabled) {
     Class['ssh::client::install']
     -> Class['ssh::client::config']
-    -> if $storeconfigs_group {
+    -> if $storeconfigs_group != 'none' {
       Sshkey <<| tag == "hostkey_${ssh::client::storeconfigs_group}" |>>
     } else {
       Sshkey <<| |>>
