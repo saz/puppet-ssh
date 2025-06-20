@@ -138,8 +138,7 @@ class ssh::server (
   contain ssh::server::config
   contain ssh::server::service
 
-  # Provide option to *not* use storeconfigs/puppetdb, which means not managing
-  # hostkeys and knownhosts
+  # Provide option to *not* use storeconfigs/puppetdb, which means not exporting hostkeys
   if $storeconfigs_enabled {
     contain ssh::hostkeys
 
@@ -147,7 +146,6 @@ class ssh::server (
     -> Class['ssh::server::config']
     ~> Class['ssh::server::service']
     -> Class['ssh::hostkeys']
-    -> Class['ssh::knownhosts']
   } else {
     Class['ssh::server::install']
     -> Class['ssh::server::config']
