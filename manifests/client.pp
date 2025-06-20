@@ -67,7 +67,8 @@ class ssh::client (
   if ($storeconfigs_enabled) {
     Class['ssh::client::install']
     -> Class['ssh::client::config']
-    -> if $storeconfigs_group != 'none' {
+
+    if $storeconfigs_group != 'none' {
       Sshkey <<| tag == "hostkey_${ssh::client::storeconfigs_group}" |>>
     } else {
       Sshkey <<| |>>
