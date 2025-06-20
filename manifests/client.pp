@@ -39,20 +39,19 @@
 #   Enable collection
 #
 # @param storeconfigs_group
-#   Define the hostkeys group storage
+#   Define the hostkeys tag to filter with
 #
 class ssh::client (
   Stdlib::Absolutepath $ssh_config,
   Hash                 $default_options,
   Optional[String[1]]  $client_package_name  = undef,
   String               $ensure               = present,
-  Boolean              $storeconfigs_enabled = true,
+  Boolean              $collect_enabled      = true,
+  Boolean              $storeconfigs_enabled = $collect_enabled,  # should we transition away from this variable?
   Hash                 $options              = {},
   Boolean              $use_augeas           = false,
   Array                $options_absent       = [],
   Hash                 $match_block          = {},
-  # for use with ssh::knownhosts
-  Boolean             $collect_enabled       = $ssh::knownhosts::collect_enabled,
   Optional[String[1]] $storeconfigs_group    = undef,
 ) {
   if $use_augeas {
@@ -64,14 +63,15 @@ class ssh::client (
   contain ssh::client::install
   contain ssh::client::config
 
-  # Provide option to *not* use storeconfigs/puppetdb, which means not managing
-  #  hostkeys and knownhosts
+  # Provide option to *not* use storeconfigs/puppetdb, which means not collecting host keys into knownhosts
   if ($storeconfigs_enabled) {
-    contain ssh::knownhosts
-
     Class['ssh::client::install']
     -> Class['ssh::client::config']
-    -> Class['ssh::knownhosts']
+    -> if $storeconfigs_group {
+      Sshkey <<| tag == "hostkey_${ssh::client::storeconfigs_group}" |>>
+    } else {
+      Sshkey <<| |>>
+    }
   } else {
     Class['ssh::client::install']
     -> Class['ssh::client::config']
