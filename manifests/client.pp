@@ -35,6 +35,12 @@
 # @param match_block
 #   Add ssh match_block (with concat)
 #
+# @param collect_enabled
+#   Enable collection
+#
+# @param storeconfigs_group
+#   Define the hostkeys group storage
+#
 class ssh::client (
   Stdlib::Absolutepath $ssh_config,
   Hash                 $default_options,
@@ -45,6 +51,9 @@ class ssh::client (
   Boolean              $use_augeas           = false,
   Array                $options_absent       = [],
   Hash                 $match_block          = {},
+  # for use with ssh::knownhosts
+  Boolean             $collect_enabled       = $ssh::knownhosts::collect_enabled,
+  Optional[String[1]] $storeconfigs_group    = undef,
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
