@@ -10,9 +10,9 @@
 
 * [`ssh`](#ssh): This class manages ssh client and server
 * [`ssh::client`](#ssh--client): This class add ssh client management
-* [`ssh::hostkeys`](#ssh--hostkeys): This class manages hostkeys
-* [`ssh::knownhosts`](#ssh--knownhosts): This class manages knownhosts if collection is enabled.
-* [`ssh::server`](#ssh--server): This class managed ssh server
+* [`ssh::hostkeys`](#ssh--hostkeys): This class manages hostkeys. It is intended to be called from `ssh::server`,
+and directly accesses variables from there.
+* [`ssh::server`](#ssh--server): This class manages the ssh server and related resources, including host keys.
 
 #### Private Classes
 
@@ -337,6 +337,8 @@ The following parameters are available in the `ssh::client` class:
 * [`options_absent`](#-ssh--client--options_absent)
 * [`default_options`](#-ssh--client--default_options)
 * [`match_block`](#-ssh--client--match_block)
+* [`collect_enabled`](#-ssh--client--collect_enabled)
+* [`storeconfigs_group`](#-ssh--client--storeconfigs_group)
 
 ##### <a name="-ssh--client--ssh_config"></a>`ssh_config`
 
@@ -366,7 +368,7 @@ Data type: `Boolean`
 
 Collected host keys from servers will be written to known_hosts unless storeconfigs_enabled is false
 
-Default value: `true`
+Default value: `$collect_enabled`
 
 ##### <a name="-ssh--client--options"></a>`options`
 
@@ -406,117 +408,30 @@ Add ssh match_block (with concat)
 
 Default value: `{}`
 
-### <a name="ssh--hostkeys"></a>`ssh::hostkeys`
-
-This class manages hostkeys
-
-#### Parameters
-
-The following parameters are available in the `ssh::hostkeys` class:
-
-* [`export_ipaddresses`](#-ssh--hostkeys--export_ipaddresses)
-* [`storeconfigs_group`](#-ssh--hostkeys--storeconfigs_group)
-* [`extra_aliases`](#-ssh--hostkeys--extra_aliases)
-* [`exclude_interfaces`](#-ssh--hostkeys--exclude_interfaces)
-* [`exclude_interfaces_re`](#-ssh--hostkeys--exclude_interfaces_re)
-* [`exclude_ipaddresses`](#-ssh--hostkeys--exclude_ipaddresses)
-* [`use_trusted_facts`](#-ssh--hostkeys--use_trusted_facts)
-* [`tags`](#-ssh--hostkeys--tags)
-
-##### <a name="-ssh--hostkeys--export_ipaddresses"></a>`export_ipaddresses`
-
-Data type: `Boolean`
-
-Whether ip addresses should be added as aliases
-
-Default value: `true`
-
-##### <a name="-ssh--hostkeys--storeconfigs_group"></a>`storeconfigs_group`
-
-Data type: `Optional[String[1]]`
-
-Tag hostkeys with this group to allow segregation
-
-Default value: `undef`
-
-##### <a name="-ssh--hostkeys--extra_aliases"></a>`extra_aliases`
-
-Data type: `Array`
-
-Additional aliases to set for host keys
-
-Default value: `[]`
-
-##### <a name="-ssh--hostkeys--exclude_interfaces"></a>`exclude_interfaces`
-
-Data type: `Array`
-
-List of interfaces to exclude
-
-Default value: `[]`
-
-##### <a name="-ssh--hostkeys--exclude_interfaces_re"></a>`exclude_interfaces_re`
-
-Data type: `Array`
-
-List of regular expressions to exclude interfaces
-
-Default value: `[]`
-
-##### <a name="-ssh--hostkeys--exclude_ipaddresses"></a>`exclude_ipaddresses`
-
-Data type: `Array`
-
-List of ip addresses to exclude
-
-Default value: `[]`
-
-##### <a name="-ssh--hostkeys--use_trusted_facts"></a>`use_trusted_facts`
-
-Data type: `Boolean`
-
-Whether to use trusted or normal facts
-
-Default value: `false`
-
-##### <a name="-ssh--hostkeys--tags"></a>`tags`
-
-Data type: `Optional[Array[String[1]]]`
-
-Array of custom tags
-
-Default value: `undef`
-
-### <a name="ssh--knownhosts"></a>`ssh::knownhosts`
-
-This class manages knownhosts if collection is enabled.
-
-#### Parameters
-
-The following parameters are available in the `ssh::knownhosts` class:
-
-* [`collect_enabled`](#-ssh--knownhosts--collect_enabled)
-* [`storeconfigs_group`](#-ssh--knownhosts--storeconfigs_group)
-
-##### <a name="-ssh--knownhosts--collect_enabled"></a>`collect_enabled`
+##### <a name="-ssh--client--collect_enabled"></a>`collect_enabled`
 
 Data type: `Boolean`
 
 Enable collection
 
-Default value: `$ssh::knownhosts::collect_enabled`
+Default value: `true`
 
-##### <a name="-ssh--knownhosts--storeconfigs_group"></a>`storeconfigs_group`
+##### <a name="-ssh--client--storeconfigs_group"></a>`storeconfigs_group`
 
 Data type: `Optional[String[1]]`
 
-Define the hostkeys group storage
+Define the hostkeys tag to filter with
 
 Default value: `undef`
 
+### <a name="ssh--hostkeys"></a>`ssh::hostkeys`
+
+This class manages hostkeys. It is intended to be called from `ssh::server`,
+and directly accesses variables from there.
+
 ### <a name="ssh--server"></a>`ssh::server`
 
-This class managed ssh server
+This class manages the ssh server and related resources, including host keys.
 
 #### Examples
 
@@ -555,6 +470,14 @@ The following parameters are available in the `ssh::server` class:
 * [`use_issue_net`](#-ssh--server--use_issue_net)
 * [`sshd_environments_file`](#-ssh--server--sshd_environments_file)
 * [`server_package_name`](#-ssh--server--server_package_name)
+* [`export_ipaddresses`](#-ssh--server--export_ipaddresses)
+* [`storeconfigs_group`](#-ssh--server--storeconfigs_group)
+* [`extra_aliases`](#-ssh--server--extra_aliases)
+* [`exclude_interfaces`](#-ssh--server--exclude_interfaces)
+* [`exclude_interfaces_re`](#-ssh--server--exclude_interfaces_re)
+* [`exclude_ipaddresses`](#-ssh--server--exclude_ipaddresses)
+* [`use_trusted_facts`](#-ssh--server--use_trusted_facts)
+* [`tags`](#-ssh--server--tags)
 
 ##### <a name="-ssh--server--service_name"></a>`service_name`
 
@@ -707,6 +630,70 @@ Default value: `undef`
 Data type: `Optional[String[1]]`
 
 Name of the server package to install
+
+Default value: `undef`
+
+##### <a name="-ssh--server--export_ipaddresses"></a>`export_ipaddresses`
+
+Data type: `Boolean`
+
+Whether IP addresses should be added as aliases for host keys
+
+Default value: `true`
+
+##### <a name="-ssh--server--storeconfigs_group"></a>`storeconfigs_group`
+
+Data type: `Optional[String[1]]`
+
+Tag host keys with this group to allow segregation
+
+Default value: `undef`
+
+##### <a name="-ssh--server--extra_aliases"></a>`extra_aliases`
+
+Data type: `Array`
+
+Additional aliases to set for host keys
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_interfaces"></a>`exclude_interfaces`
+
+Data type: `Array`
+
+List of interfaces to exclude when collecting IPs for host keys
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_interfaces_re"></a>`exclude_interfaces_re`
+
+Data type: `Array`
+
+List of regular expressions to exclude interfaces
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_ipaddresses"></a>`exclude_ipaddresses`
+
+Data type: `Array`
+
+List of IP addresses to exclude from host key aliases
+
+Default value: `[]`
+
+##### <a name="-ssh--server--use_trusted_facts"></a>`use_trusted_facts`
+
+Data type: `Boolean`
+
+Whether to use trusted facts instead of legacy facts
+
+Default value: `false`
+
+##### <a name="-ssh--server--tags"></a>`tags`
+
+Data type: `Optional[Array[String[1]]]`
+
+Array of custom tags to apply to exported host keys
 
 Default value: `undef`
 
