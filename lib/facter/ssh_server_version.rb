@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Facter.add('ssh_server_version_full') do
-  confine kernel: %w[Linux SunOS FreeBSD DragonFly Darwin]
+  confine kernel: %w[Linux SunOS FreeBSD DragonFly Darwin windows]
 
   setcode do
     if Facter::Util::Resolution.which('sshd')
@@ -15,13 +15,13 @@ Facter.add('ssh_server_version_full') do
                 first.
                 rstrip
 
-      version&.gsub(%r{^(OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2')
+      version&.gsub(%r{^(OpenSSH_for_Windows_|OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2')
     end
   end
 end
 
 Facter.add('ssh_server_version_major') do
-  confine kernel: %w[Linux SunOS FreeBSD DragonFly DragonFly Darwin]
+  confine kernel: %w[Linux SunOS FreeBSD DragonFly DragonFly Darwin windows]
   confine ssh_server_version_full: %r{\d+}
   setcode do
     version = Facter.value('ssh_server_version_full')
