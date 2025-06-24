@@ -20,9 +20,15 @@ define ssh::server::config_file (
     fail('ssh::server::config_file() define not supported if ssh::server::include_dir not set')
   }
 
+  if !$ssh::server::sshd_binary {
+    fail('ssh::server::config_file() define not supported if ssh::server::sshd_binary not set')
+  }
+
+  $sshd_binary = $ssh::server::sshd_binary
+
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
+      $sshd_validate_cmd = "${sshd_binary} -tf %"
     }
     default: {
       $sshd_validate_cmd = undef
@@ -31,8 +37,8 @@ define ssh::server::config_file (
 
   concat { $path:
     ensure       => present,
-    owner        => 0,
-    group        => 0,
+    owner        => $ssh::server::config_user,
+    group        => $ssh::server::config_group,
     mode         => $mode,
     validate_cmd => $sshd_validate_cmd,
     notify       => Service[$ssh::server::service_name],

@@ -8,4 +8,9 @@ ssh::server::sshd_environments_file: '/etc/sysconfig/sshd'
 ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::service_name: 'sshd'
 ssh::sftp_server_path: '/usr/libexec/openssh/sftp-server'
+ssh::client::config_user: 0
+ssh::client::config_group: 0
+ssh::server::config_user: 0
+ssh::server::config_group: 0
+ssh::server::host_priv_key_user: 0
 ssh::server::host_priv_key_group: 0

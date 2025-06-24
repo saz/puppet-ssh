@@ -55,8 +55,8 @@ define ssh::server::instances (
 
     concat { $sshd_instance_config_file:
       ensure       => $ensure,
-      owner        => 0,
-      group        => 0,
+      owner        => $ssh::server::config_user,
+      group        => $ssh::server::config_group,
       mode         => '0600',
       validate_cmd => $validate_cmd,
       notify       => Service["${title}.service"],
