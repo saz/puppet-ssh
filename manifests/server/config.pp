@@ -39,11 +39,11 @@ class ssh::server::config {
       * => $manage_config_permissions ? {
         false => {},
         default => {
-          owner        => $ssh::server::config_user,
-          group        => $ssh::server::config_group,
-          mode         => $ssh::server::sshd_config_mode,
+          owner => $ssh::server::config_user,
+          group => $ssh::server::config_group,
         }
       },
+      mode         => $ssh::server::sshd_config_mode,
       validate_cmd => $sshd_validate_cmd,
       notify       => Service[$ssh::server::service_name],
     }
