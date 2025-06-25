@@ -43,9 +43,9 @@ define ssh::server::config_file (
       default => {
         owner => $ssh::server::config_user,
         group => $ssh::server::config_group,
-        mode  => $mode,
       },
     },
+    mode  => $mode,
     validate_cmd => $sshd_validate_cmd,
     notify       => Service[$ssh::server::service_name],
   }

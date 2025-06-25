@@ -390,7 +390,7 @@ ssh::client::client_package_name: null
 ssh::server::sshd_dir: 'C:\ProgramData\ssh'
 ssh::server::sshd_binary: 'C:\Windows\System32\OpenSSH\sshd.exe'
 ssh::server::sshd_config: 'C:\ProgramData\ssh\sshd_config'
-ssh::server::sshd_config_mode: '0644'
+ssh::server::sshd_config_mode: '0770'
 ssh::server::manage_config_permissions: false
 ssh::server::sshd_environments_file: null
 ssh::client::ssh_config: 'C:\ProgramData\ssh\ssh_config'
