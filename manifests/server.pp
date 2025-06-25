@@ -81,7 +81,7 @@ class ssh::server (
   Variant[Integer, String]       $host_priv_key_group,
   Variant[Integer, String]       $config_user,
   Variant[Integer, String]       $config_group,
-  Boolean                        $manage_config_permissions = true,
+  Boolean                        $manage_config_permissions,
   Hash                           $default_options,
   Enum[present,absent,latest]    $ensure                 = present,
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
