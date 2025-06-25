@@ -404,17 +404,74 @@ ssh::server::host_priv_key_user: 'BUILTIN\Administrators'
 ssh::server::host_priv_key_group: 'NT AUTHORITY\SYSTEM'
 ```
 
-Group and User are swapped, as in, the `Administrators` group is being used as the user. This is because the puppet process runs under that group, and _not_ the user. The file mode is relevant to this matter as well.
+To correctly set the file permissions, the [`puppetlabs-acl`-puppet module](https://forge.puppetlabs.com/modules/puppetlabs/acl) is required. Set `$ssh::server::manage_config_permissions` to `false`. Remove the unsupported `UsePAM`-sshd config option.
 
-Then, in puppet code, use the following to install the Windows Capability and optionally set the default shell when connecting through ssh to powershell.
+One can optionally set the default shell when connecting through ssh, e.g. to powershell. For this, the [`puppetlabs-registry`-puppet module](https://forge.puppet.com/modules/puppetlabs/registry) is required.
 
 ```puppet
+$sshd_dir = lookup('ssh::server::sshd_dir')
+$sshd_config = lookup('ssh::server::sshd_config')
+$config_user = lookup('ssh::server::config_user')
+$config_group = lookup('ssh::server::config_group')
+
+$os_specific_path_separator = $facts['os']['family'] ? {
+  'windows' => '\\',
+  default   => '/',
+}
+
+$host_key_paths = [
+  "${sshd_dir}${os_specific_path_separator}ssh_host_ed25519_key",
+  "${sshd_dir}${os_specific_path_separator}ssh_host_rsa_key",
+  "${sshd_dir}${os_specific_path_separator}ssh_host_ecdsa_key",
+]
+
 if $facts['os']['family'] == 'windows' {
   exec { 'install_openssh_server':
     command  => 'Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0',
     provider => powershell,
-    unless   => '(Get-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0).State -eq "Installed"',
+    unless   => 'if ((Get-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0).State -eq "Installed") { echo 0 } else { exit 1 }',
+    logoutput => true,
     before   => Class['ssh::server'],
+  }
+
+  $initialize_sshd_command = @(EOT)
+Write-Output "Testing SSH service..."
+Start-Service -Name 'sshd'
+Start-Sleep -Seconds 5
+$status = Get-Service -Name 'sshd'
+Write-Output "Service status: $($status.Status)"
+Stop-Service -Name 'sshd'
+Write-Output "SSH service test completed"
+| EOT
+
+  # this is required, so that sshd creates all directories and files by itself and sets the appropriate permissions
+  exec { 'initialize_sshd':
+    command => $initialize_sshd_command,
+    provider => powershell,
+    creates => $host_key_paths,
+    logoutput => true,
+    require => Exec['install_openssh_server'],
+    before   => Class['ssh::server'],
+  }
+
+  # currently, this doesn't seem to be idempotent
+  acl { $sshd_config:
+    permissions => [
+      {
+        identity  => $config_group,
+        rights    => ['full'],
+        perm_type => 'allow',
+      },
+      {
+        identity  => $config_user,
+        rights    => ['full'],
+        perm_type => 'allow',
+      },
+    ],
+    inherit_parent_permissions => false,
+    purge => true,
+    require => Class['ssh::server::config'],
+    before => Class['ssh::server::service'],
   }
 
   registry::value { 'set_powershell_as_default_ssh_shell':
@@ -424,6 +481,30 @@ if $facts['os']['family'] == 'windows' {
     data    => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe',
     require => Exec['install_openssh_server'],
   }
+}
+
+$os_specific_options = $facts['os']['family'] ? {
+  'windows' => {
+    manage_config_permissions => false,
+  },
+  default => {
+  }
+}
+
+$os_specific_ssh_options = $facts['os']['family'] ? {
+  'windows' => {
+    'UsePAM' => undef,
+  },
+  default => {},
+}
+
+class { 'ssh::server':
+  storeconfigs_enabled => false,
+  validate_sshd_file => true,
+  * => $os_specific_options,
+  options              => {
+    # ...
+  } + $os_specific_ssh_options,
 }
 ```
 
