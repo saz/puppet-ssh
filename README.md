@@ -404,7 +404,7 @@ ssh::server::host_priv_key_user: 'BUILTIN\Administrators'
 ssh::server::host_priv_key_group: 'NT AUTHORITY\SYSTEM'
 ```
 
-To correctly set the file permissions, the [`puppetlabs-acl`-puppet module](https://forge.puppetlabs.com/modules/puppetlabs/acl) is required. Set `$ssh::server::manage_config_permissions` to `false`. Remove the unsupported `UsePAM`-sshd config option.
+To correctly set the file permissions, the [`puppetlabs-acl`-puppet module](https://forge.puppetlabs.com/modules/puppetlabs/acl) is required. Set `$ssh::server::manage_config_permissions` to `false` (see previous hiera data yaml). Remove the unsupported `UsePAM`-sshd config option.
 
 One can optionally set the default shell when connecting through ssh, e.g. to powershell. For this, the [`puppetlabs-registry`-puppet module](https://forge.puppet.com/modules/puppetlabs/registry) is required.
 
@@ -427,11 +427,11 @@ $host_key_paths = [
 
 if $facts['os']['family'] == 'windows' {
   exec { 'install_openssh_server':
-    command  => 'Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0',
-    provider => powershell,
-    unless   => 'if ((Get-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0).State -eq "Installed") { echo 0 } else { exit 1 }',
+    command   => 'Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0',
+    provider  => powershell,
+    unless    => 'if ((Get-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0).State -eq "Installed") { echo 0 } else { exit 1 }',
     logoutput => true,
-    before   => Class['ssh::server'],
+    before    => Class['ssh::server'],
   }
 
   $initialize_sshd_command = @(EOT)
@@ -446,12 +446,12 @@ Write-Output "SSH service test completed"
 
   # this is required, so that sshd creates all directories and files by itself and sets the appropriate permissions
   exec { 'initialize_sshd':
-    command => $initialize_sshd_command,
-    provider => powershell,
-    creates => $host_key_paths,
+    command   => $initialize_sshd_command,
+    provider  => powershell,
+    creates   => $host_key_paths,
     logoutput => true,
-    require => Exec['install_openssh_server'],
-    before   => Class['ssh::server'],
+    require   => Exec['install_openssh_server'],
+    before    => Class['ssh::server'],
   }
 
   # currently, this doesn't seem to be idempotent
@@ -469,9 +469,9 @@ Write-Output "SSH service test completed"
       },
     ],
     inherit_parent_permissions => false,
-    purge => true,
+    purge   => true,
     require => Class['ssh::server::config'],
-    before => Class['ssh::server::service'],
+    before  => Class['ssh::server::service'],
   }
 
   registry::value { 'set_powershell_as_default_ssh_shell':
@@ -480,14 +480,6 @@ Write-Output "SSH service test completed"
     type    => 'string',
     data    => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe',
     require => Exec['install_openssh_server'],
-  }
-}
-
-$os_specific_options = $facts['os']['family'] ? {
-  'windows' => {
-    manage_config_permissions => false,
-  },
-  default => {
   }
 }
 
@@ -500,8 +492,7 @@ $os_specific_ssh_options = $facts['os']['family'] ? {
 
 class { 'ssh::server':
   storeconfigs_enabled => false,
-  validate_sshd_file => true,
-  * => $os_specific_options,
+  validate_sshd_file   => true,
   options              => {
     # ...
   } + $os_specific_ssh_options,
