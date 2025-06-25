@@ -9,6 +9,7 @@ class ssh::server::config {
   $options = $ssh::server::merged_options
   $include_dir = $ssh::server::include_dir
   $sshd_binary = $ssh::server::sshd_binary
+  $manage_config_permissions = $ssh::server::manage_config_permissions
 
   case $ssh::server::validate_sshd_file {
     true: {
@@ -35,9 +36,14 @@ class ssh::server::config {
   } else {
     concat { $ssh::server::sshd_config:
       ensure       => present,
-      owner        => $ssh::server::config_user,
-      group        => $ssh::server::config_group,
-      mode         => $ssh::server::sshd_config_mode,
+      * => $manage_config_permissions ? {
+        false => {},
+        default => {
+          owner        => $ssh::server::config_user,
+          group        => $ssh::server::config_group,
+          mode         => $ssh::server::sshd_config_mode,
+        }
+      },
       validate_cmd => $sshd_validate_cmd,
       notify       => Service[$ssh::server::service_name],
     }
@@ -52,9 +58,14 @@ class ssh::server::config {
   if $ssh::server::include_dir {
     file { $ssh::server::include_dir:
       ensure  => directory,
-      owner   => $ssh::server::config_user,
-      group   => $ssh::server::config_group,
-      mode    => $ssh::server::include_dir_mode,
+      * => $manage_config_permissions ? {
+        false   => {},
+        default => {
+          owner => $ssh::server::config_user,
+          group => $ssh::server::config_group,
+          mode  => $ssh::server::include_dir_mode,
+        },
+      },
       purge   => $ssh::server::include_dir_purge,
       recurse => $ssh::server::include_dir_purge,
     }
@@ -69,9 +80,14 @@ class ssh::server::config {
   if $ssh::server::use_issue_net {
     file { $ssh::server::issue_net:
       ensure  => file,
-      owner   => $ssh::server::config_user,
-      group   => $ssh::server::config_group,
-      mode    => $ssh::server::sshd_config_mode,
+      * => $manage_config_permissions ? {
+        false   => {},
+        default => {
+          owner => $ssh::server::config_user,
+          group => $ssh::server::config_group,
+          mode  => $ssh::server::sshd_config_mode,
+        },
+      },
       content => template("${module_name}/issue.net.erb"),
       notify  => Service[$ssh::server::service_name],
     }

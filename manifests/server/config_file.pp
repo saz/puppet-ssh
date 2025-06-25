@@ -25,6 +25,7 @@ define ssh::server::config_file (
   }
 
   $sshd_binary = $ssh::server::sshd_binary
+  $manage_config_permissions = $ssh::server::manage_config_permissions
 
   case $ssh::server::validate_sshd_file {
     true: {
@@ -37,9 +38,14 @@ define ssh::server::config_file (
 
   concat { $path:
     ensure       => present,
-    owner        => $ssh::server::config_user,
-    group        => $ssh::server::config_group,
-    mode         => $mode,
+    * => $manage_config_permissions ? {
+      false   => {},
+      default => {
+        owner => $ssh::server::config_user,
+        group => $ssh::server::config_group,
+        mode  => $mode,
+      },
+    },
     validate_cmd => $sshd_validate_cmd,
     notify       => Service[$ssh::server::service_name],
   }

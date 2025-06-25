@@ -390,17 +390,18 @@ ssh::client::client_package_name: null
 ssh::server::sshd_dir: 'C:\ProgramData\ssh'
 ssh::server::sshd_binary: 'C:\Windows\System32\OpenSSH\sshd.exe'
 ssh::server::sshd_config: 'C:\ProgramData\ssh\sshd_config'
-ssh::server::sshd_config_mode: '0600'
+ssh::server::sshd_config_mode: '0644'
+ssh::server::manage_config_permissions: false
 ssh::server::sshd_environments_file: null
 ssh::client::ssh_config: 'C:\ProgramData\ssh\ssh_config'
 ssh::server::service_name: 'sshd'
 ssh::sftp_server_path: 'C:\Windows\System32\OpenSSH\sftp-server.exe'
-ssh::client::config_user: 'Administrators'
+ssh::client::config_user: 'BUILTIN\Administrators'
 ssh::client::config_group: 'Administrator'
-ssh::server::config_user: 'Administrators'
-ssh::server::config_group: 'Administrator'
-ssh::server::host_priv_key_user: 'Administrators'
-ssh::server::host_priv_key_group: 'Administrator'
+ssh::server::config_user: 'BUILTIN\Administrators'
+ssh::server::config_group: 'NT AUTHORITY\SYSTEM'
+ssh::server::host_priv_key_user: 'BUILTIN\Administrators'
+ssh::server::host_priv_key_group: 'NT AUTHORITY\SYSTEM'
 ```
 
 Group and User are swapped, as in, the `Administrators` group is being used as the user. This is because the puppet process runs under that group, and _not_ the user. The file mode is relevant to this matter as well.
