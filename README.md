@@ -414,7 +414,9 @@ $sshd_config = lookup('ssh::server::sshd_config')
 $config_user = lookup('ssh::server::config_user')
 $config_group = lookup('ssh::server::config_group')
 
-$os_specific_path_separator = $facts['os']['family'] ? {
+$os_family = $facts['os']['family']
+
+$os_specific_path_separator = $os_family ? {
   'windows' => '\\',
   default   => '/',
 }
@@ -425,7 +427,7 @@ $host_key_paths = [
   "${sshd_dir}${os_specific_path_separator}ssh_host_ecdsa_key",
 ]
 
-if $facts['os']['family'] == 'windows' {
+if $os_family == 'windows' {
   exec { 'install_openssh_server':
     command   => 'Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0',
     provider  => powershell,
@@ -435,13 +437,13 @@ if $facts['os']['family'] == 'windows' {
   }
 
   $initialize_sshd_command = @(EOT)
-Write-Output "Testing SSH service..."
+Write-Output "Initializing SSHD service..."
 Start-Service -Name 'sshd'
 Start-Sleep -Seconds 5
 $status = Get-Service -Name 'sshd'
 Write-Output "Service status: $($status.Status)"
 Stop-Service -Name 'sshd'
-Write-Output "SSH service test completed"
+Write-Output "SSHD service initialization completed"
 | EOT
 
   # this is required, so that sshd creates all directories and files by itself and sets the appropriate permissions
@@ -482,7 +484,7 @@ Write-Output "SSH service test completed"
   }
 }
 
-$os_specific_ssh_options = $facts['os']['family'] ? {
+$os_specific_ssh_options = $os_family ? {
   'windows' => {
     'UsePAM' => undef,
   },
