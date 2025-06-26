@@ -454,7 +454,6 @@ Write-Output "SSH service test completed"
     before    => Class['ssh::server'],
   }
 
-  # currently, this doesn't seem to be idempotent
   acl { $sshd_config:
     permissions => [
       {
