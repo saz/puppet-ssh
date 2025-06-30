@@ -20,7 +20,14 @@ define ssh::server::config_file (
     fail('ssh::server::config_file() define not supported if ssh::server::include_dir not set')
   }
 
-  $manage_config_permissions = $ssh::server::manage_config_permissions
+  manage_config_permissions = $ssh::server::manage_config_permissions
+  $config_file_ownership = $ssh::server::manage_config_permissions ? {
+    false   => {},
+    default => {
+      owner => $ssh::server::config_user,
+      group => $ssh::server::config_group,
+    }
+  }
 
   case $ssh::server::validate_sshd_file {
     true: {
@@ -33,14 +40,8 @@ define ssh::server::config_file (
 
   concat { $path:
     ensure       => present,
-    * => $manage_config_permissions ? {
-      false   => {},
-      default => {
-        owner => $ssh::server::config_user,
-        group => $ssh::server::config_group,
-      },
-    },
-    mode  => $mode,
+    *            => $config_file_ownership,
+    mode         => $mode,
     validate_cmd => $sshd_validate_cmd,
     notify       => Service[$ssh::server::service_name],
   }
