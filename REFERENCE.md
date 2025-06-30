@@ -337,6 +337,8 @@ The following parameters are available in the `ssh::client` class:
 * [`options_absent`](#-ssh--client--options_absent)
 * [`default_options`](#-ssh--client--default_options)
 * [`match_block`](#-ssh--client--match_block)
+* [`config_user`](#-ssh--client--config_user)
+* [`config_group`](#-ssh--client--config_group)
 
 ##### <a name="-ssh--client--ssh_config"></a>`ssh_config`
 
@@ -405,6 +407,18 @@ Data type: `Hash`
 Add ssh match_block (with concat)
 
 Default value: `{}`
+
+##### <a name="-ssh--client--config_user"></a>`config_user`
+
+Data type: `Variant[Integer, String]`
+
+Numeric id or name of the user for the config file
+
+##### <a name="-ssh--client--config_group"></a>`config_group`
+
+Data type: `Variant[Integer, String]`
+
+Numeric id or name of the group for the config file
 
 ### <a name="ssh--hostkeys"></a>`ssh::hostkeys`
 
@@ -539,7 +553,11 @@ The following parameters are available in the `ssh::server` class:
 * [`sshd_dir`](#-ssh--server--sshd_dir)
 * [`sshd_binary`](#-ssh--server--sshd_binary)
 * [`sshd_config_mode`](#-ssh--server--sshd_config_mode)
+* [`host_priv_key_user`](#-ssh--server--host_priv_key_user)
 * [`host_priv_key_group`](#-ssh--server--host_priv_key_group)
+* [`config_user`](#-ssh--server--config_user)
+* [`config_group`](#-ssh--server--config_group)
+* [`manage_config_permissions`](#-ssh--server--manage_config_permissions)
 * [`default_options`](#-ssh--server--default_options)
 * [`ensure`](#-ssh--server--ensure)
 * [`include_dir`](#-ssh--server--include_dir)
@@ -586,11 +604,35 @@ Data type: `Stdlib::Filemode`
 
 Mode to set on the sshd config file
 
+##### <a name="-ssh--server--host_priv_key_user"></a>`host_priv_key_user`
+
+Data type: `Variant[Integer, String]`
+
+Numeric id or name of the user for the private host key
+
 ##### <a name="-ssh--server--host_priv_key_group"></a>`host_priv_key_group`
 
-Data type: `Integer`
+Data type: `Variant[Integer, String]`
 
-Name of the group for the private host key
+Numeric id or name of the group for the private host key
+
+##### <a name="-ssh--server--config_user"></a>`config_user`
+
+Data type: `Variant[Integer, String]`
+
+Numeric id or name of the user for the sshd config file
+
+##### <a name="-ssh--server--config_group"></a>`config_group`
+
+Data type: `Variant[Integer, String]`
+
+Numeric id or name of the group for the sshd config file
+
+##### <a name="-ssh--server--manage_config_permissions"></a>`manage_config_permissions`
+
+Data type: `Boolean`
+
+Whether to manage user and group ownership for the sshd config file
 
 ##### <a name="-ssh--server--default_options"></a>`default_options`
 
