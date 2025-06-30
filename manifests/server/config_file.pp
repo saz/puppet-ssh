@@ -20,12 +20,11 @@ define ssh::server::config_file (
     fail('ssh::server::config_file() define not supported if ssh::server::include_dir not set')
   }
 
-  $sshd_binary = $ssh::server::sshd_binary
   $manage_config_permissions = $ssh::server::manage_config_permissions
 
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = "${sshd_binary} -tf %"
+      $sshd_validate_cmd = "${ssh::server::sshd_binary} -tf %"
     }
     default: {
       $sshd_validate_cmd = undef

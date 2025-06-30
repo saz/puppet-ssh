@@ -8,12 +8,11 @@ class ssh::server::config {
 
   $options = $ssh::server::merged_options
   $include_dir = $ssh::server::include_dir
-  $sshd_binary = $ssh::server::sshd_binary
   $manage_config_permissions = $ssh::server::manage_config_permissions
 
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = "${sshd_binary} -tf %"
+      $sshd_validate_cmd = "${ssh::server::sshd_binary} -tf %"
     }
     default: {
       $sshd_validate_cmd = undef
