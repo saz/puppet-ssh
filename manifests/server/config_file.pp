@@ -20,10 +20,6 @@ define ssh::server::config_file (
     fail('ssh::server::config_file() define not supported if ssh::server::include_dir not set')
   }
 
-  if !$ssh::server::sshd_binary {
-    fail('ssh::server::config_file() define not supported if ssh::server::sshd_binary not set')
-  }
-
   $sshd_binary = $ssh::server::sshd_binary
   $manage_config_permissions = $ssh::server::manage_config_permissions
 
