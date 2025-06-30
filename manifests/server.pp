@@ -23,8 +23,20 @@
 # @param sshd_config_mode
 #   Mode to set on the sshd config file
 #
+# @param host_priv_key_user
+#   Numeric id or name of the user for the private host key
+#
 # @param host_priv_key_group
 #   Numeric id or name of the group for the private host key
+#
+# @param config_user
+#   Numeric id or name of the user for the sshd config file
+#
+# @param config_group
+#   Numeric id or name of the group for the sshd config file
+#
+# @param manage_config_permissions
+#   Whether to manage user and group ownership for the sshd config file
 #
 # @param default_options
 #   Default options to set, will be merged with options parameter

@@ -35,6 +35,13 @@
 # @param match_block
 #   Add ssh match_block (with concat)
 #
+# @param config_user
+#   Numeric id or name of the user for the config file
+#
+# @param config_group
+#   Numeric id or name of the group for the config file
+#
+#
 class ssh::client (
   Stdlib::Absolutepath     $ssh_config,
   Hash                     $default_options,
