@@ -35,8 +35,8 @@ class ssh::server::config {
   } else {
     concat { $ssh::server::sshd_config:
       ensure       => present,
-      * => $manage_config_permissions ? {
-        false => {},
+      *            => $manage_config_permissions ? {
+        false   => {},
         default => {
           owner => $ssh::server::config_user,
           group => $ssh::server::config_group,
@@ -57,7 +57,7 @@ class ssh::server::config {
   if $ssh::server::include_dir {
     file { $ssh::server::include_dir:
       ensure  => directory,
-      * => $manage_config_permissions ? {
+      *       => $manage_config_permissions ? {
         false   => {},
         default => {
           owner => $ssh::server::config_user,
@@ -79,7 +79,7 @@ class ssh::server::config {
   if $ssh::server::use_issue_net {
     file { $ssh::server::issue_net:
       ensure  => file,
-      * => $manage_config_permissions ? {
+      *       => $manage_config_permissions ? {
         false   => {},
         default => {
           owner => $ssh::server::config_user,
