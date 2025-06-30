@@ -43,17 +43,17 @@
 #
 #
 class ssh::client (
-  Stdlib::Absolutepath     $ssh_config,
-  Hash                     $default_options,
-  Optional[String[1]]      $client_package_name  = undef,
-  String                   $ensure               = present,
-  Boolean                  $storeconfigs_enabled = true,
-  Hash                     $options              = {},
-  Boolean                  $use_augeas           = false,
-  Array                    $options_absent       = [],
-  Hash                     $match_block          = {},
-  Variant[Integer, String] $config_user,
-  Variant[Integer, String] $config_group,
+  Stdlib::Absolutepath        $ssh_config,
+  Hash                        $default_options,
+  Variant[Integer, String[1]] $config_user,
+  Variant[Integer, String[1]] $config_group,
+  Optional[String[1]]         $client_package_name  = undef,
+  String                      $ensure               = present,
+  Boolean                     $storeconfigs_enabled = true,
+  Hash                        $options              = {},
+  Boolean                     $use_augeas           = false,
+  Array                       $options_absent       = [],
+  Hash                        $match_block          = {},
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
