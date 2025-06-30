@@ -65,7 +65,7 @@ class ssh::server::config {
           group => $ssh::server::config_group,
         },
       },
-      mode  => $ssh::server::include_dir_mode,
+      mode    => $ssh::server::include_dir_mode,
       purge   => $ssh::server::include_dir_purge,
       recurse => $ssh::server::include_dir_purge,
     }
@@ -87,7 +87,7 @@ class ssh::server::config {
           group => $ssh::server::config_group,
         },
       },
-      mode  => $ssh::server::sshd_config_mode,
+      mode    => $ssh::server::sshd_config_mode,
       content => template("${module_name}/issue.net.erb"),
       notify  => Service[$ssh::server::service_name],
     }
