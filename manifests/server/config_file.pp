@@ -20,7 +20,6 @@ define ssh::server::config_file (
     fail('ssh::server::config_file() define not supported if ssh::server::include_dir not set')
   }
 
-  manage_config_permissions = $ssh::server::manage_config_permissions
   $config_file_ownership = $ssh::server::manage_config_permissions ? {
     false   => {},
     default => {
