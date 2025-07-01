@@ -410,13 +410,13 @@ Default value: `{}`
 
 ##### <a name="-ssh--client--config_user"></a>`config_user`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the config file
 
 ##### <a name="-ssh--client--config_group"></a>`config_group`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the config file
 
@@ -606,25 +606,25 @@ Mode to set on the sshd config file
 
 ##### <a name="-ssh--server--host_priv_key_user"></a>`host_priv_key_user`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the private host key
 
 ##### <a name="-ssh--server--host_priv_key_group"></a>`host_priv_key_group`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the private host key
 
 ##### <a name="-ssh--server--config_user"></a>`config_user`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the sshd config file
 
 ##### <a name="-ssh--server--config_group"></a>`config_group`
 
-Data type: `Variant[Integer, String]`
+Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the sshd config file
 
