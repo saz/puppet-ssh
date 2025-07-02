@@ -1,10 +1,41 @@
 # @summary
-#   This class manages hostkeys. It is intended to be called from `ssh::server`,
-#   and directly accesses variables from there.
+#   This class manages hostkeys. It is intended to be called from `ssh::server`.
 #
-class ssh::hostkeys {
-
-  if $ssh::server::use_trusted_facts {
+# @param export_ipaddresses
+#   Whether ip addresses should be added as aliases
+#
+# @param storeconfigs_group
+#   Tag hostkeys with this group to allow segregation
+#
+# @param extra_aliases
+#   Additional aliases to set for host keys
+#
+# @param exclude_interfaces
+#   List of interfaces to exclude
+#
+# @param exclude_interfaces_re
+#   List of regular expressions to exclude interfaces
+#
+# @param exclude_ipaddresses
+#   List of ip addresses to exclude
+#
+# @param use_trusted_facts
+#   Whether to use trusted or normal facts
+#
+# @param tags
+#   Array of custom tags
+#
+class ssh::hostkeys (
+  Boolean                    $export_ipaddresses    = $ssh::server::export_ipaddresses,
+  Optional[String[1]]        $storeconfigs_group    = $ssh::server::storeconfigs_group,
+  Array                      $extra_aliases         = $ssh::server::extra_aliases,
+  Array                      $exclude_interfaces    = $ssh::server::exclude_interfaces,
+  Array                      $exclude_interfaces_re = $ssh::server::exclude_interfaces_re,
+  Array                      $exclude_ipaddresses   = $ssh::server::exclude_ipaddresses,
+  Boolean                    $use_trusted_facts     = $ssh::server::use_trusted_facts,
+  Optional[Array[String[1]]] $tags                  = $ssh::server::tags,
+) {
+  if $use_trusted_facts {
     $fqdn_real = $trusted['certname']
     $hostname_real = $trusted['hostname']
   } else {
@@ -13,22 +44,22 @@ class ssh::hostkeys {
     $hostname_real = $facts['networking']['hostname']
   }
 
-  if $ssh::server::export_ipaddresses {
-    $ipaddresses = ssh::ipaddresses($ssh::server::exclude_interfaces, $ssh::server::exclude_interfaces_re)
-    $ipaddresses_real = $ipaddresses - $ssh::server::exclude_ipaddresses
-    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $ssh::server::extra_aliases, $ipaddresses_real])))
+  if $export_ipaddresses {
+    $ipaddresses = ssh::ipaddresses($exclude_interfaces, $exclude_interfaces_re)
+    $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
+    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases, $ipaddresses_real])))
   } else {
-    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $ssh::server::extra_aliases])))
+    $host_aliases = sort(unique(flatten([$fqdn_real, $hostname_real, $extra_aliases])))
   }
 
-  $storeconfigs_groups = $ssh::server::storeconfigs_group ? {
+  $storeconfigs_groups = $storeconfigs_group ? {
     undef   => [],
-    default => ['hostkey_all', "hostkey_${ssh::server::storeconfigs_group}"],
+    default => ['hostkey_all', "hostkey_${storeconfigs_group}"],
   }
 
-  $_tags = $ssh::server::tags ? {
+  $_tags = $tags ? {
     undef   => $storeconfigs_groups,
-    default => $storeconfigs_groups + $ssh::server::tags,
+    default => $storeconfigs_groups + $tags,
   }
 
   ['dsa', 'rsa', 'ecdsa', 'ed25519'].each |String $key_type| {

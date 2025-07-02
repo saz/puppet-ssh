@@ -127,7 +127,6 @@ class ssh::server (
   Boolean                        $use_trusted_facts      = false,
   Optional[Array[String[1]]]     $tags                   = undef,
 ) {
-
   if $use_augeas {
     $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::server::sshd_config })
   } else {

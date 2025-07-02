@@ -35,9 +35,6 @@
 # @param match_block
 #   Add ssh match_block (with concat)
 #
-# @param collect_enabled
-#   Enable collection
-#
 # @param storeconfigs_group
 #   Define the hostkeys tag to filter with
 #
@@ -46,8 +43,7 @@ class ssh::client (
   Hash                 $default_options,
   Optional[String[1]]  $client_package_name  = undef,
   String               $ensure               = present,
-  Boolean              $collect_enabled      = true,
-  Boolean              $storeconfigs_enabled = $collect_enabled,  # should we transition away from this variable?
+  Boolean              $storeconfigs_enabled = true,
   Hash                 $options              = {},
   Boolean              $use_augeas           = false,
   Array                $options_absent       = [],
@@ -69,7 +65,7 @@ class ssh::client (
     -> Class['ssh::client::config']
 
     if $storeconfigs_group {
-      Sshkey <<| tag == "hostkey_${ssh::client::storeconfigs_group}" |>>
+      Sshkey <<| tag == "hostkey_${storeconfigs_group}" |>>
     } else {
       Sshkey <<| |>>
     }
