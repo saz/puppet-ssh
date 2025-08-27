@@ -40,7 +40,7 @@ ListenAddress <%= listen %>
 <%- v.keys.sort.each do |key| -%>
     <%- value = v[key] -%>
     <%- if value.is_a?(Array) -%>
-    <%- if ['ciphers', 'macs', 'kexalgorithms', 'gssapikexalgorithms', 'hostbasedacceptedkeytypes', 'hostkeyalgorithms', 'pubkeyacceptedkeytypes'].include?(key.downcase) -%>
+    <%- if ['ciphers', 'macs', 'kexalgorithms', 'gssapikexalgorithms', 'hostbasedacceptedkeytypes', 'hostbasedacceptedalgorithms', 'hostkeyalgorithms', 'pubkeyacceptedkeytypes', 'pubkeyacceptedalgorithms'].include?(key.downcase) -%>
     <%= key %> <%= value.join(',') %>
     <%- else -%>
     <%- value.each do |a| -%>
@@ -55,7 +55,7 @@ ListenAddress <%= listen %>
 <%- end -%>
 <%- else -%>
 <%- if v.is_a?(Array) -%>
-<%- if ['ciphers', 'macs', 'kexalgorithms', 'gssapikexalgorithms', 'hostbasedacceptedkeytypes', 'hostkeyalgorithms', 'pubkeyacceptedkeytypes'].include?(k.downcase) -%>
+<%- if ['ciphers', 'macs', 'kexalgorithms', 'gssapikexalgorithms', 'hostbasedacceptedkeytypes', 'hostbasedacceptedalgorithms', 'hostkeyalgorithms', 'pubkeyacceptedkeytypes', 'pubkeyacceptedalgorithms'].include?(k.downcase) -%>
 <%= k %> <%= v.join(',') %>
 <%- else -%>
 <%- v.each do |a| -%>
