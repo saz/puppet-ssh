@@ -22,6 +22,7 @@ ssh::client::ssh_config: '/etc/ssh/ssh_config'
 ssh::server::service_name: 'svc:/network/ssh:default'
 ssh::sftp_server_path: 'internal-sftp'
 ssh::server::host_priv_key_group: 0
+ssh::server::host_priv_key_mode: '0600'
 ssh::validate_sshd_file             : false
 ssh::collect_enabled                : true   # Collect sshkey resources
 ssh::server::issue_net              : '/etc/issue.net'

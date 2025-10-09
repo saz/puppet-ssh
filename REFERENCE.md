@@ -540,6 +540,7 @@ The following parameters are available in the `ssh::server` class:
 * [`sshd_binary`](#-ssh--server--sshd_binary)
 * [`sshd_config_mode`](#-ssh--server--sshd_config_mode)
 * [`host_priv_key_group`](#-ssh--server--host_priv_key_group)
+* [`host_priv_key_mode`](#-ssh--server--host_priv_key_mode)
 * [`default_options`](#-ssh--server--default_options)
 * [`ensure`](#-ssh--server--ensure)
 * [`include_dir`](#-ssh--server--include_dir)
@@ -591,6 +592,12 @@ Mode to set on the sshd config file
 Data type: `Integer`
 
 Name of the group for the private host key
+
+##### <a name="-ssh--server--host_priv_key_mode"></a>`host_priv_key_mode`
+
+Data type: `Stdlib::Filemode`
+
+Mode of the private host key
 
 ##### <a name="-ssh--server--default_options"></a>`default_options`
 
