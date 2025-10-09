@@ -8,10 +8,17 @@ class ssh::server::config {
 
   $options = $ssh::server::merged_options
   $include_dir = $ssh::server::include_dir
+  $config_file_ownership = $ssh::server::manage_config_permissions ? {
+    false   => {},
+    default => {
+      owner => $ssh::server::config_user,
+      group => $ssh::server::config_group,
+    }
+  }
 
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
+      $sshd_validate_cmd = "${ssh::server::sshd_binary} -tf %"
     }
     default: {
       $sshd_validate_cmd = undef
@@ -34,8 +41,7 @@ class ssh::server::config {
   } else {
     concat { $ssh::server::sshd_config:
       ensure       => present,
-      owner        => 0,
-      group        => 0,
+      *            => $config_file_ownership,
       mode         => $ssh::server::sshd_config_mode,
       validate_cmd => $sshd_validate_cmd,
       notify       => Service[$ssh::server::service_name],
@@ -51,8 +57,7 @@ class ssh::server::config {
   if $ssh::server::include_dir {
     file { $ssh::server::include_dir:
       ensure  => directory,
-      owner   => 0,
-      group   => 0,
+      *       => $config_file_ownership,
       mode    => $ssh::server::include_dir_mode,
       purge   => $ssh::server::include_dir_purge,
       recurse => $ssh::server::include_dir_purge,
@@ -68,8 +73,7 @@ class ssh::server::config {
   if $ssh::server::use_issue_net {
     file { $ssh::server::issue_net:
       ensure  => file,
-      owner   => 0,
-      group   => 0,
+      *       => $config_file_ownership,
       mode    => $ssh::server::sshd_config_mode,
       content => template("${module_name}/issue.net.erb"),
       notify  => Service[$ssh::server::service_name],
