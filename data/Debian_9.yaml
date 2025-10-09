@@ -1,0 +1,3 @@
+---
+ssh::server::default_options:
+  ChallengeResponseAuthentication: 'no'
