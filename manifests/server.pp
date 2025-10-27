@@ -1,5 +1,5 @@
 # @summary
-#   This class managed ssh server
+#   This class manages the ssh server and related resources, including host keys.
 #
 # @example Puppet usage
 #   class { 'ssh::server':
@@ -71,6 +71,30 @@
 # @param server_package_name
 #   Name of the server package to install
 #
+# @param export_ipaddresses
+#   Whether IP addresses should be added as aliases for host keys
+#
+# @param storeconfigs_group
+#   Tag host keys with this group to allow segregation
+#
+# @param extra_aliases
+#   Additional aliases to set for host keys
+#
+# @param exclude_interfaces
+#   List of interfaces to exclude when collecting IPs for host keys
+#
+# @param exclude_interfaces_re
+#   List of regular expressions to exclude interfaces
+#
+# @param exclude_ipaddresses
+#   List of IP addresses to exclude from host key aliases
+#
+# @param use_trusted_facts
+#   Whether to use trusted facts instead of legacy facts
+#
+# @param tags
+#   Array of custom tags to apply to exported host keys
+#
 class ssh::server (
   String[1]                      $service_name,
   Stdlib::Absolutepath           $sshd_config,
@@ -93,6 +117,15 @@ class ssh::server (
   Boolean                        $use_issue_net          = false,
   Optional[Stdlib::Absolutepath] $sshd_environments_file = undef,
   Optional[String[1]]            $server_package_name    = undef,
+  # Host key management (used by ssh::hostkeys)
+  Boolean                        $export_ipaddresses     = true,
+  Optional[String[1]]            $storeconfigs_group     = undef,
+  Array                          $extra_aliases          = [],
+  Array                          $exclude_interfaces     = [],
+  Array                          $exclude_interfaces_re  = [],
+  Array                          $exclude_ipaddresses    = [],
+  Boolean                        $use_trusted_facts      = false,
+  Optional[Array[String[1]]]     $tags                   = undef,
 ) {
   if $use_augeas {
     $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::server::sshd_config })
@@ -104,17 +137,14 @@ class ssh::server (
   contain ssh::server::config
   contain ssh::server::service
 
-  # Provide option to *not* use storeconfigs/puppetdb, which means not managing
-  #  hostkeys and knownhosts
-  if ($storeconfigs_enabled) {
+  # Provide option to *not* use storeconfigs/puppetdb, which means not exporting hostkeys
+  if $storeconfigs_enabled {
     contain ssh::hostkeys
-    contain ssh::knownhosts
 
     Class['ssh::server::install']
     -> Class['ssh::server::config']
     ~> Class['ssh::server::service']
     -> Class['ssh::hostkeys']
-    -> Class['ssh::knownhosts']
   } else {
     Class['ssh::server::install']
     -> Class['ssh::server::config']
