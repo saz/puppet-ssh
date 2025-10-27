@@ -63,26 +63,18 @@ class ssh::hostkeys (
   }
 
   ['dsa', 'rsa', 'ecdsa', 'ed25519'].each |String $key_type| {
-    # can be removed as soon as we drop support for puppet 4
-    # see https://tickets.puppetlabs.com/browse/FACT-1377?jql=project%20%3D%20FACT%20AND%20fixVersion%20%3D%20%22FACT%203.12.0%22
-    if $key_type == 'ecdsa' {
-      $key_type_real = 'ecdsa-sha2-nistp256'
-    } else {
-      $key_type_real = $key_type
-    }
-
     if $key_type in $facts['ssh'] {
       @@sshkey { "${fqdn_real}_${key_type}":
         ensure       => present,
         host_aliases => $host_aliases,
-        type         => $key_type_real,
+        type         => $key_type,
         key          => $facts['ssh'][$key_type]['key'],
         tag          => $_tags,
       }
     } else {
       @@sshkey { "${fqdn_real}_${key_type}":
         ensure => absent,
-        type   => $key_type_real,
+        type   => $key_type,
       }
     }
   }
