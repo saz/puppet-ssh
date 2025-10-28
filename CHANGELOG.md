@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v14.0.1](https://github.com/saz/puppet-ssh/tree/v14.0.1) (2025-10-28)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.0...v14.0.1)
+
+**Fixed bugs:**
+
+- Fix ssh hostkeys export after merging \#423 [\#429](https://github.com/saz/puppet-ssh/pull/429) ([saz](https://github.com/saz))
+
 ## [v14.0.0](https://github.com/saz/puppet-ssh/tree/v14.0.0) (2025-10-28)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v13.1.0...v14.0.0)
