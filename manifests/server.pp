@@ -26,6 +26,9 @@
 # @param host_priv_key_group
 #   Name of the group for the private host key
 #
+# @param host_priv_key_mode
+#   Mode of the private host key
+#
 # @param default_options
 #   Default options to set, will be merged with options parameter
 #
@@ -78,6 +81,7 @@ class ssh::server (
   Stdlib::Absolutepath           $sshd_binary,
   Stdlib::Filemode               $sshd_config_mode,
   Integer                        $host_priv_key_group,
+  Stdlib::Filemode               $host_priv_key_mode,
   Hash                           $default_options,
   Enum[present,absent,latest]    $ensure                 = present,
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
