@@ -64,4 +64,16 @@ describe 'ssh::hostkeys', type: 'class' do
       }
     end
   end
+
+  context 'when filtering a key type' do
+    let(:params) do
+      {
+        exclude_key_types: ['ed25519'],
+      }
+    end
+
+    it do
+      expect(exported_resources).not_to contain_sshkey('foo.example.com_ed25519')
+    end
+  end
 end

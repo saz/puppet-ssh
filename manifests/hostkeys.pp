@@ -19,6 +19,9 @@
 # @param exclude_ipaddresses
 #   List of ip addresses to exclude
 #
+# @param exclude_key_types
+#   List of key types to exclude from exported resources.
+#
 # @param use_trusted_facts
 #   Whether to use trusted or normal facts
 #
@@ -32,6 +35,7 @@ class ssh::hostkeys (
   Array                      $exclude_interfaces    = [],
   Array                      $exclude_interfaces_re = [],
   Array                      $exclude_ipaddresses   = [],
+  Array[String[1]]           $exclude_key_types     = [],
   Boolean                    $use_trusted_facts     = false,
   Optional[Array[String[1]]] $tags                  = undef,
 ) {
@@ -62,7 +66,14 @@ class ssh::hostkeys (
     default => $storeconfigs_groups + $tags,
   }
 
-  ['dsa', 'rsa', 'ecdsa', 'ed25519'].each |String $key_type| {
+  [
+    'dsa',
+    'rsa',
+    'ecdsa',
+    'ed25519',
+  ].filter |String[1] $key_type| {
+    !($key_type in $exclude_key_types)
+  }.each |String[1] $key_type| {
     if $key_type in $facts['ssh'] {
       @@sshkey { "${fqdn_real}_${key_type}":
         ensure       => present,

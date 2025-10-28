@@ -420,6 +420,7 @@ The following parameters are available in the `ssh::hostkeys` class:
 * [`exclude_interfaces`](#-ssh--hostkeys--exclude_interfaces)
 * [`exclude_interfaces_re`](#-ssh--hostkeys--exclude_interfaces_re)
 * [`exclude_ipaddresses`](#-ssh--hostkeys--exclude_ipaddresses)
+* [`exclude_key_types`](#-ssh--hostkeys--exclude_key_types)
 * [`use_trusted_facts`](#-ssh--hostkeys--use_trusted_facts)
 * [`tags`](#-ssh--hostkeys--tags)
 
@@ -468,6 +469,14 @@ Default value: `[]`
 Data type: `Array`
 
 List of ip addresses to exclude
+
+Default value: `[]`
+
+##### <a name="-ssh--hostkeys--exclude_key_types"></a>`exclude_key_types`
+
+Data type: `Array[String[1]]`
+
+List of key types to exclude from exported resources.
 
 Default value: `[]`
 
