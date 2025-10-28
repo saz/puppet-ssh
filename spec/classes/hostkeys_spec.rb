@@ -19,7 +19,7 @@ describe 'ssh::hostkeys', type: 'class' do
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
             ensure: 'present',
-            type: %r{^#{key_type}},
+            type: %r{^ssh-#{key_type}},
             tag: %w[group1 group2]
           )
       }
@@ -38,7 +38,7 @@ describe 'ssh::hostkeys', type: 'class' do
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
             ensure: 'present',
-            type: %r{^#{key_type}},
+            type: %r{^ssh-#{key_type}},
             tag: %w[hostkey_all hostkey_server_group]
           )
       }
@@ -58,7 +58,7 @@ describe 'ssh::hostkeys', type: 'class' do
         expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
           with(
             ensure: 'present',
-            type: %r{^#{key_type}},
+            type: %r{^ssh-#{key_type}},
             tag: %w[hostkey_all hostkey_server_group group1 group2]
           )
       }
