@@ -78,14 +78,23 @@ class ssh::hostkeys (
       @@sshkey { "${fqdn_real}_${key_type}":
         ensure       => present,
         host_aliases => $host_aliases,
-        type         => $key_type,
+        type         => $facts['ssh'][$key_type]['type'],
         key          => $facts['ssh'][$key_type]['key'],
         tag          => $_tags,
       }
     } else {
-      @@sshkey { "${fqdn_real}_${key_type}":
-        ensure => absent,
-        type   => $key_type,
+      if $key_type == 'ecdsa' {
+        ['ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521'].each |String[1] $kt| {
+          @@sshkey { "${fqdn_real}_${kt}":
+            ensure => absent,
+            type   => $kt,
+          }
+        }
+      } else {
+        @@sshkey { "${fqdn_real}_${key_type}":
+          ensure => absent,
+          type   => $key_type,
+        }
       }
     }
   }
