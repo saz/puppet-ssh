@@ -4,8 +4,252 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v13.1.0](https://github.com/saz/puppet-ssh/tree/v13.1.0) (2025-02-20)
+## [v14.0.0](https://github.com/saz/puppet-ssh/tree/v14.0.0) (2025-10-28)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v13.1.0...v14.0.0)
+
+**Breaking changes:**
+
+- replace puppet requirement by openvox [\#425](https://github.com/saz/puppet-ssh/pull/425) ([saz](https://github.com/saz))
+- hostkeys: remove Puppet 4 workaround [\#423](https://github.com/saz/puppet-ssh/pull/423) ([kenyon](https://github.com/kenyon))
+
+**Implemented enhancements:**
+
+- hostkeys: allow for excluding key types [\#424](https://github.com/saz/puppet-ssh/pull/424) ([kenyon](https://github.com/kenyon))
+- puppet/systemd: Allow 9.x [\#419](https://github.com/saz/puppet-ssh/pull/419) ([bastelfreak](https://github.com/bastelfreak))
+- Add Ubuntu 24.04 [\#418](https://github.com/saz/puppet-ssh/pull/418) ([bwitt](https://github.com/bwitt))
+- Parameterize mode of private key. [\#410](https://github.com/saz/puppet-ssh/pull/410) ([mojibake-umd](https://github.com/mojibake-umd))
+
+**Fixed bugs:**
+
+- AIX: fix `ssh::client::ssh_config` setting [\#422](https://github.com/saz/puppet-ssh/pull/422) ([kenyon](https://github.com/kenyon))
+- AIX: remove nonexistent `ssh::server::ssh_known_hosts` setting [\#421](https://github.com/saz/puppet-ssh/pull/421) ([kenyon](https://github.com/kenyon))
+- ssh\_instance: write more values as comma-separated strings [\#416](https://github.com/saz/puppet-ssh/pull/416) ([kbcz1989](https://github.com/kbcz1989))
+- replace legacy facts in issue.net template, fixes \#408 [\#409](https://github.com/saz/puppet-ssh/pull/409) ([saz](https://github.com/saz))
+
+**Closed issues:**
+
+- Add support for Ubuntu 24.04 [\#417](https://github.com/saz/puppet-ssh/issues/417)
+- hostkeys: exclude ip classes for hostkey [\#413](https://github.com/saz/puppet-ssh/issues/413)
+- Legacy fact hostname referenced in template erb file [\#408](https://github.com/saz/puppet-ssh/issues/408)
+
+**Merged pull requests:**
+
+- fix version numbers in HISTORY.md [\#427](https://github.com/saz/puppet-ssh/pull/427) ([saz](https://github.com/saz))
+- add HISTORY.md [\#426](https://github.com/saz/puppet-ssh/pull/426) ([saz](https://github.com/saz))
+- metadata.json [\#420](https://github.com/saz/puppet-ssh/pull/420) ([bastelfreak](https://github.com/bastelfreak))
+
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v13.1.0]
 
 ### Added
 
 - puppet/systemd: allow 8.x (#404)
+
+## [v13.0.0]
+
+### Removed
+
+- BREAKING CHANGE: remove Ubuntu 18.04 as supported OS (#402)
+
+### Fixed
+
+- ssh_instance: write ciphers,macs and kex as comma-separated string (#401)
+- Purge and Recurse should be set together (#399)
+
+### Added
+
+- Add support for sshd_config include files (#390)
+
+### Changed
+
+- Set merge behavior of ssh::server_instances to deep (#395)
+
+## [v12.1.0]
+
+### Added
+
+- allow puppet/systemd < 8, fixes #382
+
+### Changed
+
+- set sshd config mode to 0644 on AIX, fixes #371 (#383)
+- use `contain` instead of `include`, fixes #367 (#387)
+
+### Fixed
+
+- fix tests on OpenBSD (#384)
+- drop tag from concat_{file,fragment}, fixes #304 (#385)
+- fix subsystem option if use_augeas = true, fixes #376 (#386)
+
+## [v12.0.1]
+
+### Fixed
+
+- make ssh::hostkeys::exclude_interfaces_re parameter work properly (#380)
+
+## [v12.0.0]
+
+### Added
+
+- add parameter to exclude interfaces with a regex (#378)
+- Allow User to add additonal systemd options to instances (#374)
+
+### Changed
+
+- puppet/systemd: Allow 6.x (#364)
+
+### Fixed
+
+- allow ssh::server::ensure = latest, fixes #370 (#377)
+
+## [v11.1.0]
+
+### Fixed
+
+- write ciphers,macs and kex as comma-separated string (#362)
+- Fix "No ssh_server_version_major created with OpenSSH 9.2" (#359)
+
+## [v11.0.0]
+
+### Removed
+
+- BREAKING CHANGE: drop support for puppet 6
+
+### Changed
+
+- puppetlabs/concat: Allow 9.x (#354)
+- puppet/systemd: Allow 5.x (#354)
+- puppetlabs/stdlib: Require 9.x (#354)
+
+### Added
+
+- add Debian 12 as supported OS
+
+## [v10.2.0]
+
+### Changed
+
+- bump puppetlabs/concat to < 9.0.0 (#352)
+- Replace deprecated functions (#350)
+
+## [v10.1.0]
+
+### Added
+
+- Support assigning multiple tags to a hostkey (#345)
+- Add AIX support (#341)
+
+### Changed
+
+- bump puppet/systemd to < 5.0.0 (#344)
+
+### Fixed
+
+- Fix for service name on latest versions of opensuse. (#343)
+
+## [v10.0.0]
+
+### Added
+
+- Add support for client "match blocks" (#332, #333)
+- Add data file for OpenBSD (#339)
+- Add support for service_ensure/service_enable in `ssh::server::instances` (#338)
+
+### Changed
+
+- Use hiera instead of params.pp (#325, #328)
+
+### Fixed
+
+- Fix parameter lookup for `ssh::server` and `ssh::client` (#331)
+
+## [v9.0.0]
+
+### Added
+
+- Support for multiple instances (#318, #319, #321) - Thanks!
+
+### Changed
+
+- "hostkeys.pp" isn't marked private anymore (#317)
+
+## [v8.0.0]
+
+### Changed
+
+- update path to sftp server on Gentoo (#315, breaking change)
+
+## [v7.0.2]
+
+### Added
+
+- allow stdlib < 9.0.0 (#314)
+
+## [v7.0.1]
+
+### Fixed
+
+- ssh_config: Don't populate options that are set to undef (#312)
+
+## [v7.0.0]
+
+### Fixed
+
+- Fix grammar and spelling in various places
+
+### Changed
+
+- Use GitHub Actions instead of TravisCI
+- Update module dependencies
+
+### Removed
+
+- Dropped support for puppet 4 and 5 (Breaking Change)
+
+## [v6.2.0]
+
+### Changed
+
+- support older facter versions (#293)
+
+## [v6.1.0]
+
+### Fixed
+
+- Fix absolute class name includes
+- Use gid 0 instead of group name for $host_priv_key_group (#289)
+- Sort hostkeys (#288)
+- Do not show diff when installing a ssh private host key (#283)
+- Don't populate options which have a value of `undef` (#281)
+
+### Added
+
+- document exclusion of interfaces and ipaddresses within hostkeys.pp (#267)
+- add parameter to use trusted facts to hostkeys.pp (#226)
+
+## [v6.0.0]
+
+### Fixed
+
+- don't fail at deep_merge if hiera data not available, see #272
+- Fix typo in match_block example in README, see #271, #273
+
+### Added
+
+- Add CHANGELOG (starting with this release), see #222
+- Test module with Puppet 6.1, see #269
+
+### Changed
+
+- Convert `ipaddresses` to 4x API namespaced function, see #270
+- Allow `puppetlabs` `stdlib` and `concat` 6.x, see #280
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
