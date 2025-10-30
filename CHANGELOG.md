@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v14.1.0](https://github.com/saz/puppet-ssh/tree/v14.1.0) (2025-10-30)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.2...v14.1.0)
+
+**Implemented enhancements:**
+
+- make user/group of resources configurable [\#436](https://github.com/saz/puppet-ssh/pull/436) ([saz](https://github.com/saz))
+- set KbdInteractiveAuthentication on newer SSH versions [\#434](https://github.com/saz/puppet-ssh/pull/434) ([saz](https://github.com/saz))
+
+**Fixed bugs:**
+
+- use proper sshd binary location in config validate command [\#435](https://github.com/saz/puppet-ssh/pull/435) ([saz](https://github.com/saz))
+
 ## [v14.0.2](https://github.com/saz/puppet-ssh/tree/v14.0.2) (2025-10-30)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.1...v14.0.2)
