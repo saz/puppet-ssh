@@ -18,8 +18,8 @@ class ssh::client::config {
   } else {
     concat { $ssh::client::ssh_config:
       ensure => present,
-      owner  => 0,
-      group  => 0,
+      owner  => $ssh::client::config_user,
+      group  => $ssh::client::config_group,
       mode   => '0644',
     }
 

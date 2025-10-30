@@ -23,11 +23,20 @@
 # @param sshd_config_mode
 #   Mode to set on the sshd config file
 #
+# @param host_priv_key_user
+#   Numeric id or name of the user for the private host key
+#
 # @param host_priv_key_group
-#   Name of the group for the private host key
+#   Numeric id or name of the group for the private host key
 #
 # @param host_priv_key_mode
 #   Mode of the private host key
+#
+# @param config_user
+#   Numeric id or name of the user for the sshd config file
+#
+# @param config_group
+#   Numeric id or name of the group for the sshd config file
 #
 # @param default_options
 #   Default options to set, will be merged with options parameter
@@ -80,8 +89,11 @@ class ssh::server (
   Stdlib::Absolutepath           $sshd_dir,
   Stdlib::Absolutepath           $sshd_binary,
   Stdlib::Filemode               $sshd_config_mode,
-  Integer                        $host_priv_key_group,
+  Variant[Integer, String[1]]    $host_priv_key_user,
+  Variant[Integer, String[1]]    $host_priv_key_group,
   Stdlib::Filemode               $host_priv_key_mode,
+  Variant[Integer, String[1]]    $config_user,
+  Variant[Integer, String[1]]    $config_group,
   Hash                           $default_options,
   String                         $ensure                 = present,
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
