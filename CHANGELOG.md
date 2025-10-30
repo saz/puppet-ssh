@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v14.0.2](https://github.com/saz/puppet-ssh/tree/v14.0.2) (2025-10-30)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.1...v14.0.2)
+
+**Fixed bugs:**
+
+- Change variable type to String for ssh::server::ensure [\#432](https://github.com/saz/puppet-ssh/pull/432) ([marek130](https://github.com/marek130))
+
+**Closed issues:**
+
+- Misleading parameter [\#431](https://github.com/saz/puppet-ssh/issues/431)
+
 ## [v14.0.1](https://github.com/saz/puppet-ssh/tree/v14.0.1) (2025-10-28)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.0...v14.0.1)
