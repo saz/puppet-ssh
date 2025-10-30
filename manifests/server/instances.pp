@@ -46,7 +46,7 @@ define ssh::server::instances (
   if $facts['kernel'] == 'Linux' {
     case $validate_config_file {
       true: {
-        $validate_cmd = '/usr/sbin/sshd -tf %'
+        $validate_cmd = "${ssh::server::sshd_binary} -tf %"
       }
       default: {
         $validate_cmd = undef

@@ -134,7 +134,15 @@ describe 'ssh', type: 'class' do
           }
         end
 
-        it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd('/usr/sbin/sshd -tf %') }
+        sshd_binary = case os_facts[:os]['family']
+                      when 'FreeBSD'
+                        '/usr/local/sbin/sshd'
+                      when 'Archlinux'
+                        '/usr/bin/sshd'
+                      else
+                        '/usr/sbin/sshd'
+                      end
+        it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd("#{sshd_binary} -tf %") }
       end
 
       context 'without resource purging' do
