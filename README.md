@@ -7,9 +7,9 @@
 [![Build Status](https://github.com/saz/puppet-ssh/workflows/CI/badge.svg)](https://github.com/saz/puppet-ssh/actions?query=workflow%3ACI)
 
 Manage SSH client and server via Puppet.
-Source: https://github.com/saz/puppet-ssh
 
 ## Requirements
+
 * Exported resources for host keys management
 * puppetlabs/stdlib
 * puppetlabs/concat
@@ -31,6 +31,7 @@ options => {
 This is working for both, client and server.
 
 ### Both client, server and per user client configuration
+
 Host keys will be collected and distributed unless
  `storeconfigs_enabled` is `false`.
 
@@ -71,6 +72,7 @@ class { 'ssh':
 ```
 
 ### Hiera example
+
 ```yaml
 ssh::storeconfigs_enabled: true
 
@@ -106,6 +108,7 @@ ssh::users_client_options:
 ```
 
 ### Client only
+
 Collected host keys from servers will be written to `known_hosts` unless
  `storeconfigs_enabled` is `false`
 
@@ -189,6 +192,7 @@ SSH configuration file will be `/var/lib/bob/.ssh/config`.
 ```
 
 ### Server only
+
 Host keys will be collected for client distribution unless
  `storeconfigs_enabled` is `false`
 
@@ -226,7 +230,6 @@ class { 'ssh::server':
 }
 ```
 
-
 ## Default options
 
 ### Client
@@ -251,6 +254,7 @@ class { 'ssh::server':
 ```
 
 ## Overwriting default options
+
 Default options will be merged with options passed in.
 If an option is set both as default and via options parameter, the latter
 will win.
@@ -305,6 +309,7 @@ PasswordAuthentication no
 ```
 
 ## Defining host keys for server
+
 You can define host keys your server will use
 
 ```puppet
@@ -326,7 +331,6 @@ ssh::server::host_key {'ssh_host_rsa_key':
 
 Both of these definitions will create ```/etc/ssh/ssh_host_rsa_key``` and
 ```/etc/ssh/ssh_host_rsa_key.pub``` and restart sshd daemon.
-
 
 ## Adding custom match blocks
 

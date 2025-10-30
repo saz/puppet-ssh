@@ -101,7 +101,12 @@ class ssh::server (
   if $use_augeas {
     $merged_options = sshserver_options_to_augeas_sshd_config($options, $options_absent, { 'target' => $ssh::server::sshd_config })
   } else {
-    $merged_options = deep_merge($default_options, $options)
+    if $facts['ssh_server_version_release'] and versioncmp($facts['ssh_server_version_release'], '8.6') >= 0 {
+      $default_options_real = $default_options + { 'KbdInteractiveAuthentication' => 'no' }
+    } else {
+      $default_options_real = $default_options + { 'ChallengeResponseAuthentication' => 'no' }
+    }
+    $merged_options = deep_merge($default_options_real, $options)
   }
 
   contain ssh::server::install
