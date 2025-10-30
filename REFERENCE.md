@@ -616,7 +616,7 @@ Default options to set, will be merged with options parameter
 
 ##### <a name="-ssh--server--ensure"></a>`ensure`
 
-Data type: `Enum[present,absent,latest]`
+Data type: `String`
 
 Ensurable param to ssh server
 

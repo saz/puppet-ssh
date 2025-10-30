@@ -83,7 +83,7 @@ class ssh::server (
   Integer                        $host_priv_key_group,
   Stdlib::Filemode               $host_priv_key_mode,
   Hash                           $default_options,
-  Enum[present,absent,latest]    $ensure                 = present,
+  String                         $ensure                 = present,
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
   Stdlib::Filemode               $include_dir_mode       = '0700',
   Boolean                        $include_dir_purge      = true,
