@@ -22,7 +22,7 @@ define ssh::server::config_file (
 
   case $ssh::server::validate_sshd_file {
     true: {
-      $sshd_validate_cmd = '/usr/sbin/sshd -tf %'
+      $sshd_validate_cmd = "${ssh::server::sshd_binary} -tf %"
     }
     default: {
       $sshd_validate_cmd = undef

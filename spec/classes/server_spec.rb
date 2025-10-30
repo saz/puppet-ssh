@@ -76,7 +76,26 @@ describe 'ssh::server', type: 'class' do
           }
         end
 
-        it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd('/usr/sbin/sshd -tf %') }
+        sshd_binary = case os_facts[:os]['family']
+                      when 'FreeBSD'
+                        '/usr/local/sbin/sshd'
+                      when 'Archlinux'
+                        '/usr/bin/sshd'
+                      else
+                        '/usr/sbin/sshd'
+                      end
+        it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd("#{sshd_binary} -tf %") }
+      end
+
+      context 'with a different sshd_binary location' do
+        let :params do
+          {
+            validate_sshd_file: true,
+            sshd_binary: '/usr/another_bin/sshd'
+          }
+        end
+
+        it { is_expected.to contain_concat('/etc/ssh/sshd_config').with_validate_cmd('/usr/another_bin/sshd -tf %') }
       end
 
       context 'with a different sshd_config location' do
