@@ -7,6 +7,16 @@ describe 'ssh::server', type: 'class' do
     context "on #{os}" do
       let(:facts) { os_facts }
 
+      case os_facts[:os]['name']
+      when 'Debian'
+        context 'with ssh_server_version_release set to 10.0', if: os_facts[:os]['release']['major'] == '12' do
+          let(:facts) { os_facts.merge(ssh_server_version_release: '10.0') }
+
+          sshd_config = "# File is managed by Puppet\n\nAcceptEnv LANG LC_*\nKbdInteractiveAuthentication no\nPrintMotd no\nSubsystem sftp /usr/lib/openssh/sftp-server\nUsePAM yes\nX11Forwarding yes\n"
+          it { is_expected.to contain_concat__fragment('global config').with_content(sshd_config) }
+        end
+      end
+
       svc_name = case os_facts[:os]['family']
                  when 'Debian'
                    'ssh'

@@ -29,7 +29,6 @@ ssh::server::issue_net              : '/etc/issue.net'
 ssh::knownhosts::collect_enabled    : true
 
 ssh::server::default_options:
-  ChallengeResponseAuthentication: 'no'
   X11Forwarding: 'yes'
   PrintMotd: 'no'
   AcceptEnv: 'LANG LC_*'

@@ -6,12 +6,11 @@ ssh::server::service_name: 'svc:/network/ssh:default'
 ssh::sftp_server_path: 'internal-sftp'
 
 ssh::server::default_options:
-  ChallengeResponseAuthentication: 'no'
   X11Forwarding: 'yes'
   PrintMotd: 'no'
   Subsystem: "sftp %{lookup('ssh::sftp_server_path')}"
   HostKey:
     - "%{lookup('ssh::server::sshd_dir')}/ssh_host_rsa_key"
     - "%{lookup('ssh::server::sshd_dir')}/ssh_host_dsa_key"
-  
+
 ssh::client::default_options: {}
