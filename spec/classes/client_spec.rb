@@ -9,7 +9,6 @@ describe 'ssh::client', type: 'class' do
 
       context 'with no other parameters' do
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('ssh::knownhosts') }
         it { is_expected.to contain_class('ssh::client::config') }
         it { is_expected.to contain_class('ssh::client::install') }
         it { is_expected.to contain_concat('/etc/ssh/ssh_config') }
@@ -23,16 +22,6 @@ describe 'ssh::client', type: 'class' do
         end
 
         it { is_expected.to contain_concat('/etc/ssh/another_ssh_config') }
-      end
-
-      context 'with storeconfigs_enabled set to false' do
-        let :params do
-          {
-            storeconfigs_enabled: false,
-          }
-        end
-
-        it { is_expected.not_to contain_class('ssh::knownhosts') }
       end
     end
   end

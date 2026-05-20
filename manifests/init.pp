@@ -130,7 +130,13 @@
 #   Define package version (package ressource)
 #
 # @param storeconfigs_enabled
-#   Default value for storeconfigs_enabled (client and server)
+#   Enables SSHD fingerprint export + collection
+#
+# @param server_storeconfigs_enabled
+#   Enables SSHD fingerprint export
+#
+# @param client_storeconfigs_enabled
+#   Enables SSHD fingerprint collection
 #
 # @param validate_sshd_file
 #   Default value for validate_sshd_file (server)
@@ -161,6 +167,8 @@ class ssh (
   Hash                                     $users_client_options    = {},
   String                                   $version                 = 'present',
   Boolean                                  $storeconfigs_enabled    = true,
+  Boolean                                  $client_storeconfigs_enabled = $storeconfigs_enabled,
+  Boolean                                  $server_storeconfigs_enabled = $storeconfigs_enabled,
   Boolean                                  $validate_sshd_file      = false,
   Boolean                                  $use_augeas              = false,
   Array                                    $server_options_absent   = [],
@@ -171,7 +179,7 @@ class ssh (
 ) {
   class { 'ssh::server':
     ensure               => $version,
-    storeconfigs_enabled => $storeconfigs_enabled,
+    storeconfigs_enabled => $server_storeconfigs_enabled,
     options              => $server_options,
     validate_sshd_file   => $validate_sshd_file,
     use_augeas           => $use_augeas,
@@ -181,7 +189,7 @@ class ssh (
 
   class { 'ssh::client':
     ensure               => $version,
-    storeconfigs_enabled => $storeconfigs_enabled,
+    storeconfigs_enabled => $client_storeconfigs_enabled,
     options              => $client_options,
     use_augeas           => $use_augeas,
     options_absent       => $client_options_absent,

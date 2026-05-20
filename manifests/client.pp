@@ -35,6 +35,9 @@
 # @param match_block
 #   Add ssh match_block (with concat)
 #
+# @param storeconfigs_group
+#   Define the hostkeys tag to filter with
+#
 # @param config_user
 #   Numeric id or name of the user for the config file
 # @param config_group
@@ -52,6 +55,7 @@ class ssh::client (
   Boolean                     $use_augeas           = false,
   Array                       $options_absent       = [],
   Hash                        $match_block          = {},
+  Optional[String[1]]         $storeconfigs_group   = undef,
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })
@@ -62,14 +66,16 @@ class ssh::client (
   contain ssh::client::install
   contain ssh::client::config
 
-  # Provide option to *not* use storeconfigs/puppetdb, which means not managing
-  #  hostkeys and knownhosts
+  # Provide option to *not* use storeconfigs/puppetdb, which means not collecting host keys into knownhosts
   if ($storeconfigs_enabled) {
-    contain ssh::knownhosts
-
     Class['ssh::client::install']
     -> Class['ssh::client::config']
-    -> Class['ssh::knownhosts']
+
+    if $storeconfigs_group {
+      Sshkey <<| tag == "hostkey_${storeconfigs_group}" |>>
+    } else {
+      Sshkey <<| |>>
+    }
   } else {
     Class['ssh::client::install']
     -> Class['ssh::client::config']
