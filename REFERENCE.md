@@ -415,6 +415,7 @@ Data type: `Optional[String[1]]`
 Define the hostkeys tag to filter with
 
 Default value: `undef`
+
 ##### <a name="-ssh--client--config_user"></a>`config_user`
 
 Data type: `Variant[Integer, String[1]]`
@@ -492,14 +493,6 @@ Data type: `Array`
 List of ip addresses to exclude
 
 Default value: `$ssh::server::exclude_ipaddresses`
-
-##### <a name="-ssh--hostkeys--exclude_key_types"></a>`exclude_key_types`
-
-Data type: `Array[String[1]]`
-
-List of key types to exclude from exported resources.
-
-Default value: `[]`
 
 ##### <a name="-ssh--hostkeys--exclude_key_types"></a>`exclude_key_types`
 
