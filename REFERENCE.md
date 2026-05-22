@@ -346,6 +346,8 @@ Data type: `Stdlib::Absolutepath`
 
 Path to ssh client config file
 
+Default value: `'/etc/ssh/ssh_config'`
+
 ##### <a name="-ssh--client--client_package_name"></a>`client_package_name`
 
 Data type: `Optional[String[1]]`
@@ -400,6 +402,8 @@ Data type: `Hash`
 
 Default options to set, will be merged with options parameter
 
+Default value: `{ 'Host *' => { 'SendEnv' => 'LANG LC_*', 'HashKnownHosts' => 'yes' } }`
+
 ##### <a name="-ssh--client--match_block"></a>`match_block`
 
 Data type: `Hash`
@@ -414,11 +418,15 @@ Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the config file
 
+Default value: `0`
+
 ##### <a name="-ssh--client--config_group"></a>`config_group`
 
 Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the config file
+
+Default value: `0`
 
 ### <a name="ssh--hostkeys"></a>`ssh::hostkeys`
 
@@ -589,17 +597,23 @@ Data type: `String[1]`
 
 Name of the sshd service
 
+Default value: `'svc:/network/ssh:default'`
+
 ##### <a name="-ssh--server--sshd_config"></a>`sshd_config`
 
 Data type: `Stdlib::Absolutepath`
 
 Path to the sshd_config file
 
+Default value: `'/etc/ssh/sshd_config'`
+
 ##### <a name="-ssh--server--sshd_dir"></a>`sshd_dir`
 
 Data type: `Stdlib::Absolutepath`
 
 Path to the sshd dir (e.g. /etc/ssh)
+
+Default value: `'/etc/ssh'`
 
 ##### <a name="-ssh--server--sshd_binary"></a>`sshd_binary`
 
@@ -613,11 +627,15 @@ Data type: `Stdlib::Filemode`
 
 Mode to set on the sshd config file
 
+Default value: `'0600'`
+
 ##### <a name="-ssh--server--host_priv_key_user"></a>`host_priv_key_user`
 
 Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the private host key
+
+Default value: `0`
 
 ##### <a name="-ssh--server--host_priv_key_group"></a>`host_priv_key_group`
 
@@ -625,11 +643,15 @@ Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the private host key
 
+Default value: `0`
+
 ##### <a name="-ssh--server--host_priv_key_mode"></a>`host_priv_key_mode`
 
 Data type: `Stdlib::Filemode`
 
 Mode of the private host key
+
+Default value: `'0600'`
 
 ##### <a name="-ssh--server--config_user"></a>`config_user`
 
@@ -637,17 +659,23 @@ Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the user for the sshd config file
 
+Default value: `0`
+
 ##### <a name="-ssh--server--config_group"></a>`config_group`
 
 Data type: `Variant[Integer, String[1]]`
 
 Numeric id or name of the group for the sshd config file
 
+Default value: `0`
+
 ##### <a name="-ssh--server--default_options"></a>`default_options`
 
 Data type: `Hash`
 
 Default options to set, will be merged with options parameter
+
+Default value: `{ 'X11Forwarding' => 'yes', 'PrintMotd' => 'no', 'AcceptEnv' => 'LANG LC_*', 'Subsystem' => 'sftp %{lookup('ssh::sftp_server_path')}', 'UsePAM' => 'yes' }`
 
 ##### <a name="-ssh--server--ensure"></a>`ensure`
 
