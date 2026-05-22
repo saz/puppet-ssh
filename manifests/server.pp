@@ -51,10 +51,10 @@
 #   Mode to set on the sshd include directory.
 #
 # @param include_dir_purge
-#   Purge the include directory if true.
+#   Purge the sshd include directory if true.
 #
 # @param config_files
-#   Hash of config files to add to the ssh include directory.
+#   Hash of config files to add to the sshd include directory.
 #
 # @param storeconfigs_enabled
 #   Host keys will be collected and distributed unless storeconfigs_enabled is false.

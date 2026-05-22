@@ -40,22 +40,39 @@
 #
 # @param config_user
 #   Numeric id or name of the user for the config file
+#
 # @param config_group
 #   Numeric id or name of the group for the config file
 #
+# @param include_dir
+#   Path to ssh include directory.
+#
+# @param include_dir_mode
+#   Mode to set on the ssh include directory.
+#
+# @param include_dir_purge
+#   Purge the ssh include directory if true.
+#
+# @param config_files
+#   Hash of config files to add to the ssh include directory.
+#
 class ssh::client (
-  Stdlib::Absolutepath        $ssh_config,
-  Hash                        $default_options,
-  Variant[Integer, String[1]] $config_user,
-  Variant[Integer, String[1]] $config_group,
-  Optional[String[1]]         $client_package_name  = undef,
-  String                      $ensure               = present,
-  Boolean                     $storeconfigs_enabled = true,
-  Hash                        $options              = {},
-  Boolean                     $use_augeas           = false,
-  Array                       $options_absent       = [],
-  Hash                        $match_block          = {},
-  Optional[String[1]]         $storeconfigs_group   = undef,
+  Stdlib::Absolutepath           $ssh_config,
+  Hash                           $default_options,
+  Variant[Integer, String[1]]    $config_user,
+  Variant[Integer, String[1]]    $config_group,
+  Optional[String[1]]            $client_package_name  = undef,
+  String                         $ensure               = present,
+  Boolean                        $storeconfigs_enabled = true,
+  Hash                           $options              = {},
+  Boolean                        $use_augeas           = false,
+  Array                          $options_absent       = [],
+  Hash                           $match_block          = {},
+  Optional[String[1]]            $storeconfigs_group   = undef,
+  Optional[Stdlib::Absolutepath] $include_dir          = undef,
+  Stdlib::Filemode               $include_dir_mode     = '0700',
+  Boolean                        $include_dir_purge    = true,
+  Hash[String, Hash]             $config_files         = {},
 ) {
   if $use_augeas {
     $merged_options = sshclient_options_to_augeas_ssh_config($options, $options_absent, { 'target' => $ssh_config })

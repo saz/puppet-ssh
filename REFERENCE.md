@@ -24,6 +24,7 @@
 ### Defined types
 
 * [`ssh::client::config::user`](#ssh--client--config--user): This defined type manages a users ssh config
+* [`ssh::client::config_file`](#ssh--client--config_file): Resource type for managing a config file in the include dir.
 * [`ssh::client::match_block`](#ssh--client--match_block): Add match_block to ssh client config (concat needed)
 * [`ssh::server::config::setting`](#ssh--server--config--setting): Internal define to managed ssh server param
 * [`ssh::server::config_file`](#ssh--server--config_file): Resource type for managing a config file in the include dir.
@@ -357,6 +358,10 @@ The following parameters are available in the `ssh::client` class:
 * [`storeconfigs_group`](#-ssh--client--storeconfigs_group)
 * [`config_user`](#-ssh--client--config_user)
 * [`config_group`](#-ssh--client--config_group)
+* [`include_dir`](#-ssh--client--include_dir)
+* [`include_dir_mode`](#-ssh--client--include_dir_mode)
+* [`include_dir_purge`](#-ssh--client--include_dir_purge)
+* [`config_files`](#-ssh--client--config_files)
 
 ##### <a name="-ssh--client--ssh_config"></a>`ssh_config`
 
@@ -453,6 +458,38 @@ Data type: `Variant[Integer, String[1]]`
 Numeric id or name of the group for the config file
 
 Default value: `0`
+
+##### <a name="-ssh--client--include_dir"></a>`include_dir`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Path to ssh include directory.
+
+Default value: `undef`
+
+##### <a name="-ssh--client--include_dir_mode"></a>`include_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+Mode to set on the ssh include directory.
+
+Default value: `'0700'`
+
+##### <a name="-ssh--client--include_dir_purge"></a>`include_dir_purge`
+
+Data type: `Boolean`
+
+Purge the ssh include directory if true.
+
+Default value: `true`
+
+##### <a name="-ssh--client--config_files"></a>`config_files`
+
+Data type: `Hash[String, Hash]`
+
+Hash of config files to add to the ssh include directory.
+
+Default value: `{}`
 
 ### <a name="ssh--hostkeys"></a>`ssh::hostkeys`
 
@@ -714,7 +751,7 @@ Default value: `'0700'`
 
 Data type: `Boolean`
 
-Purge the include directory if true.
+Purge the sshd include directory if true.
 
 Default value: `true`
 
@@ -722,7 +759,7 @@ Default value: `true`
 
 Data type: `Hash[String, Hash]`
 
-Hash of config files to add to the ssh include directory.
+Hash of config files to add to the sshd include directory.
 
 Default value: `{}`
 
@@ -962,6 +999,52 @@ Data type: `String[1]`
 Default mode for the ssh config file
 
 Default value: `'0600'`
+
+### <a name="ssh--client--config_file"></a>`ssh::client::config_file`
+
+Resource type for managing a config file in the include dir.
+
+#### Parameters
+
+The following parameters are available in the `ssh::client::config_file` defined type:
+
+* [`mode`](#-ssh--client--config_file--mode)
+* [`include`](#-ssh--client--config_file--include)
+* [`options`](#-ssh--client--config_file--options)
+* [`path`](#-ssh--client--config_file--path)
+
+##### <a name="-ssh--client--config_file--mode"></a>`mode`
+
+Data type: `Stdlib::Filemode`
+
+File mode for the config file.
+
+Default value: `'0644'`
+
+##### <a name="-ssh--client--config_file--include"></a>`include`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Absolute path to config file to include at the top of the config file.
+This is intended for including files not managed by this module.
+
+Default value: `undef`
+
+##### <a name="-ssh--client--config_file--options"></a>`options`
+
+Data type: `Hash`
+
+Dynamic hash for openssh client option
+
+Default value: `{}`
+
+##### <a name="-ssh--client--config_file--path"></a>`path`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `"${ssh::client::include_dir}/${name}.conf"`
 
 ### <a name="ssh--client--match_block"></a>`ssh::client::match_block`
 
