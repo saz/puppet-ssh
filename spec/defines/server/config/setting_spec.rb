@@ -17,7 +17,7 @@ describe 'ssh::server::config::setting' do
         let :params do
           {
             key: 'AllowGroups',
-            value: 'group1 group2'
+            value: 'group1 group2',
           }
         end
 
@@ -29,7 +29,7 @@ describe 'ssh::server::config::setting' do
         let :params do
           {
             key: 'Somesetting',
-            value: true
+            value: true,
           }
         end
 
@@ -40,7 +40,7 @@ describe 'ssh::server::config::setting' do
         let :params do
           {
             key: 'Foo',
-            value: [1, 2]
+            value: [1, 2],
           }
         end
 
@@ -52,8 +52,8 @@ describe 'ssh::server::config::setting' do
           {
             key: 'Bar',
             value: {
-              'a' => 'b'
-            }
+              'a' => 'b',
+            },
           }
         end
 

@@ -10,18 +10,17 @@ describe 'ssh::hostkeys', type: 'class' do
   context 'with tags' do
     let(:params) do
       {
-        tags: %w[group1 group2]
+        tags: %w[group1 group2],
       }
     end
 
     %w[rsa].each do |key_type|
       it {
-        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
-          with(
-            ensure: 'present',
-            type: %r{^ssh-#{key_type}},
-            tag: %w[group1 group2]
-          )
+        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").with(
+          ensure: 'present',
+          type: %r{^ssh-#{key_type}},
+          tag: %w[group1 group2],
+        )
       }
     end
   end
@@ -35,12 +34,11 @@ describe 'ssh::hostkeys', type: 'class' do
 
     %w[rsa].each do |key_type|
       it {
-        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
-          with(
-            ensure: 'present',
-            type: %r{^ssh-#{key_type}},
-            tag: %w[hostkey_all hostkey_server_group]
-          )
+        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").with(
+          ensure: 'present',
+          type: %r{^ssh-#{key_type}},
+          tag: %w[hostkey_all hostkey_server_group],
+        )
       }
     end
   end
@@ -55,12 +53,11 @@ describe 'ssh::hostkeys', type: 'class' do
 
     %w[rsa].each do |key_type|
       it {
-        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").
-          with(
-            ensure: 'present',
-            type: %r{^ssh-#{key_type}},
-            tag: %w[hostkey_all hostkey_server_group group1 group2]
-          )
+        expect(exported_resources).to contain_sshkey("foo.example.com_#{key_type}").with(
+          ensure: 'present',
+          type: %r{^ssh-#{key_type}},
+          tag: %w[hostkey_all hostkey_server_group group1 group2],
+        )
       }
     end
   end

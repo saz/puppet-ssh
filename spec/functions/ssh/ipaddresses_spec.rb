@@ -50,7 +50,7 @@ describe 'ssh::ipaddresses', type: :puppet_function do
         interfaces: 'lo,docker0,eno1',
         ipaddress_lo: '127.0.0.1',
         ipaddress_eno1: '10.13.42.61',
-        ipaddress_docker0: '172.17.0.1'
+        ipaddress_docker0: '172.17.0.1',
       }
     end
 

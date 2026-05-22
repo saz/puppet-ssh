@@ -31,7 +31,7 @@ describe 'ssh::client::match_block' do
               Match user !foo
                   ProxyCommand /usr/bin/sss_ssh_knownhostsproxy -p %p %h
             SSH
-            order: 250
+            order: 250,
           )
         end
       end

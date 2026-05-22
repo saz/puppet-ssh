@@ -130,7 +130,7 @@ describe 'ssh', type: 'class' do
       context 'with the validate_sshd_file setting' do
         let :params do
           {
-            validate_sshd_file: true
+            validate_sshd_file: true,
           }
         end
 
@@ -148,7 +148,7 @@ describe 'ssh', type: 'class' do
       context 'without resource purging' do
         let :params do
           {
-            purge_unmanaged_sshkeys: false
+            purge_unmanaged_sshkeys: false,
           }
         end
 
@@ -174,8 +174,8 @@ describe 'ssh', type: 'class' do
             server_options: {
               X11Forwarding: 'no',
               UsePAM: 'no',
-              SomeOtherKey: 'someValue'
-            }
+              SomeOtherKey: 'someValue',
+            },
           }
         end
 
@@ -187,10 +187,10 @@ describe 'ssh', type: 'class' do
           {
             client_options: {
               HostFoo: {
-                HostName: 'bar'
+                HostName: 'bar',
               },
-              SomeOtherKey: 'someValue'
-            }
+              SomeOtherKey: 'someValue',
+            },
           }
         end
 
@@ -200,7 +200,7 @@ describe 'ssh', type: 'class' do
       context 'with storeconfigs_enabled set to false' do
         let :params do
           {
-            storeconfigs_enabled: false
+            storeconfigs_enabled: false,
           }
         end
 
@@ -234,7 +234,7 @@ describe 'ssh', type: 'class' do
             options: {
               'ProxyCommand' => '/usr/bin/sss_ssh_knownhostsproxy -p %p %h',
             },
-            target: '/etc/ssh/ssh_config_foo'
+            target: '/etc/ssh/ssh_config_foo',
           )
         end
 
@@ -245,7 +245,7 @@ describe 'ssh', type: 'class' do
               'FowardX11' => 'no',
               'PasswordAuthentication' => 'yes',
             },
-            target: '/etc/ssh/ssh_config_foo'
+            target: '/etc/ssh/ssh_config_foo',
           )
         end
 

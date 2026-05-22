@@ -61,8 +61,8 @@ describe 'ssh::server', type: 'class' do
               Subsystem: 'sftp /some/path',
               X11Forwarding: 'no',
               UsePAM: 'no',
-              SomeOtherKey: 'someValue'
-            }
+              SomeOtherKey: 'someValue',
+            },
           }
         end
 
@@ -72,7 +72,7 @@ describe 'ssh::server', type: 'class' do
       context 'with a custom service_name' do
         let :params do
           {
-            service_name: 'custom_sshd_name'
+            service_name: 'custom_sshd_name',
           }
         end
 
@@ -82,7 +82,7 @@ describe 'ssh::server', type: 'class' do
       context 'with the validate_sshd_file setting' do
         let :params do
           {
-            validate_sshd_file: true
+            validate_sshd_file: true,
           }
         end
 
@@ -101,7 +101,7 @@ describe 'ssh::server', type: 'class' do
         let :params do
           {
             validate_sshd_file: true,
-            sshd_binary: '/usr/another_bin/sshd'
+            sshd_binary: '/usr/another_bin/sshd',
           }
         end
 
@@ -111,7 +111,7 @@ describe 'ssh::server', type: 'class' do
       context 'with a different sshd_config location' do
         let :params do
           {
-            sshd_config: '/etc/ssh/another_sshd_config'
+            sshd_config: '/etc/ssh/another_sshd_config',
           }
         end
 
@@ -121,7 +121,7 @@ describe 'ssh::server', type: 'class' do
       context 'with storeconfigs_enabled set to false' do
         let :params do
           {
-            storeconfigs_enabled: false
+            storeconfigs_enabled: false,
           }
         end
 

@@ -14,8 +14,8 @@ describe 'ssh::client::config::user' do
           'HashKnownHosts' => 'yes',
           'Host *.in2p3.fr' => {
             'User' => 'riton',
-            'GSSAPIAuthentication' => 'no'
-          }
+            'GSSAPIAuthentication' => 'no',
+          },
         }
       end
 
@@ -29,14 +29,14 @@ describe 'ssh::client::config::user' do
           target: ['./somedir', 'Pattern'],
           user_home_dir: ['./somedir', 'Pattern'],
           manage_user_ssh_dir: ['maybe', 'expects a Boolean'],
-          options: ['the_options', 'Hash value']
+          options: ['the_options', 'Hash value'],
         }
 
         params.each do |param, value|
           context "with invalid value for #{param}" do
             let :params do
               {
-                param => value[0]
+                param => value[0],
               }
             end
 
@@ -52,7 +52,7 @@ describe 'ssh::client::config::user' do
 
           let :params do
             {
-              target: target
+              target: target,
             }
           end
 
@@ -70,7 +70,7 @@ describe 'ssh::client::config::user' do
             context 'with manage_user_ssh_dir default value' do
               let :params do
                 {
-                  user_home_dir: user_home_dir
+                  user_home_dir: user_home_dir,
                 }
               end
 
@@ -78,13 +78,13 @@ describe 'ssh::client::config::user' do
                 is_expected.to contain_file("#{user_home_dir}/.ssh").with(
                   ensure: 'directory',
                   owner: title,
-                  mode: '0700'
+                  mode: '0700',
                 ).that_comes_before("Concat_file[#{user_home_dir}/.ssh/config]")
 
                 is_expected.to contain_concat_file("#{user_home_dir}/.ssh/config").with(
                   ensure: 'present',
                   owner: title,
-                  mode: '0600'
+                  mode: '0600',
                 )
               end
             end
@@ -94,7 +94,7 @@ describe 'ssh::client::config::user' do
               let :params do
                 {
                   user_home_dir: user_home_dir,
-                  manage_user_ssh_dir: false
+                  manage_user_ssh_dir: false,
                 }
               end
 
@@ -115,7 +115,7 @@ describe 'ssh::client::config::user' do
             context 'with manage_user_ssh_dir set to false' do
               let :params do
                 {
-                  manage_user_ssh_dir: false
+                  manage_user_ssh_dir: false,
                 }
               end
 
@@ -136,21 +136,21 @@ describe 'ssh::client::config::user' do
         describe 'ssh configuration content' do
           let :params do
             {
-              options: ssh_options
+              options: ssh_options,
             }
           end
 
           it 'has single value' do
             is_expected.to contain_concat_fragment(title).with(
               content: %r{HashKnownHosts\s+yes},
-              target: "/home/#{title}/.ssh/config"
+              target: "/home/#{title}/.ssh/config",
             )
           end
 
           it 'has Hash value' do
             is_expected.to contain_concat_fragment(title).with(
               content: %r{Host \*\.in2p3\.fr\s*\n\s+GSSAPIAuthentication\s+no\s*\n\s+User\s+riton},
-              target: "/home/#{title}/.ssh/config"
+              target: "/home/#{title}/.ssh/config",
             )
           end
         end

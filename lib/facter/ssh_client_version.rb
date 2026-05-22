@@ -5,12 +5,12 @@ Facter.add('ssh_client_version_full') do
 
   setcode do
     if Facter::Util::Resolution.which('ssh')
-      version = Facter::Util::Resolution.exec('ssh -V 2>&1').
-                lines.
-                to_a.
-                select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }.
-                first.
-                rstrip
+      version = Facter::Util::Resolution.exec('ssh -V 2>&1')
+                                        .lines
+                                        .to_a
+                                        .select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }
+                                        .first
+                                        .rstrip
 
       version&.gsub(%r{^(OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2')
     end

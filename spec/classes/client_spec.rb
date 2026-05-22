@@ -18,7 +18,7 @@ describe 'ssh::client', type: 'class' do
       context 'with a different ssh_config location' do
         let :params do
           {
-            ssh_config: '/etc/ssh/another_ssh_config'
+            ssh_config: '/etc/ssh/another_ssh_config',
           }
         end
 
@@ -28,7 +28,7 @@ describe 'ssh::client', type: 'class' do
       context 'with storeconfigs_enabled set to false' do
         let :params do
           {
-            storeconfigs_enabled: false
+            storeconfigs_enabled: false,
           }
         end
 
