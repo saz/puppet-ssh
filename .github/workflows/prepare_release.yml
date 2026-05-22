@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   release_prep:
-    uses: 'voxpupuli/gha-puppet/.github/workflows/prepare_release.yml@v3'
+    uses: 'voxpupuli/gha-puppet/.github/workflows/prepare_release.yml@v4'
     with:
       version: ${{ github.event.inputs.version }}
       allowed_owner: 'saz'
