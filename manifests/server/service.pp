@@ -1,25 +1,16 @@
 # @summary
-#   This class managed ssh server service
+#   This class manages the ssh server service
 #
 # @api private
 #
-# @param ensure
-#   Ensurable service param
-#
-# @param enable
-#   Define if service is enable
-#
-class ssh::server::service (
-  Stdlib::Ensure::Service $ensure = 'running',
-  Boolean                 $enable = true,
-) {
+class ssh::server::service {
   assert_private()
 
   service { $ssh::server::service_name:
-    ensure     => $ssh::server::service::ensure,
+    ensure     => $ssh::server::service_ensure,
     hasstatus  => true,
     hasrestart => true,
-    enable     => $ssh::server::service::enable,
+    enable     => $ssh::server::service_enable,
     require    => Class['ssh::server::config'],
   }
 }

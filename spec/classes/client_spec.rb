@@ -140,6 +140,89 @@ describe 'ssh::client', type: 'class' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_ssh__client__config_file('custom') }
       end
+
+      context 'with use_augeas enabled' do
+        let :pre_condition do
+          'define ssh_config ($ensure = present, $key = undef, $value = undef, $target = undef, $host = undef) {}'
+        end
+
+        let :params do
+          {
+            use_augeas: true,
+            options: {
+              'ForwardAgent' => 'no',
+              'StrictHostKeyChecking' => 'ask',
+            },
+            options_absent: ['GSSAPIAuthentication'],
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_concat('/etc/ssh/ssh_config') }
+
+        it {
+          is_expected.to contain_ssh_config('ForwardAgent').with(
+            ensure: 'present',
+            key: 'ForwardAgent',
+            value: 'no',
+            target: '/etc/ssh/ssh_config',
+          )
+        }
+
+        it {
+          is_expected.to contain_ssh_config('StrictHostKeyChecking').with(
+            ensure: 'present',
+            key: 'StrictHostKeyChecking',
+            value: 'ask',
+          )
+        }
+
+        it {
+          is_expected.to contain_ssh_config('GSSAPIAuthentication').with(
+            ensure: 'absent',
+            key: 'GSSAPIAuthentication',
+          )
+        }
+      end
+
+      context 'with use_augeas and host block options' do
+        let :pre_condition do
+          'define ssh_config ($ensure = present, $key = undef, $value = undef, $target = undef, $host = undef) {}'
+        end
+
+        let :params do
+          {
+            use_augeas: true,
+            options: {
+              'Host *.example.com' => {
+                'ForwardAgent' => 'yes',
+                'BatchMode' => 'yes',
+              },
+            },
+            options_absent: [],
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it {
+          is_expected.to contain_ssh_config('ForwardAgent *.example.com').with(
+            ensure: 'present',
+            host: '*.example.com',
+            key: 'ForwardAgent',
+            value: 'yes',
+          )
+        }
+
+        it {
+          is_expected.to contain_ssh_config('BatchMode *.example.com').with(
+            ensure: 'present',
+            host: '*.example.com',
+            key: 'BatchMode',
+            value: 'yes',
+          )
+        }
+      end
     end
   end
 end

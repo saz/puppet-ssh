@@ -193,6 +193,234 @@ describe 'ssh::server', type: 'class' do
           expect(exported_resources).not_to contain_sshkey('foo.example.com_ed25519')
         end
       end
+
+      context 'with use_augeas enabled' do
+        let :pre_condition do
+          <<~PP
+            define sshd_config ($ensure = present, $key = undef, $value = undef, $target = undef, $condition = undef) {}
+            define sshd_config_subsystem ($command = undef) {}
+          PP
+        end
+
+        let :params do
+          {
+            use_augeas: true,
+            options: {
+              'X11Forwarding' => 'no',
+              'PermitRootLogin' => 'no',
+            },
+            options_absent: ['GSSAPIAuthentication'],
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_concat('/etc/ssh/sshd_config') }
+
+        it {
+          is_expected.to contain_sshd_config('X11Forwarding').with(
+            ensure: 'present',
+            key: 'X11Forwarding',
+            value: 'no',
+            target: '/etc/ssh/sshd_config',
+          )
+        }
+
+        it {
+          is_expected.to contain_sshd_config('PermitRootLogin').with(
+            ensure: 'present',
+            key: 'PermitRootLogin',
+            value: 'no',
+          )
+        }
+
+        it {
+          is_expected.to contain_sshd_config('GSSAPIAuthentication').with(
+            ensure: 'absent',
+            key: 'GSSAPIAuthentication',
+          )
+        }
+      end
+
+      context 'with use_augeas and match block options' do
+        let :pre_condition do
+          <<~PP
+            define sshd_config ($ensure = present, $key = undef, $value = undef, $target = undef, $condition = undef) {}
+            define sshd_config_subsystem ($command = undef) {}
+          PP
+        end
+
+        let :params do
+          {
+            use_augeas: true,
+            options: {
+              'Match User www-data' => {
+                'ChrootDirectory' => '%h',
+                'ForceCommand' => 'internal-sftp',
+              },
+            },
+            options_absent: [],
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it {
+          is_expected.to contain_sshd_config('ChrootDirectory User www-data').with(
+            ensure: 'present',
+            condition: 'User www-data',
+            key: 'ChrootDirectory',
+            value: '%h',
+          )
+        }
+
+        it {
+          is_expected.to contain_sshd_config('ForceCommand User www-data').with(
+            ensure: 'present',
+            condition: 'User www-data',
+            key: 'ForceCommand',
+            value: 'internal-sftp',
+          )
+        }
+      end
+
+      context 'with use_issue_net enabled' do
+        let :params do
+          {
+            use_issue_net: true,
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it {
+          is_expected.to contain_file('/etc/issue.net').with(
+            ensure: 'file',
+            owner: 0,
+            group: 0,
+          )
+        }
+
+        it { is_expected.to contain_file('/etc/issue.net').that_notifies("Service[#{svc_name}]") }
+
+        it {
+          is_expected.to contain_concat__fragment('banner file').with(
+            target: '/etc/ssh/sshd_config',
+            content: "Banner /etc/issue.net\n",
+            order: '01',
+          )
+        }
+      end
+
+      context 'with include_dir set' do
+        let :params do
+          {
+            include_dir: '/etc/ssh/sshd_config.d',
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it {
+          is_expected.to contain_file('/etc/ssh/sshd_config.d').with(
+            ensure: 'directory',
+            owner: 0,
+            group: 0,
+            mode: '0700',
+            purge: true,
+            recurse: true,
+          )
+        }
+      end
+
+      context 'with include_dir and include_dir_purge false' do
+        let :params do
+          {
+            include_dir: '/etc/ssh/sshd_config.d',
+            include_dir_purge: false,
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it {
+          is_expected.to contain_file('/etc/ssh/sshd_config.d').with(
+            ensure: 'directory',
+            purge: false,
+            recurse: false,
+          )
+        }
+      end
+
+      context 'with include_dir and custom mode' do
+        let :params do
+          {
+            include_dir: '/etc/ssh/sshd_config.d',
+            include_dir_mode: '0755',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/ssh/sshd_config.d').with(
+            mode: '0755',
+          )
+        }
+      end
+
+      context 'with config_files' do
+        let :params do
+          {
+            include_dir: '/etc/ssh/sshd_config.d',
+            config_files: {
+              'hardening' => {
+                'options' => {
+                  'PermitRootLogin' => 'no',
+                },
+              },
+              'logging' => {
+                'options' => {
+                  'LogLevel' => 'VERBOSE',
+                },
+              },
+            },
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_ssh__server__config_file('hardening') }
+        it { is_expected.to contain_ssh__server__config_file('logging') }
+
+        it {
+          is_expected.to contain_concat('/etc/ssh/sshd_config.d/hardening.conf').with(
+            ensure: 'present',
+            owner: 0,
+            group: 0,
+          )
+        }
+
+        it {
+          is_expected.to contain_concat('/etc/ssh/sshd_config.d/logging.conf').with(
+            ensure: 'present',
+            owner: 0,
+            group: 0,
+          )
+        }
+      end
+
+      # Skip OSes where hiera sets include_dir by default (e.g. RedHat 9)
+      context 'without include_dir but with config_files', unless: os_facts.dig(:os, 'family') == 'RedHat' && os_facts.dig(:os, 'release', 'major') == '9' do
+        let :params do
+          {
+            config_files: {
+              'hardening' => {
+                'options' => {},
+              },
+            },
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_ssh__server__config_file('hardening') }
+      end
     end
   end
 end

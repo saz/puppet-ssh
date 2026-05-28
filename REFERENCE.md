@@ -19,7 +19,7 @@
 * `ssh::client::install`: Install ssh client package
 * `ssh::server::config`: Managed ssh server configuration
 * `ssh::server::install`: Install ssh server package
-* `ssh::server::service`: This class managed ssh server service
+* `ssh::server::service`: This class manages the ssh server service
 
 ### Defined types
 
@@ -613,6 +613,8 @@ The following parameters are available in the `ssh::server` class:
 * [`config_group`](#-ssh--server--config_group)
 * [`default_options`](#-ssh--server--default_options)
 * [`ensure`](#-ssh--server--ensure)
+* [`service_ensure`](#-ssh--server--service_ensure)
+* [`service_enable`](#-ssh--server--service_enable)
 * [`include_dir`](#-ssh--server--include_dir)
 * [`include_dir_mode`](#-ssh--server--include_dir_mode)
 * [`include_dir_purge`](#-ssh--server--include_dir_purge)
@@ -730,6 +732,22 @@ Data type: `String`
 Ensurable param to ssh server
 
 Default value: `present`
+
+##### <a name="-ssh--server--service_ensure"></a>`service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Whether the service should be running or stopped, defaults to true when ensure is set to present, otherwise false
+
+Default value: `$ensure ? { 'present' => 'running', 'absent' => 'stopped'`
+
+##### <a name="-ssh--server--service_enable"></a>`service_enable`
+
+Data type: `Boolean`
+
+Whether the service should be started at boot. Will be added automatically if ensure is running/removed if ensure is stopped
+
+Default value: `($service_ensure == 'running'`
 
 ##### <a name="-ssh--server--include_dir"></a>`include_dir`
 

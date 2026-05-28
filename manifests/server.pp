@@ -44,6 +44,12 @@
 # @param ensure
 #   Ensurable param to ssh server
 #
+# @param service_ensure
+#   Whether the service should be running or stopped, defaults to true when ensure is set to present, otherwise false
+#
+# @param service_enable
+#   Whether the service should be started at boot. Will be added automatically if ensure is running/removed if ensure is stopped
+#
 # @param include_dir
 #   Path to sshd include directory.
 #
@@ -127,6 +133,8 @@ class ssh::server (
   Variant[Integer, String[1]]    $config_group,
   Hash                           $default_options,
   String                         $ensure                 = present,
+  Stdlib::Ensure::Service        $service_ensure         = $ensure ? { 'present' => 'running', 'absent' => 'stopped' },
+  Boolean                        $service_enable         = ($service_ensure == 'running'),
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
   Stdlib::Filemode               $include_dir_mode       = '0700',
   Boolean                        $include_dir_purge      = true,
