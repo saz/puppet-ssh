@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v15.0.0](https://github.com/saz/puppet-ssh/tree/v15.0.0) (2026-05-28)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.1.0...v15.0.0)
+
+**Breaking changes:**
+
+- add more tests, move ssh::server::service variables to ssh::server [\#448](https://github.com/saz/puppet-ssh/pull/448) ([saz](https://github.com/saz))
+- refactor knownhosts use and allow for filtering [\#443](https://github.com/saz/puppet-ssh/pull/443) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- add client include\_dir, fixes \#389 [\#447](https://github.com/saz/puppet-ssh/pull/447) ([saz](https://github.com/saz))
+- add Debian Trixie as supported OS [\#446](https://github.com/saz/puppet-ssh/pull/446) ([saz](https://github.com/saz))
+- puppetlabs/concat: Allow 10.x [\#441](https://github.com/saz/puppet-ssh/pull/441) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- hostkeys: Properly set name of created sshkey objects [\#440](https://github.com/saz/puppet-ssh/pull/440) ([supertassu](https://github.com/supertassu))
+- Need to create $issue\_net variable in ssh::server class [\#438](https://github.com/saz/puppet-ssh/pull/438) ([jacobmw](https://github.com/jacobmw))
+
+**Closed issues:**
+
+- reference parameter to ssh::hostkeys and ssh::knownhosts to "parent" classes [\#411](https://github.com/saz/puppet-ssh/issues/411)
+- Purge /etc/ssh/ssh\[d\]\_config.d as well [\#389](https://github.com/saz/puppet-ssh/issues/389)
+- Add support for crypto-policies [\#292](https://github.com/saz/puppet-ssh/issues/292)
+
 ## [v14.1.0](https://github.com/saz/puppet-ssh/tree/v14.1.0) (2025-10-30)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.0.2...v14.1.0)
