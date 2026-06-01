@@ -381,6 +381,128 @@ ssh::hostkeys::exclude_ipaddresses:
   - 10.42.24.242
 ```
 
+## Windows
+
+This module also has support for the Windows Capability ("Optional Feature") `OpenSSH.Server`. Other ways regarding the installation and configuration of sshd on windows might just work (e.g. chocholatey), but have not been tested so far and could thus require modifications.
+
+`data/osfamily/windows.yaml` could look like follows:
+
+```yaml
+---
+ssh::server::server_package_name: null
+ssh::client::client_package_name: null
+ssh::server::sshd_dir: 'C:\ProgramData\ssh'
+ssh::server::sshd_binary: 'C:\Windows\System32\OpenSSH\sshd.exe'
+ssh::server::sshd_config: 'C:\ProgramData\ssh\sshd_config'
+ssh::server::sshd_config_mode: '0700'
+ssh::server::sshd_environments_file: null
+ssh::client::ssh_config: 'C:\ProgramData\ssh\ssh_config'
+ssh::server::service_name: 'sshd'
+ssh::sftp_server_path: 'C:\Windows\System32\OpenSSH\sftp-server.exe'
+ssh::client::config_user: 'BUILTIN\Administrators'
+ssh::client::config_group: 'Administrator'
+ssh::server::config_user: null
+ssh::server::config_group: null
+ssh::server::host_priv_key_user: 'BUILTIN\Administrators'
+ssh::server::host_priv_key_group: 'NT AUTHORITY\SYSTEM'
+```
+
+To correctly set the file permissions, the [`puppetlabs-acl`-puppet module](https://forge.puppetlabs.com/modules/puppetlabs/acl) is required. Remove the unsupported `UsePAM`-sshd config option.
+
+One can optionally set the default shell when connecting through ssh, e.g. to powershell. For this, the [`puppetlabs-registry`-puppet module](https://forge.puppet.com/modules/puppetlabs/registry) is required.
+
+```puppet
+$sshd_dir = lookup('ssh::server::sshd_dir')
+$sshd_config = lookup('ssh::server::sshd_config')
+$config_user = lookup('ssh::server::config_user')
+$config_group = lookup('ssh::server::config_group')
+
+$os_family = $facts['os']['family']
+
+$os_specific_path_separator = $os_family ? {
+  'windows' => '\\',
+  default   => '/',
+}
+
+$host_key_paths = [
+  "${sshd_dir}${os_specific_path_separator}ssh_host_ed25519_key",
+  "${sshd_dir}${os_specific_path_separator}ssh_host_rsa_key",
+  "${sshd_dir}${os_specific_path_separator}ssh_host_ecdsa_key",
+]
+
+if $os_family == 'windows' {
+  exec { 'install_openssh_server':
+    command   => 'Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0',
+    provider  => powershell,
+    unless    => 'if ((Get-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0).State -eq "Installed") { echo 0 } else { exit 1 }',
+    logoutput => true,
+    before    => Class['ssh::server'],
+  }
+
+  $initialize_sshd_command = @(EOT)
+Write-Output "Initializing SSHD service..."
+Start-Service -Name 'sshd'
+Start-Sleep -Seconds 5
+$status = Get-Service -Name 'sshd'
+Write-Output "Service status: $($status.Status)"
+Stop-Service -Name 'sshd'
+Write-Output "SSHD service initialization completed"
+| EOT
+
+  # this is required, so that sshd creates all directories and files by itself and sets the appropriate permissions
+  exec { 'initialize_sshd':
+    command   => $initialize_sshd_command,
+    provider  => powershell,
+    creates   => $host_key_paths,
+    logoutput => true,
+    require   => Exec['install_openssh_server'],
+    before    => Class['ssh::server'],
+  }
+
+  acl { $sshd_config:
+    permissions => [
+      {
+        identity  => $config_group,
+        rights    => ['full'],
+        perm_type => 'allow',
+      },
+      {
+        identity  => $config_user,
+        rights    => ['full'],
+        perm_type => 'allow',
+      },
+    ],
+    inherit_parent_permissions => false,
+    purge   => true,
+    require => Class['ssh::server::config'],
+    before  => Class['ssh::server::service'],
+  }
+
+  registry::value { 'set_powershell_as_default_ssh_shell':
+    key     => 'HKLM:\SOFTWARE\OpenSSH',
+    name    => 'DefaultShell',
+    type    => 'string',
+    data    => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe',
+    require => Exec['install_openssh_server'],
+  }
+}
+
+$os_specific_ssh_options = $os_family ? {
+  'windows' => {
+    'UsePAM' => undef,
+  },
+  default => {},
+}
+
+class { 'ssh::server':
+  storeconfigs_enabled => false,
+  validate_sshd_file   => true,
+  options              => {
+    # ...
+  } + $os_specific_ssh_options,
+}
+```
+
 ## Facts
 
 This module provides facts detailing the available SSH client and server

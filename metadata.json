@@ -102,6 +102,9 @@
     },
     {
       "operatingsystem": "AIX"
+    },
+    {
+      "operatingsystem": "Windows"
     }
   ],
   "requirements": [
