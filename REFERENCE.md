@@ -739,7 +739,7 @@ Data type: `Stdlib::Ensure::Service`
 
 Whether the service should be running or stopped, defaults to true when ensure is set to present, otherwise false
 
-Default value: `$ensure ? { 'present' => 'running', 'absent' => 'stopped'`
+Default value: `$ensure ? { /(absent|purged|disabled)/ => 'stopped', default => 'running'`
 
 ##### <a name="-ssh--server--service_enable"></a>`service_enable`
 
