@@ -133,7 +133,7 @@ class ssh::server (
   Variant[Integer, String[1]]    $config_group,
   Hash                           $default_options,
   String                         $ensure                 = present,
-  Stdlib::Ensure::Service        $service_ensure         = $ensure ? { 'present' => 'running', 'absent' => 'stopped' },
+  Stdlib::Ensure::Service        $service_ensure         = $ensure ? { /(absent|purged|disabled)/ => 'stopped', default => 'running' },
   Boolean                        $service_enable         = ($service_ensure == 'running'),
   Optional[Stdlib::Absolutepath] $include_dir            = undef,
   Stdlib::Filemode               $include_dir_mode       = '0700',
