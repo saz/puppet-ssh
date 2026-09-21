@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v15.1.0](https://github.com/saz/puppet-ssh/tree/v15.1.0) (2026-09-21)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v15.0.0...v15.1.0)
+
+**Implemented enhancements:**
+
+- Add support for Ubuntu 26.04 [\#455](https://github.com/saz/puppet-ssh/issues/455)
+- allow puppet-systemd \< 11, fixes \#452 [\#457](https://github.com/saz/puppet-ssh/pull/457) ([saz](https://github.com/saz))
+- Add Ubuntu 26.04 support [\#456](https://github.com/saz/puppet-ssh/pull/456) ([bwitt](https://github.com/bwitt))
+
+**Fixed bugs:**
+
+- Fix automatic default value selection for ssh::server::service\_ensure \(Fixes saz\#453\) [\#454](https://github.com/saz/puppet-ssh/pull/454) ([webcompas](https://github.com/webcompas))
+
+**Closed issues:**
+
+- Automatic default value selection for ssh::server::service\_ensure not always working [\#453](https://github.com/saz/puppet-ssh/issues/453)
+- Allow puppet-systemd v10.0.0 [\#452](https://github.com/saz/puppet-ssh/issues/452)
+
 ## [v15.0.0](https://github.com/saz/puppet-ssh/tree/v15.0.0) (2026-05-28)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v14.1.0...v15.0.0)
