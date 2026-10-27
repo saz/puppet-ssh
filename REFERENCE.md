@@ -500,6 +500,7 @@ This class manages hostkeys. It is intended to be called from `ssh::server`.
 The following parameters are available in the `ssh::hostkeys` class:
 
 * [`export_ipaddresses`](#-ssh--hostkeys--export_ipaddresses)
+* [`export_shortname`](#-ssh--hostkeys--export_shortname)
 * [`storeconfigs_group`](#-ssh--hostkeys--storeconfigs_group)
 * [`extra_aliases`](#-ssh--hostkeys--extra_aliases)
 * [`exclude_interfaces`](#-ssh--hostkeys--exclude_interfaces)
@@ -516,6 +517,14 @@ Data type: `Boolean`
 Whether ip addresses should be added as aliases
 
 Default value: `$ssh::server::export_ipaddresses`
+
+##### <a name="-ssh--hostkeys--export_shortname"></a>`export_shortname`
+
+Data type: `Boolean`
+
+Whether the short hostname should be added as an alias
+
+Default value: `$ssh::server::export_shortname`
 
 ##### <a name="-ssh--hostkeys--storeconfigs_group"></a>`storeconfigs_group`
 
@@ -630,6 +639,7 @@ The following parameters are available in the `ssh::server` class:
 * [`sshd_environments_file`](#-ssh--server--sshd_environments_file)
 * [`server_package_name`](#-ssh--server--server_package_name)
 * [`export_ipaddresses`](#-ssh--server--export_ipaddresses)
+* [`export_shortname`](#-ssh--server--export_shortname)
 * [`storeconfigs_group`](#-ssh--server--storeconfigs_group)
 * [`extra_aliases`](#-ssh--server--extra_aliases)
 * [`exclude_interfaces`](#-ssh--server--exclude_interfaces)
@@ -866,6 +876,14 @@ Default value: `undef`
 Data type: `Boolean`
 
 Whether IP addresses should be added as aliases for host keys
+
+Default value: `true`
+
+##### <a name="-ssh--server--export_shortname"></a>`export_shortname`
+
+Data type: `Boolean`
+
+Whether the short hostname should be added as an alias for host keys
 
 Default value: `true`
 

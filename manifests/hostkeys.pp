@@ -4,6 +4,9 @@
 # @param export_ipaddresses
 #   Whether ip addresses should be added as aliases
 #
+# @param export_shortname
+#   Whether the short hostname should be added as an alias
+#
 # @param storeconfigs_group
 #   Tag hostkeys with this group to allow segregation
 #
@@ -30,6 +33,7 @@
 #
 class ssh::hostkeys (
   Boolean                    $export_ipaddresses    = $ssh::server::export_ipaddresses,
+  Boolean                    $export_shortname      = $ssh::server::export_shortname,
   Optional[String[1]]        $storeconfigs_group    = $ssh::server::storeconfigs_group,
   Array                      $extra_aliases         = $ssh::server::extra_aliases,
   Array                      $exclude_interfaces    = $ssh::server::exclude_interfaces,
@@ -49,12 +53,17 @@ class ssh::hostkeys (
     $hostname_real = $facts['networking']['hostname']
   }
 
+  $_hostname = $export_shortname ? {
+    true  => $hostname_real,
+    false => [],
+  }
+
   if $export_ipaddresses {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces, $exclude_interfaces_re)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
-    $host_aliases = sort(unique(flatten([$hostname_real, $extra_aliases, $ipaddresses_real])))
+    $host_aliases = sort(unique(flatten([$_hostname, $extra_aliases, $ipaddresses_real])))
   } else {
-    $host_aliases = sort(unique(flatten([$hostname_real, $extra_aliases])))
+    $host_aliases = sort(unique(flatten([$_hostname, $extra_aliases])))
   }
 
   $storeconfigs_groups = $storeconfigs_group ? {
