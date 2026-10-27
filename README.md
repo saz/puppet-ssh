@@ -368,6 +368,14 @@ Host keys then can be imported using:
 Sshkey <<| tag == "hostkey_group1" |>>
 ```
 
+## Exclude shortname
+
+Use hiera to exclude shortname from hostkey
+
+```yaml
+ssh::hostkeys::exclude_shortname: true
+```
+
 ## Excluding network interfaces or ipaddresses
 
 Use hiera to exclude interfaces or ipaddresses from hostkey inclusion

@@ -107,6 +107,9 @@
 # @param exclude_interfaces_re
 #   List of regular expressions to exclude interfaces
 #
+# @param exclude_shortname
+#   Exclude host shortname from host key
+#
 # @param exclude_ipaddresses
 #   List of IP addresses to exclude from host key aliases
 #
@@ -154,6 +157,7 @@ class ssh::server (
   Array                          $extra_aliases          = [],
   Array                          $exclude_interfaces     = [],
   Array                          $exclude_interfaces_re  = [],
+  Boolean                        $exclude_shortname      = false,
   Array                          $exclude_ipaddresses    = [],
   Boolean                        $use_trusted_facts      = false,
   Optional[Array[String[1]]]     $tags                   = undef,
