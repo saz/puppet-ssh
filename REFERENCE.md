@@ -11,7 +11,7 @@
 * [`ssh`](#ssh): This class manages ssh client and server
 * [`ssh::client`](#ssh--client): This class add ssh client management
 * [`ssh::hostkeys`](#ssh--hostkeys): This class manages hostkeys. It is intended to be called from `ssh::server`.
-* [`ssh::server`](#ssh--server): This class manages the ssh server and related resources, including host keys.
+* [`ssh::server`](#ssh--server)
 
 #### Private Classes
 
@@ -505,6 +505,7 @@ The following parameters are available in the `ssh::hostkeys` class:
 * [`exclude_interfaces`](#-ssh--hostkeys--exclude_interfaces)
 * [`exclude_interfaces_re`](#-ssh--hostkeys--exclude_interfaces_re)
 * [`exclude_ipaddresses`](#-ssh--hostkeys--exclude_ipaddresses)
+* [`exclude_shortname`](#-ssh--hostkeys--exclude_shortname)
 * [`exclude_key_types`](#-ssh--hostkeys--exclude_key_types)
 * [`use_trusted_facts`](#-ssh--hostkeys--use_trusted_facts)
 * [`tags`](#-ssh--hostkeys--tags)
@@ -557,6 +558,14 @@ List of ip addresses to exclude
 
 Default value: `$ssh::server::exclude_ipaddresses`
 
+##### <a name="-ssh--hostkeys--exclude_shortname"></a>`exclude_shortname`
+
+Data type: `Boolean`
+
+Exclude host shortname from host key
+
+Default value: `$ssh::server::exclude_shortname`
+
 ##### <a name="-ssh--hostkeys--exclude_key_types"></a>`exclude_key_types`
 
 Data type: `Array[String[1]]`
@@ -583,25 +592,18 @@ Default value: `$ssh::server::tags`
 
 ### <a name="ssh--server"></a>`ssh::server`
 
-This class manages the ssh server and related resources, including host keys.
-
-#### Examples
-
-##### Puppet usage
-
-```puppet
-class { 'ssh::server':
-  ensure               => present,
-  storeconfigs_enabled => true,
-  use_issue_net        => false,
-}
-```
+The ssh::server class.
 
 #### Parameters
 
 The following parameters are available in the `ssh::server` class:
 
+* [`exclude_ipaddresses`](#-ssh--server--exclude_ipaddresses)
+* [`use_trusted_facts`](#-ssh--server--use_trusted_facts)
+* [`tags`](#-ssh--server--tags)
+* [`exclude_key_types`](#-ssh--server--exclude_key_types)
 * [`service_name`](#-ssh--server--service_name)
+* [`issue_net`](#-ssh--server--issue_net)
 * [`sshd_config`](#-ssh--server--sshd_config)
 * [`sshd_dir`](#-ssh--server--sshd_dir)
 * [`sshd_binary`](#-ssh--server--sshd_binary)
@@ -626,7 +628,6 @@ The following parameters are available in the `ssh::server` class:
 * [`options_absent`](#-ssh--server--options_absent)
 * [`match_block`](#-ssh--server--match_block)
 * [`use_issue_net`](#-ssh--server--use_issue_net)
-* [`issue_net`](#-ssh--server--issue_net)
 * [`sshd_environments_file`](#-ssh--server--sshd_environments_file)
 * [`server_package_name`](#-ssh--server--server_package_name)
 * [`export_ipaddresses`](#-ssh--server--export_ipaddresses)
@@ -634,272 +635,7 @@ The following parameters are available in the `ssh::server` class:
 * [`extra_aliases`](#-ssh--server--extra_aliases)
 * [`exclude_interfaces`](#-ssh--server--exclude_interfaces)
 * [`exclude_interfaces_re`](#-ssh--server--exclude_interfaces_re)
-* [`exclude_ipaddresses`](#-ssh--server--exclude_ipaddresses)
-* [`use_trusted_facts`](#-ssh--server--use_trusted_facts)
-* [`tags`](#-ssh--server--tags)
-* [`exclude_key_types`](#-ssh--server--exclude_key_types)
-
-##### <a name="-ssh--server--service_name"></a>`service_name`
-
-Data type: `String[1]`
-
-Name of the sshd service
-
-Default value: `'svc:/network/ssh:default'`
-
-##### <a name="-ssh--server--sshd_config"></a>`sshd_config`
-
-Data type: `Stdlib::Absolutepath`
-
-Path to the sshd_config file
-
-Default value: `'/etc/ssh/sshd_config'`
-
-##### <a name="-ssh--server--sshd_dir"></a>`sshd_dir`
-
-Data type: `Stdlib::Absolutepath`
-
-Path to the sshd dir (e.g. /etc/ssh)
-
-Default value: `'/etc/ssh'`
-
-##### <a name="-ssh--server--sshd_binary"></a>`sshd_binary`
-
-Data type: `Stdlib::Absolutepath`
-
-Path to the sshd binary
-
-##### <a name="-ssh--server--sshd_config_mode"></a>`sshd_config_mode`
-
-Data type: `Stdlib::Filemode`
-
-Mode to set on the sshd config file
-
-Default value: `'0600'`
-
-##### <a name="-ssh--server--host_priv_key_user"></a>`host_priv_key_user`
-
-Data type: `Variant[Integer, String[1]]`
-
-Numeric id or name of the user for the private host key
-
-Default value: `0`
-
-##### <a name="-ssh--server--host_priv_key_group"></a>`host_priv_key_group`
-
-Data type: `Variant[Integer, String[1]]`
-
-Numeric id or name of the group for the private host key
-
-Default value: `0`
-
-##### <a name="-ssh--server--host_priv_key_mode"></a>`host_priv_key_mode`
-
-Data type: `Stdlib::Filemode`
-
-Mode of the private host key
-
-Default value: `'0600'`
-
-##### <a name="-ssh--server--config_user"></a>`config_user`
-
-Data type: `Variant[Integer, String[1]]`
-
-Numeric id or name of the user for the sshd config file
-
-Default value: `0`
-
-##### <a name="-ssh--server--config_group"></a>`config_group`
-
-Data type: `Variant[Integer, String[1]]`
-
-Numeric id or name of the group for the sshd config file
-
-Default value: `0`
-
-##### <a name="-ssh--server--default_options"></a>`default_options`
-
-Data type: `Hash`
-
-Default options to set, will be merged with options parameter
-
-Default value: `{ 'X11Forwarding' => 'yes', 'PrintMotd' => 'no', 'AcceptEnv' => 'LANG LC_*', 'Subsystem' => 'sftp %{lookup('ssh::sftp_server_path')}', 'UsePAM' => 'yes' }`
-
-##### <a name="-ssh--server--ensure"></a>`ensure`
-
-Data type: `String`
-
-Ensurable param to ssh server
-
-Default value: `present`
-
-##### <a name="-ssh--server--service_ensure"></a>`service_ensure`
-
-Data type: `Stdlib::Ensure::Service`
-
-Whether the service should be running or stopped, defaults to true when ensure is set to present, otherwise false
-
-Default value: `$ensure ? { /(absent|purged|disabled)/ => 'stopped', default => 'running'`
-
-##### <a name="-ssh--server--service_enable"></a>`service_enable`
-
-Data type: `Boolean`
-
-Whether the service should be started at boot. Will be added automatically if ensure is running/removed if ensure is stopped
-
-Default value: `($service_ensure == 'running'`
-
-##### <a name="-ssh--server--include_dir"></a>`include_dir`
-
-Data type: `Optional[Stdlib::Absolutepath]`
-
-Path to sshd include directory.
-
-Default value: `undef`
-
-##### <a name="-ssh--server--include_dir_mode"></a>`include_dir_mode`
-
-Data type: `Stdlib::Filemode`
-
-Mode to set on the sshd include directory.
-
-Default value: `'0700'`
-
-##### <a name="-ssh--server--include_dir_purge"></a>`include_dir_purge`
-
-Data type: `Boolean`
-
-Purge the sshd include directory if true.
-
-Default value: `true`
-
-##### <a name="-ssh--server--config_files"></a>`config_files`
-
-Data type: `Hash[String, Hash]`
-
-Hash of config files to add to the sshd include directory.
-
-Default value: `{}`
-
-##### <a name="-ssh--server--storeconfigs_enabled"></a>`storeconfigs_enabled`
-
-Data type: `Boolean`
-
-Host keys will be collected and distributed unless storeconfigs_enabled is false.
-
-Default value: `true`
-
-##### <a name="-ssh--server--options"></a>`options`
-
-Data type: `Hash`
-
-Dynamic hash for openssh server option
-
-Default value: `{}`
-
-##### <a name="-ssh--server--validate_sshd_file"></a>`validate_sshd_file`
-
-Data type: `Boolean`
-
-Add sshd file validate cmd
-
-Default value: `false`
-
-##### <a name="-ssh--server--use_augeas"></a>`use_augeas`
-
-Data type: `Boolean`
-
-Use augeas for configuration (default concat)
-
-Default value: `false`
-
-##### <a name="-ssh--server--options_absent"></a>`options_absent`
-
-Data type: `Array`
-
-Remove options (with augeas style)
-
-Default value: `[]`
-
-##### <a name="-ssh--server--match_block"></a>`match_block`
-
-Data type: `Hash`
-
-Add sshd match_block (with concat)
-
-Default value: `{}`
-
-##### <a name="-ssh--server--use_issue_net"></a>`use_issue_net`
-
-Data type: `Boolean`
-
-Add issue_net banner
-
-Default value: `false`
-
-##### <a name="-ssh--server--issue_net"></a>`issue_net`
-
-Data type: `Stdlib::Absolutepath`
-
-Path to the issue.net file
-
-Default value: `'/etc/issue.net'`
-
-##### <a name="-ssh--server--sshd_environments_file"></a>`sshd_environments_file`
-
-Data type: `Optional[Stdlib::Absolutepath]`
-
-Path to a sshd environments file (e.g. /etc/defaults/ssh on Debian)
-
-Default value: `undef`
-
-##### <a name="-ssh--server--server_package_name"></a>`server_package_name`
-
-Data type: `Optional[String[1]]`
-
-Name of the server package to install
-
-Default value: `undef`
-
-##### <a name="-ssh--server--export_ipaddresses"></a>`export_ipaddresses`
-
-Data type: `Boolean`
-
-Whether IP addresses should be added as aliases for host keys
-
-Default value: `true`
-
-##### <a name="-ssh--server--storeconfigs_group"></a>`storeconfigs_group`
-
-Data type: `Optional[String[1]]`
-
-Tag host keys with this group to allow segregation
-
-Default value: `undef`
-
-##### <a name="-ssh--server--extra_aliases"></a>`extra_aliases`
-
-Data type: `Array`
-
-Additional aliases to set for host keys
-
-Default value: `[]`
-
-##### <a name="-ssh--server--exclude_interfaces"></a>`exclude_interfaces`
-
-Data type: `Array`
-
-List of interfaces to exclude when collecting IPs for host keys
-
-Default value: `[]`
-
-##### <a name="-ssh--server--exclude_interfaces_re"></a>`exclude_interfaces_re`
-
-Data type: `Array`
-
-List of regular expressions to exclude interfaces
-
-Default value: `[]`
+* [`exclude_shortname`](#-ssh--server--exclude_shortname)
 
 ##### <a name="-ssh--server--exclude_ipaddresses"></a>`exclude_ipaddresses`
 
@@ -932,6 +668,276 @@ Data type: `Array[String[1]]`
 List of key types to exclude from exported resources.
 
 Default value: `[]`
+
+##### <a name="-ssh--server--service_name"></a>`service_name`
+
+Data type: `String[1]`
+
+
+
+Default value: `'svc:/network/ssh:default'`
+
+##### <a name="-ssh--server--issue_net"></a>`issue_net`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/etc/issue.net'`
+
+##### <a name="-ssh--server--sshd_config"></a>`sshd_config`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/etc/ssh/sshd_config'`
+
+##### <a name="-ssh--server--sshd_dir"></a>`sshd_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/etc/ssh'`
+
+##### <a name="-ssh--server--sshd_binary"></a>`sshd_binary`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+##### <a name="-ssh--server--sshd_config_mode"></a>`sshd_config_mode`
+
+Data type: `Stdlib::Filemode`
+
+
+
+Default value: `'0600'`
+
+##### <a name="-ssh--server--host_priv_key_user"></a>`host_priv_key_user`
+
+Data type: `Variant[Integer, String[1]]`
+
+
+
+Default value: `0`
+
+##### <a name="-ssh--server--host_priv_key_group"></a>`host_priv_key_group`
+
+Data type: `Variant[Integer, String[1]]`
+
+
+
+Default value: `0`
+
+##### <a name="-ssh--server--host_priv_key_mode"></a>`host_priv_key_mode`
+
+Data type: `Stdlib::Filemode`
+
+
+
+Default value: `'0600'`
+
+##### <a name="-ssh--server--config_user"></a>`config_user`
+
+Data type: `Variant[Integer, String[1]]`
+
+
+
+Default value: `0`
+
+##### <a name="-ssh--server--config_group"></a>`config_group`
+
+Data type: `Variant[Integer, String[1]]`
+
+
+
+Default value: `0`
+
+##### <a name="-ssh--server--default_options"></a>`default_options`
+
+Data type: `Hash`
+
+
+
+Default value: `{ 'X11Forwarding' => 'yes', 'PrintMotd' => 'no', 'AcceptEnv' => 'LANG LC_*', 'Subsystem' => 'sftp %{lookup('ssh::sftp_server_path')}', 'UsePAM' => 'yes' }`
+
+##### <a name="-ssh--server--ensure"></a>`ensure`
+
+Data type: `String`
+
+
+
+Default value: `present`
+
+##### <a name="-ssh--server--service_ensure"></a>`service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+
+
+Default value: `$ensure ? { /(absent|purged|disabled)/ => 'stopped', default => 'running'`
+
+##### <a name="-ssh--server--service_enable"></a>`service_enable`
+
+Data type: `Boolean`
+
+
+
+Default value: `($service_ensure == 'running'`
+
+##### <a name="-ssh--server--include_dir"></a>`include_dir`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+
+
+Default value: `undef`
+
+##### <a name="-ssh--server--include_dir_mode"></a>`include_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+
+
+Default value: `'0700'`
+
+##### <a name="-ssh--server--include_dir_purge"></a>`include_dir_purge`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### <a name="-ssh--server--config_files"></a>`config_files`
+
+Data type: `Hash[String, Hash]`
+
+
+
+Default value: `{}`
+
+##### <a name="-ssh--server--storeconfigs_enabled"></a>`storeconfigs_enabled`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### <a name="-ssh--server--options"></a>`options`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-ssh--server--validate_sshd_file"></a>`validate_sshd_file`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### <a name="-ssh--server--use_augeas"></a>`use_augeas`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### <a name="-ssh--server--options_absent"></a>`options_absent`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+##### <a name="-ssh--server--match_block"></a>`match_block`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-ssh--server--use_issue_net"></a>`use_issue_net`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### <a name="-ssh--server--sshd_environments_file"></a>`sshd_environments_file`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+
+
+Default value: `undef`
+
+##### <a name="-ssh--server--server_package_name"></a>`server_package_name`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-ssh--server--export_ipaddresses"></a>`export_ipaddresses`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### <a name="-ssh--server--storeconfigs_group"></a>`storeconfigs_group`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-ssh--server--extra_aliases"></a>`extra_aliases`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_interfaces"></a>`exclude_interfaces`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_interfaces_re"></a>`exclude_interfaces_re`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+##### <a name="-ssh--server--exclude_shortname"></a>`exclude_shortname`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
 
 ## Defined types
 
@@ -1726,3 +1732,4 @@ Returns: `Any`
 OpenSSH client `Match` criteria. See `ssh_config(5)`
 
 Alias of `Enum['!all', 'all', '!canonical', 'canonical', '!exec', 'exec', '!final', 'final', '!host', 'host', '!localuser', 'localuser', '!originalhost', 'originalhost', '!user', 'user']`
+

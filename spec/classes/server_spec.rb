@@ -182,6 +182,22 @@ describe 'ssh::server', type: 'class' do
         end
       end
 
+      context 'when excluding shortname' do
+        let(:params) do
+          {
+            exclude_shortname: true,
+          }
+        end
+
+        it do
+          host_aliases = exported_resources
+            .call
+            .resource('Sshkey', 'foo.example.com_ed25519')
+            .send(:parameters)[:host_aliases]
+          expect(host_aliases).not_to include('foo')
+        end
+      end
+
       context 'when filtering a key type' do
         let(:params) do
           {

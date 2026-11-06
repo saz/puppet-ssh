@@ -19,6 +19,9 @@
 # @param exclude_ipaddresses
 #   List of ip addresses to exclude
 #
+# @param exclude_shortname
+#   Exclude host shortname from host key
+#
 # @param exclude_key_types
 #   List of key types to exclude from exported resources.
 #
@@ -35,6 +38,7 @@ class ssh::hostkeys (
   Array                      $exclude_interfaces    = $ssh::server::exclude_interfaces,
   Array                      $exclude_interfaces_re = $ssh::server::exclude_interfaces_re,
   Array                      $exclude_ipaddresses   = $ssh::server::exclude_ipaddresses,
+  Boolean                    $exclude_shortname     = $ssh::server::exclude_shortname,
   Array[String[1]]           $exclude_key_types     = $ssh::server::exclude_key_types,
   Boolean                    $use_trusted_facts     = $ssh::server::use_trusted_facts,
   Optional[Array[String[1]]] $tags                  = $ssh::server::tags,
@@ -49,12 +53,17 @@ class ssh::hostkeys (
     $hostname_real = $facts['networking']['hostname']
   }
 
+  $_hostname = $exclude_shortname ? {
+    true  => [],
+    false => $hostname_real,
+  }
+
   if $export_ipaddresses {
     $ipaddresses = ssh::ipaddresses($exclude_interfaces, $exclude_interfaces_re)
     $ipaddresses_real = $ipaddresses - $exclude_ipaddresses
-    $host_aliases = sort(unique(flatten([$hostname_real, $extra_aliases, $ipaddresses_real])))
+    $host_aliases = sort(unique(flatten([$_hostname, $extra_aliases, $ipaddresses_real])))
   } else {
-    $host_aliases = sort(unique(flatten([$hostname_real, $extra_aliases])))
+    $host_aliases = sort(unique(flatten([$_hostname, $extra_aliases])))
   }
 
   $storeconfigs_groups = $storeconfigs_group ? {
