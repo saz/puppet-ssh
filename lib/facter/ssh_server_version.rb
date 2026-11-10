@@ -9,11 +9,11 @@ Facter.add('ssh_server_version_full') do
       # by happy coincidence the usage information that is printed includes the
       # version number.
       version = Facter::Core::Execution.execute('sshd -V 2>&1')
-                                        .lines
-                                        .to_a
-                                        .select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }
-                                        .first
-                                        .rstrip
+                                       .lines
+                                       .to_a
+                                       .select { |line| line.match(%r{^OpenSSH_|^Sun_SSH_}) }
+                                       .first
+                                       .rstrip
 
       version&.gsub(%r{^(OpenSSH_|Sun_SSH_)([^ ,]+).*$}, '\2')
     end
