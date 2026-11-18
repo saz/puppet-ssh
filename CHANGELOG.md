@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v15.2.0](https://github.com/saz/puppet-ssh/tree/v15.2.0) (2026-11-18)
+
+[Full Changelog](https://github.com/saz/puppet-ssh/compare/v15.1.0...v15.2.0)
+
+**Implemented enhancements:**
+
+- Add export\_shortname parameter for hostkey aliases [\#466](https://github.com/saz/puppet-ssh/pull/466) ([saz](https://github.com/saz))
+- fix fact unit tests [\#464](https://github.com/saz/puppet-ssh/pull/464) ([bastelfreak](https://github.com/bastelfreak))
+- Update facts to replace deprecated facter api usage [\#463](https://github.com/saz/puppet-ssh/pull/463) ([bastelfreak](https://github.com/bastelfreak))
+- puppet/systemd: Allow 11.x [\#462](https://github.com/saz/puppet-ssh/pull/462) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 10.x [\#460](https://github.com/saz/puppet-ssh/pull/460) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v15.1.0](https://github.com/saz/puppet-ssh/tree/v15.1.0) (2026-09-21)
 
 [Full Changelog](https://github.com/saz/puppet-ssh/compare/v15.0.0...v15.1.0)
