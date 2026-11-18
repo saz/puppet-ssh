@@ -95,6 +95,9 @@
 # @param export_ipaddresses
 #   Whether IP addresses should be added as aliases for host keys
 #
+# @param export_shortname
+#   Whether the short hostname should be added as an alias for host keys
+#
 # @param storeconfigs_group
 #   Tag host keys with this group to allow segregation
 #
@@ -150,6 +153,7 @@ class ssh::server (
   Optional[String[1]]            $server_package_name    = undef,
   # Host key management (used by ssh::hostkeys)
   Boolean                        $export_ipaddresses     = true,
+  Boolean                        $export_shortname       = true,
   Optional[String[1]]            $storeconfigs_group     = undef,
   Array                          $extra_aliases          = [],
   Array                          $exclude_interfaces     = [],
